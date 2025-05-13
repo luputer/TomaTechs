@@ -146,7 +146,7 @@ export function ThreeDCardDemo({ member }) {
                     ID: {member.id}
                 </CardItem>
                 <CardItem translateZ="100" rotateX={20} rotateZ={-10} className="w-full mt-4">
-                    <img src={member.image} alt={member.name} className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl" />
+                    <img src={member.image} alt={member.name} className="h-40 w-80 object-cover rounded-xl group-hover/card:shadow-xl" />
                 </CardItem>
                 <div className="flex justify-center items-center mt-5">
                     <span className="px-6 py-2 bg-[#478800] text-white rounded-full inline-block">{member.role}</span>

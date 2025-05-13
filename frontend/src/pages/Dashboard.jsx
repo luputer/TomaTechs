@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import { useAuth } from '../context/AuthContext';
-import Sidebar from '@/components/Sidebar';
+import Sidebar from '../components/Sidebar';
 
 const Dashboard = () => {
     const { user } = useAuth();
