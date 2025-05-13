@@ -1,13 +1,13 @@
 import { Link } from 'react-router';
+import SidebarComponent from '../components/Sidebar';
 import { useAuth } from '../context/AuthContext';
-import Sidebar from '../components/Sidebar';
 
 const Dashboard = () => {
     const { user } = useAuth();
 
     return (
         <>
-            <Sidebar user={user} />
+            <SidebarComponent user={user} />
             <div className="container mx-auto px-4 py-8">
                 <div className="max-w-4xl mx-auto">
                     <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
@@ -49,4 +49,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard; 
+export default Dashboard;
