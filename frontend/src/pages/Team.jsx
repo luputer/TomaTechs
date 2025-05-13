@@ -6,20 +6,44 @@ const teamMembers = [
     {
         name: "Muhammad Saidi",
         id: "FC524D5Y1916",
-        role: "JOB",
+        role: "Frontend Developer",
         image: "/src/assets/saidi.webp",
+        university: "Universitas Lambung Mangkurat",
+        department: "Ilmu Komputer",
+        quote: "Code with passion, debug with patience",
+        social: {
+            linkedin: "https://linkedin.com/in/muhammad-saidi",
+            github: "https://github.com/saidi0611",
+            instagram: "https://instagram.com/saidi0611"
+        }
     },
     {
         name: "Yuliagus",
         id: "FC558D5Y1116",
-        role: "JOB",
+        role: "Backend Developer",
         image: "/src/assets/agus2.jpeg",
+        university: "Universitas Lambung Mangkurat",
+        department: "Ilmu Komputer",
+        quote: "Building bridges between data and users",
+        social: {
+            linkedin: "https://linkedin.com/in/yuliagus",
+            github: "https://github.com/yuliagus",
+            instagram: "https://instagram.com/yuliagus"
+        }
     },
     {
         name: "Ulfiani Latifah",
         id: "FC312D5X1540",
         role: "UI/UX Designer",
         image: "/src/assets/ulfi.jpg",
+        university: "Universitas Lambung Mangkurat",
+        department: "Ilmu Komputer",
+        quote: "Design is not just what it looks like, design is how it works",
+        social: {
+            linkedin: "https://linkedin.com/in/ulfiani",
+            github: "https://github.com/ulfiani",
+            instagram: "https://instagram.com/ulfiani"
+        }
     },
 ];
 
@@ -27,20 +51,44 @@ const mlEngineers = [
     {
         name: "Ibrahim Akbar Arsanata",
         id: "MC283D5Y0062",
-        role: "JOB",
+        role: "Machine Learning Engineer",
         image: "/src/assets/akbar3.png",
+        university: "Universitas Lambung Mangkurat",
+        department: "Ilmu Komputer",
+        quote: "Turning data into intelligence",
+        social: {
+            linkedin: "https://linkedin.com/in/ibrahim-akbar",
+            github: "https://github.com/ibrahim",
+            instagram: "https://instagram.com/ibrahim"
+        }
     },
     {
         name: "Annida Syamsa Hawa",
         id: "MC193D5X2313",
-        role: "JOB",
+        role: "Machine Learning Engineer",
         image: "/src/assets/nida.png",
+        university: "Universitas Lambung Mangkurat",
+        department: "Ilmu Komputer",
+        quote: "AI is the new electricity",
+        social: {
+            linkedin: "https://linkedin.com/in/annida",
+            github: "https://github.com/annida",
+            instagram: "https://instagram.com/annida"
+        }
     },
     {
         name: "Noufal Zaidan",
         id: "MC193D5X2313",
-        role: "JOB",
+        role: "Machine Learning Engineer",
         image: "/src/assets/noval.png",
+        university: "Universitas Lambung Mangkurat",
+        department: "Ilmu Komputer",
+        quote: "Learning from data, one model at a time",
+        social: {
+            linkedin: "https://linkedin.com/in/noufal",
+            github: "https://github.com/noufal",
+            instagram: "https://instagram.com/noufal"
+        }
     },
 ];
 
