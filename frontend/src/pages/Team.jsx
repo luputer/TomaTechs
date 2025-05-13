@@ -7,7 +7,7 @@ const teamMembers = [
         name: "Muhammad Saidi",
         id: "FC524D5Y1916",
         role: "JOB",
-        image: "/src/assets/saidi.png",
+        image: "/src/assets/saidi.webp",
     },
     {
         name: "Yuliagus",
@@ -40,7 +40,7 @@ const mlEngineers = [
         name: "Noufal Zaidan",
         id: "MC193D5X2313",
         role: "JOB",
-        image: "/src/assets/noufal.png",
+        image: "/src/assets/noval.png",
     },
 ];
 
