@@ -138,20 +138,20 @@ export default Team;
 export function ThreeDCardDemo({ member }) {
     return (
         <CardContainer className="inter-var">
-            <CardBody className="bg-gray-50 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-pink-400 dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border">
-                <CardItem translateZ="50" className="text-xl font-bold text-neutral-600 dark:text-white">
-                    {member.name}
-                </CardItem>
-                <CardItem as="p" translateZ="60" className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300">
-                    ID: {member.id}
-                </CardItem>
-                <CardItem translateZ="100" rotateX={20} rotateZ={-10} className="w-full mt-4">
-                    <img src={member.image} alt={member.name} className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl" />
-                </CardItem>
-                <div className="flex justify-center items-center mt-5">
-                    <span className="px-6 py-2 bg-[#478800] text-white rounded-full inline-block">{member.role}</span>
-                </div>
-            </CardBody>
-        </CardContainer>
+    <CardBody className="bg-[#F6C8DD] relative group/card border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border">
+        <CardItem translateZ="50" className="text-xl font-bold text-neutral-600">
+            {member.name}
+        </CardItem>
+        <CardItem as="p" translateZ="60" className="text-neutral-500 text-sm max-w-sm mt-2">
+            ID: {member.id}
+        </CardItem>
+        <CardItem translateZ="100" rotateX={20} rotateZ={-10} className="w-full mt-4">
+            <img src={member.image} alt={member.name} className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl" />
+        </CardItem>
+        <div className="flex justify-center items-center mt-5">
+            <span className="px-6 py-2 bg-[#478800] text-white rounded-full inline-block">{member.role}</span>
+        </div>
+    </CardBody>
+</CardContainer>
     );
 }
