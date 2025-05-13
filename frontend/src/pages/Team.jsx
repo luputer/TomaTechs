@@ -139,7 +139,7 @@ export default Team;
 export function ThreeDCardDemo({ member }) {
     return (
         <CardContainer className="inter-var">
-            <CardBody className="bg-[#F6C8DD] relative group/card border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border">
+            <CardBody className=" bg-[#D4FBDC] relative group/card border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border">
                 <CardItem translateZ="50" className="text-xl font-bold text-neutral-600">
                     {member.name}
                 </CardItem>
