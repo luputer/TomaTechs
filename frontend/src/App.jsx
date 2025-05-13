@@ -1,16 +1,16 @@
-import './App.css'
-import React from 'react';
-import { Routes, Route } from 'react-router';
+import { Route, Routes } from 'react-router';
+import './App.css';
+import Footer from './components/Footer';
 import Navbar from './components/Navbar';
-import Homepage from './pages/Homepage';
+import PrivateRoute from './components/PrivateRoute';
+import { AuthProvider } from './context/AuthContext';
 import About from './pages/About';
 import Dashboard from './pages/Dashboard';
 import Deteksi from './pages/Deteksi';
+import Forum from './pages/Forum';
 import History from './pages/History';
+import Homepage from './pages/Homepage';
 import NotFound from './pages/NotFound';
-import { AuthProvider } from './context/AuthContext';
-import Footer from './components/Footer';
-import PrivateRoute from './components/PrivateRoute';
 
 const App = () => {
   return (
@@ -34,6 +34,11 @@ const App = () => {
             <Route path="/history" element={
               <PrivateRoute>
                 <History />
+              </PrivateRoute>
+            } />
+            <Route path="/forum" element={
+              <PrivateRoute>
+                <Forum />
               </PrivateRoute>
             } />
             <Route path="*" element={<NotFound />} />

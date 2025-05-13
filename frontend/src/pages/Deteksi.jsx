@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { FaCloudUploadAlt, FaHome, FaPowerOff } from 'react-icons/fa';
 import { useNavigate } from 'react-router';
 import Sidebar from '../components/Sidebar';
-import { FaCloudUploadAlt, FaHome, FaPowerOff } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 
 const Deteksi = () => {
@@ -95,7 +95,7 @@ const Deteksi = () => {
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar />
+      <Sidebar user={user} />
       <div className="flex-1">
         {/* Header */}
         <div className="bg-gray-100 p-4 flex justify-between items-center">
@@ -260,4 +260,4 @@ const Deteksi = () => {
   );
 };
 
-export default Deteksi; 
+export default Deteksi;
