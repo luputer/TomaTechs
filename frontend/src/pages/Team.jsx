@@ -13,13 +13,13 @@ const teamMembers = [
         name: "Yuliagus",
         id: "FC558D5Y1116",
         role: "JOB",
-        image: "/src/assets/agus.png",
+        image: "/src/assets/agus2.jpeg",
     },
     {
         name: "Ulfiani Latifah",
         id: "FC312D5X1540",
         role: "UI/UX Designer",
-        image: "/src/assets/ulfii.png",
+        image: "/src/assets/ulfi.jpg",
     },
 ];
 
@@ -28,13 +28,13 @@ const mlEngineers = [
         name: "Ibrahim Akbar Arsanata",
         id: "MC283D5Y0062",
         role: "JOB",
-        image: "/src/assets/akbar.png",
+        image: "/src/assets/akbar3.png",
     },
     {
         name: "Annida Syamsa Hawa",
         id: "MC193D5X2313",
         role: "JOB",
-        image: "/src/assets/nida.webp",
+        image: "/src/assets/nida.png",
     },
     {
         name: "Noufal Zaidan",
