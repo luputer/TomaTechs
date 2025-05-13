@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "../components/navbar";
 import { CardBody, CardContainer, CardItem } from "../components/ui/3d-card";
+import { Github, Linkedin, Instagram } from "lucide-react";
 
 const teamMembers = [
     {
@@ -98,7 +99,7 @@ const Team = () => {
             <Navbar />
             <div className="container mx-auto px-4 py-12 mb-16">
                 {/* Team Header */}
-                <div className="flex items-center justify-center mb-16">
+                <div className="flex items-center justify-center mb-10">
                     <div className="bg-[#478800] text-white rounded-full px-6 py-4 shadow-lg text-center">
                         <h1 className="text-lg font-bold">Profil Anggota Team</h1>
                         <p className="text-sm">Group ID : CC25-CF191</p>
@@ -106,7 +107,7 @@ const Team = () => {
                 </div>
 
                 {/* Frontend & Backend Team */}
-                <div className="mb-16">
+                <div className="mb-8">
                     <h2 className="text-2xl text-center font-semibold text-[#478800] mb-10">
                         Team Front-End dan Back-End Developer
                     </h2>
@@ -146,11 +147,41 @@ export function ThreeDCardDemo({ member }) {
                     ID: {member.id}
                 </CardItem>
                 <CardItem translateZ="100" rotateX={20} rotateZ={-10} className="w-full mt-4">
-                    <img src={member.image} alt={member.name} className="h-40 w-80 object-cover rounded-xl group-hover/card:shadow-xl" />
+                    <img src={member.image} alt={member.name} className="h-50 w-200 object-cover rounded-xl group-hover/card:shadow-xl" />
                 </CardItem>
                 <div className="flex justify-center items-center mt-5">
                     <span className="px-6 py-2 bg-[#478800] text-white rounded-full inline-block">{member.role}</span>
                 </div>
+                <div>{member.university}</div>
+                <div>{member.department}</div>
+                <div className="text-light">"{member.quote}"</div>
+                <div className="flex flex-row mt-3 gap-5 ">
+                    <a
+                        href={member.social.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-blue-800 transition-colors"
+                    >
+                        <Linkedin className="w-7 h-8" />
+                    </a>
+                    <a
+                        href={member.social.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-800 hover:text-gray-600 transition-colors"
+                    >
+                        <Github className="w-7 h-8" />
+                    </a>
+                    <a
+                        href={member.social.instagram}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-pink-600 hover:text-pink-800 transition-colors"
+                    >
+                        <Instagram className="w-7 h-8" />
+                    </a>
+                </div>
+
             </CardBody>
         </CardContainer>
     );
