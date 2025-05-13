@@ -11,6 +11,7 @@ import NotFound from './pages/NotFound';
 import { AuthProvider } from './context/AuthContext';
 import Footer from './components/Footer';
 import PrivateRoute from './components/PrivateRoute';
+import Team from './pages/Team';
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <main className="pt-16 min-h-[calc(100vh-4rem)]">
           <Routes>
             <Route path="/" element={<Homepage />} />
+            <Route path="/Team" element={<Team />} />
             <Route path="/about" element={<About />} />
             <Route path="/dashboard" element={
               <PrivateRoute>
