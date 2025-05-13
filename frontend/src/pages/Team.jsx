@@ -1,4 +1,5 @@
 import React from 'react';
+import Navbar from '../components/navbar';
 
 const Team = () => {
     const teamMembers = [
@@ -44,50 +45,58 @@ const Team = () => {
     ];
 
     return (
-        <div className="bg-gradient-to-b from-white to-[#f3fbe9]">
-            <div className="container mx-auto px-4 py-12">
-            <div className="bg-gradient-to-b from-white to-[#f3fbe9] flex items-center justify-center">
-            <div className="bg-[#478800] text-white rounded-full px-6 py-4 shadow-lg text-center">
-                <h1 className="text-lg font-bold">Profil Anggota Team</h1>
-                <p className="text-sm">Group ID : CC25-CF191</p>
-            </div>
-        </div>
+        <div className=" bg-gradient-to-b from-white to-[#f3fbe9]">
+            <Navbar />
+            <div className="container mx-auto px-4 py-12 mb-16">
+                {/* Team Header */}
+                <div className="flex items-center justify-center mb-16">
+                    <div className="bg-[#478800] text-white rounded-full px-6 py-4 shadow-lg text-center">
+                        <h1 className="text-lg font-bold">Profil Anggota Team</h1>
+                        <p className="text-sm">Group ID : CC25-CF191</p>
+                    </div>
+                </div>
 
-                <div className="mb-12">
-                    <h2 className="text-xl text-center my-10 font-semibold text-[#478800] mb-6">Team Front-End dan Back-End Developer</h2>
+                {/* Frontend & Backend Team */}
+                <div className="mb-16">
+                    <h2 className="text-2xl text-center font-semibold text-[#478800] mb-10">
+                        Team Front-End dan Back-End Developer
+                    </h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {teamMembers.map((member, index) => (
-                            <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden text-center p-4">
+                            <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden text-center p-6 transform transition-transform duration-300 hover:scale-105">
                                 <img
                                     src={member.image}
                                     alt={member.name}
-                                    className="w-24 h-24 mx-auto rounded-full object-cover mb-4"
+                                    className="w-32 h-32 mx-auto rounded-full object-cover mb-6 border-4 border-[#478800]/20"
                                 />
-                                <h3 className="text-lg font-semibold text-[#478800]">{member.name}</h3>
-                                <p className="text-gray-700">{member.id}</p>
-                                <button className="mt-4 px-4 py-2 bg-[#478800] text-white rounded-full">
+                                <h3 className="text-xl font-semibold text-[#478800] mb-2">{member.name}</h3>
+                                <p className="text-gray-600 mb-4">{member.id}</p>
+                                <span className="px-6 py-2 bg-[#478800] text-white rounded-full inline-block">
                                     {member.role}
-                                </button>
+                                </span>
                             </div>
                         ))}
                     </div>
                 </div>
 
-                <div>
-                    <h2 className="text-xl text-center my-10 font-semibold text-[#478800] mb-6">Team Machine Learning Engineer</h2>
+                {/* ML Team */}
+                <div className="mb-16">
+                    <h2 className="text-2xl text-center font-semibold text-[#478800] mb-10">
+                        Team Machine Learning Engineer
+                    </h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {mlEngineers.map((engineer, index) => (
-                            <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden text-center p-4">
+                            <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden text-center p-6 transform transition-transform duration-300 hover:scale-105">
                                 <img
                                     src={engineer.image}
                                     alt={engineer.name}
-                                    className="w-24 h-24 mx-auto rounded-full object-cover mb-4"
+                                    className="w-32 h-32 mx-auto rounded-full object-cover mb-6 border-4 border-[#478800]/20"
                                 />
-                                <h3 className="text-lg font-semibold text-[#478800]">{engineer.name}</h3>
-                                <p className="text-gray-700">{engineer.id}</p>
-                                <button className="mt-4 px-4 py-2 bg-[#478800] text-white rounded-full">
+                                <h3 className="text-xl font-semibold text-[#478800] mb-2">{engineer.name}</h3>
+                                <p className="text-gray-600 mb-4">{engineer.id}</p>
+                                <span className="px-6 py-2 bg-[#478800] text-white rounded-full inline-block">
                                     {engineer.role}
-                                </button>
+                                </span>
                             </div>
                         ))}
                     </div>
