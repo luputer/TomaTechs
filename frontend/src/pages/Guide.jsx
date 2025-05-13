@@ -3,7 +3,7 @@ import Navbar from '../components/navbar';
 
 const Guide = () => {
     return (
-        <div className=" bg-gradient-to-b from-white to-[#f3fbe9]">
+        <div className="mt-2 bg-gradient-to-b from-white to-[#f3fbe9]">
             <Navbar />
             <div className="container mx-auto px-4 py-12">
                 {/* Panduan Section */}
