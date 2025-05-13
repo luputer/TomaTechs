@@ -3,8 +3,7 @@ import Navbar from '../components/navbar';
 
 const About = () => {
     return (
-        <div className="min-h-screen bg-gradient-to-b from-white to-[#f3fbe9]">
-            <Navbar />
+        <div className=" bg-gradient-to-b from-white to-[#f3fbe9]">
             <div className="container mx-auto px-4 py-12">
                 <div className="bg-white/30 backdrop-blur-sm border-2 border-white shadow-lg rounded-xl p-8 relative">
                     {/* Label Tentang */}
@@ -65,9 +64,11 @@ const About = () => {
                         </div>
                     </div>
                 </div>
+                
             </div>
         </div>
     );
 };
+                 
 
 export default About;

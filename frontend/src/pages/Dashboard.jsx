@@ -18,7 +18,6 @@ const Dashboard = () => {
                             Pilih salah satu menu di bawah untuk memulai:
                         </p>
                     </div>
-
                     <div className="grid gap-6 md:grid-cols-2">
                         <Link
                             to="/deteksi"
