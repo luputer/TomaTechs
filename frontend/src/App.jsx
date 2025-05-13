@@ -1,22 +1,48 @@
 import './App.css'
-import { Route, Routes } from 'react-router';
+import React from 'react';
+import { Routes, Route } from 'react-router';
+import Navbar from './components/Navbar';
 import Homepage from './pages/Homepage';
 import About from './pages/About';
-import Dashbord from './pages/Dashbord';
-import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import Deteksi from './pages/Deteksi';
+import History from './pages/History';
+import NotFound from './pages/NotFound';
+import { AuthProvider } from './context/AuthContext';
+import Footer from './components/Footer';
+import PrivateRoute from './components/PrivateRoute';
 
-function App() {
-
+const App = () => {
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/dashboard" element={<Dashbord />} />
-        <Route path="/login" element={<Login />} />
-      </Routes>
-    </>
-  )
-}
+    <AuthProvider>
+      <div className="min-h-screen bg-background text-foreground">
+        <Navbar />
+        <main className="pt-16 min-h-[calc(100vh-4rem)]">
+          <Routes>
+            <Route path="/" element={<Homepage />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/dashboard" element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            } />
+            <Route path="/deteksi" element={
+              <PrivateRoute>
+                <Deteksi />
+              </PrivateRoute>
+            } />
+            <Route path="/history" element={
+              <PrivateRoute>
+                <History />
+              </PrivateRoute>
+            } />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </AuthProvider>
+  );
+};
 
-export default App
+export default App;

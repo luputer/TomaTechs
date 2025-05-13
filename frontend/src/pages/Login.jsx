@@ -1,26 +1,54 @@
-import React from "react";
+import React from 'react';
+import { useAuth } from '../context/AuthContext';
+import { FcGoogle } from 'react-icons/fc';
+import { Navigate } from 'react-router';
 
 const Login = () => {
+  const { user, login, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+      </div>
+    );
+  }
+
+  if (user) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  const handleGoogleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      await login();
+    } catch (error) {
+      console.error('Login error:', error);
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <div className="flex flex-col items-center mb-6">
-          {/* Logo bisa diganti sesuai kebutuhan */}
-          {/* <img src="/assets/logo.png" alt="Logo" className="h-16 mb-2" /> */}
-          <h2 className="text-2xl font-bold mb-2">Masuk ke TomaTech</h2>
-          <p className="text-gray-500 text-center">Silakan login menggunakan akun Google Anda</p>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            Selamat Datang di TomaTech
+          </h2>
+          <p className="mt-2 text-center text-sm text-gray-600">
+            Sistem Deteksi Penyakit Tanaman Tomat
+          </p>
         </div>
-        <button
-          className="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 rounded-md py-2 px-4 text-gray-700 font-medium shadow-sm hover:bg-gray-100 transition"
-          // onClick={handleGoogleLogin} // Aktifkan jika sudah ada fungsi login
-        >
-          <img
-            src="https://www.svgrepo.com/show/475656/google-color.svg"
-            alt="Google"
-            className="h-5 w-5"
-          />
-          Login dengan Google
-        </button>
+        <div className="mt-8 space-y-6">
+          <button
+            onClick={handleGoogleLogin}
+            className="group relative w-full flex justify-center py-3 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+          >
+            <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+              <FcGoogle className="h-5 w-5" />
+            </span>
+            Masuk dengan Google
+          </button>
+        </div>
       </div>
     </div>
   );
