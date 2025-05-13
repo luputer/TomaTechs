@@ -17,7 +17,7 @@ const Guide = () => {
                         {/* Step 1 */}
                         <div className="bg-white rounded-xl shadow-md overflow-hidden">
                             <img
-                                src="/src/assets/step1.jpg"
+                                src="/src/assets/panduan1.png"
                                 alt="Ambil atau Unggah Foto"
                                 className="w-full h-48 object-cover"
                             />
@@ -33,7 +33,7 @@ const Guide = () => {
                         {/* Step 2 */}
                         <div className="bg-white rounded-xl shadow-md overflow-hidden">
                             <img
-                                src="/src/assets/step2.jpg"
+                                src="/src/assets/panduan2.png"
                                 alt="Analisis Otomatis"
                                 className="w-full h-48 object-cover"
                             />
@@ -49,7 +49,7 @@ const Guide = () => {
                         {/* Step 3 */}
                         <div className="bg-white rounded-xl shadow-md overflow-hidden">
                             <img
-                                src="/src/assets/step3.jpg"
+                                src="/src/assets/panduan3.png"
                                 alt="Lihat Hasil dan Saran"
                                 className="w-full h-48 object-cover"
                             />
@@ -76,7 +76,7 @@ const Guide = () => {
                         {/* Impact 1 */}
                         <div className="bg-white rounded-xl shadow-md overflow-hidden">
                             <img
-                                src="/src/assets/impact1.jpg"
+                                src="/src/assets/dampak1.png"
                                 alt="Meningkatkan Produktivitas Petani"
                                 className="w-full h-64 object-cover"
                             />
@@ -91,7 +91,7 @@ const Guide = () => {
                         {/* Impact 2 */}
                         <div className="bg-white rounded-xl shadow-md overflow-hidden">
                             <img
-                                src="/src/assets/impact2.jpg"
+                                src="/src/assets/dampak2.png"
                                 alt="Mengurangi Penggunaan Pestisida Berlebihan"
                                 className="w-full h-64 object-cover"
                             />
