@@ -44,15 +44,17 @@ const Team = () => {
     ];
 
     return (
-        <div className="bg-gradient-to-b from-white to-[#f3fbe9] min-h-screen">
+        <div className="bg-gradient-to-b from-white to-[#f3fbe9]">
             <div className="container mx-auto px-4 py-12">
-                <div className="text-center mb-12">
-                    <h1 className="text-2xl font-bold text-[#478800]">Profil Anggota Team</h1>
-                    <p className="text-lg text-gray-700">Group ID : CC25-CF191</p>
-                </div>
+            <div className="bg-gradient-to-b from-white to-[#f3fbe9] flex items-center justify-center">
+            <div className="bg-[#478800] text-white rounded-full px-6 py-4 shadow-lg text-center">
+                <h1 className="text-lg font-bold">Profil Anggota Team</h1>
+                <p className="text-sm">Group ID : CC25-CF191</p>
+            </div>
+        </div>
 
                 <div className="mb-12">
-                    <h2 className="text-xl font-semibold text-[#478800] mb-6">Team Front-End dan Back-End Developer</h2>
+                    <h2 className="text-xl text-center my-10 font-semibold text-[#478800] mb-6">Team Front-End dan Back-End Developer</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {teamMembers.map((member, index) => (
                             <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden text-center p-4">
@@ -72,7 +74,7 @@ const Team = () => {
                 </div>
 
                 <div>
-                    <h2 className="text-xl font-semibold text-[#478800] mb-6">Team Machine Learning Engineer</h2>
+                    <h2 className="text-xl text-center my-10 font-semibold text-[#478800] mb-6">Team Machine Learning Engineer</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {mlEngineers.map((engineer, index) => (
                             <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden text-center p-4">
