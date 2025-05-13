@@ -1,51 +1,52 @@
-import React from 'react';
-import Navbar from '../components/navbar';
+import React from "react";
+import Navbar from "../components/navbar";
+import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
+
+const teamMembers = [
+    {
+        name: "Muhammad Saidi",
+        id: "FC524D5Y1916",
+        role: "JOB",
+        image: "/src/assets/saidi.png",
+    },
+    {
+        name: "Yuliagus",
+        id: "FC558D5Y1116",
+        role: "JOB",
+        image: "/src/assets/agus.png",
+    },
+    {
+        name: "Ulfiani Latifah",
+        id: "FC312D5X1540",
+        role: "UI/UX Designer",
+        image: "/src/assets/ulfii.png",
+    },
+];
+
+const mlEngineers = [
+    {
+        name: "Ibrahim Akbar Arsanata",
+        id: "MC283D5Y0062",
+        role: "JOB",
+        image: "/src/assets/akbar.png",
+    },
+    {
+        name: "Annida Syamsa Hawa",
+        id: "MC193D5X2313",
+        role: "JOB",
+        image: "/src/assets/nida.webp",
+    },
+    {
+        name: "Noufal Zaidan",
+        id: "MC193D5X2313",
+        role: "JOB",
+        image: "/src/assets/noufal.png",
+    },
+];
 
 const Team = () => {
-    const teamMembers = [
-        {
-            name: 'Muhammad Saidi',
-            id: 'FC524D5Y1916',
-            role: 'JOB',
-            image: '/src/assets/saidi.png',
-        },
-        {
-            name: 'Yuliagus',
-            id: 'FC558D5Y1116',
-            role: 'JOB',
-            image: '/src/assets/agus.png',
-        },
-        {
-            name: 'Ulfiani Latifah',
-            id: 'FC312D5X1540',
-            role: 'UI/UX Designer',
-            image: '/src/assets/ulfii.png',
-        },
-    ];
-
-    const mlEngineers = [
-        {
-            name: 'Ibrahim Akbar Arsanata',
-            id: 'MC283D5Y0062',
-            role: 'JOB',
-            image: '/src/assets/akbar.png',
-        },
-        {
-            name: 'Annida Syamsa Hawa',
-            id: 'MC193D5X2313',
-            role: 'JOB',
-            image: '/src/assets/nida.webp',
-        },
-        {
-            name: 'Noufal Zaidan',
-            id: 'MC193D5X2313',
-            role: 'JOB',
-            image: '/src/assets/noufal.png',
-        },
-    ];
-
     return (
-        <div className=" bg-gradient-to-b from-white to-[#f3fbe9]">
+        <div className="bg-gradient-to-b from-white to-[#f3fbe9]">
             <Navbar />
             <div className="container mx-auto px-4 py-12 mb-16">
                 {/* Team Header */}
@@ -63,18 +64,7 @@ const Team = () => {
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {teamMembers.map((member, index) => (
-                            <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden text-center p-6 transform transition-transform duration-300 hover:scale-105">
-                                <img
-                                    src={member.image}
-                                    alt={member.name}
-                                    className="w-32 h-32 mx-auto rounded-full object-cover mb-6 border-4 border-[#478800]/20"
-                                />
-                                <h3 className="text-xl font-semibold text-[#478800] mb-2">{member.name}</h3>
-                                <p className="text-gray-600 mb-4">{member.id}</p>
-                                <span className="px-6 py-2 bg-[#478800] text-white rounded-full inline-block">
-                                    {member.role}
-                                </span>
-                            </div>
+                            <ThreeDCardDemo key={index} member={member} />
                         ))}
                     </div>
                 </div>
@@ -86,18 +76,7 @@ const Team = () => {
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {mlEngineers.map((engineer, index) => (
-                            <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden text-center p-6 transform transition-transform duration-300 hover:scale-105">
-                                <img
-                                    src={engineer.image}
-                                    alt={engineer.name}
-                                    className="w-32 h-32 mx-auto rounded-full object-cover mb-6 border-4 border-[#478800]/20"
-                                />
-                                <h3 className="text-xl font-semibold text-[#478800] mb-2">{engineer.name}</h3>
-                                <p className="text-gray-600 mb-4">{engineer.id}</p>
-                                <span className="px-6 py-2 bg-[#478800] text-white rounded-full inline-block">
-                                    {engineer.role}
-                                </span>
-                            </div>
+                            <ThreeDCardDemo key={index} member={engineer} />
                         ))}
                     </div>
                 </div>
@@ -107,3 +86,24 @@ const Team = () => {
 };
 
 export default Team;
+
+export function ThreeDCardDemo({ member }) {
+    return (
+        <CardContainer className="inter-var">
+            <CardBody className="bg-gray-50 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-pink-400 dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border">
+                <CardItem translateZ="50" className="text-xl font-bold text-neutral-600 dark:text-white">
+                    {member.name}
+                </CardItem>
+                <CardItem as="p" translateZ="60" className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300">
+                    ID: {member.id}
+                </CardItem>
+                <CardItem translateZ="100" rotateX={20} rotateZ={-10} className="w-full mt-4">
+                    <img src={member.image} alt={member.name} className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl" />
+                </CardItem>
+                <div className="flex justify-center items-center mt-5">
+                    <span className="px-6 py-2 bg-[#478800] text-white rounded-full inline-block">{member.role}</span>
+                </div>
+            </CardBody>
+        </CardContainer>
+    );
+}
