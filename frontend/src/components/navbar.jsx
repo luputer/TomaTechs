@@ -31,20 +31,20 @@ const Navbar = () => {
 
     const navItems = [
         {
-          name: "Beranda",
-          link: "/",
+            name: "Beranda",
+            link: "/",
         },
         {
-          name: "Tentang",
-          link: "/about", 
+            name: "Tentang",
+            link: "#about",
         },
         {
-          name: "Team",
-          link: "/team",
+            name: "Team",
+            link: "/team",
         },
         {
-          name: "Kontak",
-          link: "/contact",
+            name: "Kontak",
+            link: "/contact",
         }
     ];
 
@@ -70,14 +70,14 @@ const Navbar = () => {
                                         </svg>
                                         Beranda
                                     </Link>
-                                    <Link to="/about" className="flex items-center gap-2 text-gray-800 font-medium hover:text-green-700">
+                                    <a href="#about" className="flex items-center gap-2 text-gray-800 font-medium hover:text-green-700">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none" />
                                             <path d="M12 16v-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                                             <circle cx="12" cy="8" r="1" fill="currentColor" />
                                         </svg>
                                         Tentang
-                                    </Link>
+                                    </a>
                                     <Link to="/team" className="flex items-center gap-2 text-gray-800 font-medium hover:text-green-700">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m9-4a4 4 0 11-8 0 4 4 0 018 0zm6 4a4 4 0 00-3-3.87M6 10a4 4 0 00-3 3.87" />
