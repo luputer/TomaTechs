@@ -3,20 +3,20 @@ import { Link } from 'react-router';
 
 const NotFound = () => {
     return (
-        <div className="min-h-screen bg-[#f0f9f0] flex items-center justify-center p-4">
-            <div className="max-w-xl w-full relative bg-white rounded-lg shadow-lg p-8">
+        <div className="bg-[#f0f9f0] flex items-center justify-center p-4">
+            <div className="max-w-xl w-full relative bg-white rounded-lg shadow-lg p-8 overflow-hidden">
                 {/* Leaf decoration - top right */}
                 <img
-                    src="/leaf.png"
+                    src="/src/assets/daun12.png"
                     alt="Leaf"
-                    className="absolute -top-10 -right-10 w-32 h-32 object-contain transform rotate-45"
+                    className="absolute top-0 right-0 w-32 h-32 object-contain transform rotate-45"
                 />
 
                 {/* Tomato decoration - bottom left */}
                 <img
-                    src="/tomato.png"
+                    src="/src/assets/tomat2.png"
                     alt="Tomato"
-                    className="absolute -bottom-8 -left-8 w-24 h-24 object-contain opacity-80"
+                    className="absolute bottom-0 left-0 w-15 h-18 object-contain opacity-80"
                 />
 
                 <div className="text-center relative z-10">
