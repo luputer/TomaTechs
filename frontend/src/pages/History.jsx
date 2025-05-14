@@ -201,80 +201,86 @@ const History = () => {
     };
 
     if (loading) return (
-        <div className="flex min-h-screen">
+        <div className="relative min-h-screen flex bg-[#3B5D3D]">
             <Sidebar user={user} />
-            <div className="flex-1 flex justify-center items-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-green-700"></div>
+            <div className="flex-1 p-4">
+                <div className="bg-white h-[calc(100vh-2rem)] rounded-3xl shadow-lg p-6">
+                    <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-green-700"></div>
+                </div>
             </div>
         </div>
     );
 
     if (error) return (
-        <div className="flex min-h-screen">
+        <div className="relative min-h-screen flex bg-[#3B5D3D]">
             <Sidebar user={user} />
-            <div className="flex-1 flex justify-center items-center">
-                <div className="text-red-500 text-center p-4">{error}</div>
+            <div className="flex-1 p-4">
+                <div className="bg-white h-[calc(100vh-2rem)] rounded-3xl shadow-lg p-6">
+                    <div className="text-red-500 text-center p-4">{error}</div>
+                </div>
             </div>
         </div>
     );
 
     return (
-        <div className="flex min-h-screen">
+        <div className="relative min-h-screen flex bg-[#3B5D3D]">
             <Sidebar user={user} />
-            <div className="flex-1 p-8 bg-gray-50">
-                <h1 className="text-3xl font-bold text-green-700 mb-6">Riwayat Deteksi</h1>
+            <div className="flex-1 p-4">
+                <div className="bg-white h-[calc(100vh-2rem)] rounded-3xl shadow-lg p-6">
+                    <h1 className="text-3xl font-bold text-green-700 mb-6">Riwayat Deteksi</h1>
 
-                {predictions.length === 0 ? (
-                    <div className="bg-white rounded-lg shadow p-8 text-center">
-                        <p className="text-gray-600">Belum ada riwayat deteksi.</p>
-                    </div>
-                ) : (
-                    <>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {currentItems.map((prediction) => (
-                                <div key={prediction.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                                    <div className="relative">
-                                        <img
-                                            src={prediction.image_url}
-                                            alt="Prediction Result"
-                                            className="w-full h-48 object-cover"
-                                        />
-                                    </div>
-                                    <div className="p-4">
-                                        <div className="mb-3">
-                                            <h3 className="text-lg font-semibold text-green-700">
-                                                {prediction.label === 'Healthy' ? 'Sehat' :
-                                                    prediction.label === 'Early_blight' ? 'Hawar Daun Dini' :
-                                                        prediction.label === 'Late_blight' ? 'Hawar Daun Akhir' : prediction.label}
-                                            </h3>
-                                            <div className="flex items-center gap-2 mt-1">
-                                                <div className="h-2 flex-1 bg-gray-200 rounded-full overflow-hidden">
-                                                    <div
-                                                        className="h-full bg-green-600 rounded-full"
-                                                        style={{ width: `${prediction.confidence * 100}%` }}
-                                                    ></div>
-                                                </div>
-                                                <span className="text-sm text-gray-600">
-                                                    {(prediction.confidence * 100).toFixed(0)}%
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <p className="text-xs text-gray-500">
-                                            {new Date(prediction.created_at).toLocaleDateString('id-ID', {
-                                                year: 'numeric',
-                                                month: 'long',
-                                                day: 'numeric',
-                                                hour: '2-digit',
-                                                minute: '2-digit'
-                                            })}
-                                        </p>
-                                    </div>
-                                </div>
-                            ))}
+                    {predictions.length === 0 ? (
+                        <div className="bg-white rounded-lg shadow p-8 text-center">
+                            <p className="text-gray-600">Belum ada riwayat deteksi.</p>
                         </div>
-                        <Pagination />
-                    </>
-                )}
+                    ) : (
+                        <>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {currentItems.map((prediction) => (
+                                    <div key={prediction.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                                        <div className="relative">
+                                            <img
+                                                src={prediction.image_url}
+                                                alt="Prediction Result"
+                                                className="w-full h-48 object-cover"
+                                            />
+                                        </div>
+                                        <div className="p-4">
+                                            <div className="mb-3">
+                                                <h3 className="text-lg font-semibold text-green-700">
+                                                    {prediction.label === 'Healthy' ? 'Sehat' :
+                                                        prediction.label === 'Early_blight' ? 'Hawar Daun Dini' :
+                                                            prediction.label === 'Late_blight' ? 'Hawar Daun Akhir' : prediction.label}
+                                                </h3>
+                                                <div className="flex items-center gap-2 mt-1">
+                                                    <div className="h-2 flex-1 bg-gray-200 rounded-full overflow-hidden">
+                                                        <div
+                                                            className="h-full bg-green-600 rounded-full"
+                                                            style={{ width: `${prediction.confidence * 100}%` }}
+                                                        ></div>
+                                                    </div>
+                                                    <span className="text-sm text-gray-600">
+                                                        {(prediction.confidence * 100).toFixed(0)}%
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <p className="text-xs text-gray-500">
+                                                {new Date(prediction.created_at).toLocaleDateString('id-ID', {
+                                                    year: 'numeric',
+                                                    month: 'long',
+                                                    day: 'numeric',
+                                                    hour: '2-digit',
+                                                    minute: '2-digit'
+                                                })}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            <Pagination />
+                        </>
+                    )}
+                </div>
             </div>
         </div>
     );

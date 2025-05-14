@@ -7,11 +7,11 @@ import { AuthProvider } from './context/AuthContext';
 import About from './pages/About';
 import Dashboard from './pages/Dashboard';
 import Deteksi from './pages/Deteksi';
-import Forum from './pages/Forum';
 import History from './pages/History';
 import Homepage from './pages/Homepage';
 import NotFound from './pages/NotFound';
 import Team from './pages/Team';
+import TomaChat from './pages/TomaChat';
 
 const App = () => {
   return (
@@ -40,7 +40,7 @@ const App = () => {
             } />
             <Route path="/forum" element={
               <PrivateRoute>
-                <Forum />
+                <TomaChat />
               </PrivateRoute>
             } />
             <Route path="*" element={<NotFound />} />

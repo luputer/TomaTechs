@@ -41,7 +41,7 @@ const MENU_ITEMS = [
     { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { path: '/deteksi', label: 'Deteksi', icon: Search },
     { path: '/history', label: 'Riwayat', icon: Search },
-    { path: '/forum', label: 'Forum', icon: MessageSquare },
+    { path: '/forum', label: 'TomaChat', icon: MessageSquare },
 ];
 
 /**
@@ -101,7 +101,7 @@ const AppSidebar = ({ user }) => {
                 variant="ghost"
                 size="icon"
                 className={cn(
-                    "absolute top-6 -right-5 z-50 h-10 w-10 rounded-full bg-[#3B5D3D] border border-white text-white shadow-md transition-colors",
+                    "absolute top-6 -right-15 z-50 h-10 w-10 rounded-full bg-[#3B5D3D] border border-white text-white shadow-md transition-colors hover:bg-green-700",
                 )}
                 onClick={() => setIsCollapsed(!isCollapsed)}
                 aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
@@ -116,7 +116,7 @@ const AppSidebar = ({ user }) => {
 
             <Sidebar
                 className={cn(
-                    "h-full min-h-screen bg-[#3B5D3D] border-r flex flex-col text-white transition-[width] duration-700 ease-in-out",
+                    "h-full min-h-screen bg-[#3B5D3D] flex flex-col text-white transition-[width] duration-700 ease-in-out",
                     isCollapsed ? "w-0 overflow-hidden" : "w-72"
                 )}
                 style={{ minWidth: isCollapsed ? 0 : '18rem' }}

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FaCloudUploadAlt, FaHome, FaPowerOff } from 'react-icons/fa';
+import { FaCloudUploadAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router';
 import Sidebar from '../components/Sidebar';
 import { useAuth } from '../context/AuthContext';
@@ -94,25 +94,12 @@ const Deteksi = () => {
   };
 
   return (
-    <div className="flex min-h-screen">
+    <div className="relative min-h-screen flex bg-[#3B5D3D]">
       <Sidebar user={user} />
-      <div className="flex-1">
-        {/* Header */}
-        <div className="bg-gray-100 p-4 flex justify-between items-center">
-          <h1 className="text-xl font-semibold">Deteksi Penyakit</h1>
-          <div className="flex items-center gap-4">
-            <FaHome
-              className="text-gray-600 cursor-pointer"
-              onClick={() => navigate('/dashboard')}
-            />
-            <FaPowerOff className="text-gray-600 cursor-pointer" />
-          </div>
-        </div>
-
-        {/* Main Content */}
-        <div className="p-8 bg-[#f0f9f0]">
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-white rounded-lg shadow-lg p-8">
+      <div className="flex-1 p-4">
+        <div className="bg-white min-h-[calc(100vh-2rem)] rounded-3xl shadow-lg p-6">
+          <div className="max-w-4xl mx-auto pb-8">
+            <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
               <h2 className="text-2xl font-bold text-[#2e7d32] mb-6 text-center">
                 Deteksi Penyakit Daun Tomat
               </h2>
@@ -241,7 +228,7 @@ const Deteksi = () => {
             </div>
 
             {/* Instructions */}
-            <div className="mt-8 bg-white rounded-lg shadow-lg p-8">
+            <div className="bg-white rounded-lg shadow-lg p-8">
               <h3 className="text-xl font-semibold text-[#2e7d32] mb-4">
                 Panduan Penggunaan:
               </h3>
