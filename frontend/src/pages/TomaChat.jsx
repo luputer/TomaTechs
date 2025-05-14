@@ -1,11 +1,14 @@
 import { MessageSquare, Send } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import Sidebar from '../components/Sidebar';
 import { useAuth } from '../context/AuthContext';
 
 const TomaChat = () => {
     const { user } = useAuth();
     const [message, setMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const [messages, setMessages] = useState([
         {
             id: 1,
@@ -23,7 +26,7 @@ const TomaChat = () => {
         scrollToBottom();
     }, [messages]);
 
-    const handleSendMessage = (e) => {
+    const handleSendMessage = async (e) => {
         e.preventDefault();
         if (!message.trim()) return;
 
@@ -35,16 +38,38 @@ const TomaChat = () => {
         };
         setMessages(prev => [...prev, userMessage]);
         setMessage('');
+        setIsLoading(true);
 
-        // Simulate bot response
-        setTimeout(() => {
+        try {
+            const response = await fetch('http://localhost:8080/toma_chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: message.trim() })
+            });
+
+            const data = await response.json();
+
+            // Add bot response
             const botResponse = {
                 id: messages.length + 2,
-                text: "Terima kasih atas pertanyaannya. Saya akan membantu Anda dengan informasi seputar budidaya tomat.",
+                text: data.response,
                 sender: 'bot'
             };
             setMessages(prev => [...prev, botResponse]);
-        }, 1000);
+        } catch (error) {
+            console.error('Error:', error);
+            // Add error message
+            const errorResponse = {
+                id: messages.length + 2,
+                text: "Maaf, terjadi kesalahan dalam memproses permintaan Anda. Silakan coba lagi.",
+                sender: 'bot'
+            };
+            setMessages(prev => [...prev, errorResponse]);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -69,16 +94,24 @@ const TomaChat = () => {
                                         className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                                     >
                                         <div
-                                            className={`max-w-[75%] rounded-xl p-3 sm:p-4 text-sm sm:text-base shadow-sm ${
-                                                msg.sender === 'user'
-                                                    ? 'bg-green-600 text-white'
-                                                    : 'bg-white text-gray-800 border border-gray-200'
-                                            }`}
+                                            className={`max-w-[75%] rounded-xl p-3 sm:p-4 text-sm sm:text-base shadow-sm ${msg.sender === 'user'
+                                                ? 'bg-green-600 text-white'
+                                                : 'bg-white text-gray-800 border border-gray-200'
+                                                }`}
                                         >
-                                            {msg.text}
+                                            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                                                {msg.text}
+                                            </ReactMarkdown>
                                         </div>
                                     </div>
                                 ))}
+                                {isLoading && (
+                                    <div className="flex justify-start">
+                                        <div className="max-w-[75%] rounded-xl p-3 sm:p-4 text-sm sm:text-base shadow-sm bg-white text-gray-800 border border-gray-200">
+                                            Sedang mengetik...
+                                        </div>
+                                    </div>
+                                )}
                                 <div ref={messagesEndRef} />
                             </div>
 
@@ -90,10 +123,11 @@ const TomaChat = () => {
                                     onChange={(e) => setMessage(e.target.value)}
                                     placeholder="Ketik pesan Anda di sini..."
                                     className="flex-1 p-3 sm:p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-shadow"
+                                    disabled={isLoading}
                                 />
                                 <button
                                     type="submit"
-                                    disabled={!message.trim()}
+                                    disabled={!message.trim() || isLoading}
                                     className="bg-green-600 text-white p-3 sm:p-4 rounded-xl hover:bg-green-700 transition-colors flex items-center justify-center shadow-md disabled:bg-gray-300 disabled:cursor-not-allowed"
                                 >
                                     <Send className="w-5 h-5 sm:w-6 sm:h-6" />

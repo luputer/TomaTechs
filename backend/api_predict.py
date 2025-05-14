@@ -10,6 +10,7 @@ from supabase import create_client
 from datetime import datetime
 import base64
 from dotenv import load_dotenv
+import google.generativeai as genai
 
 # Load environment variables from .env file
 load_dotenv()
@@ -98,6 +99,9 @@ def load_and_preprocess_image(file_path):
 
 @app.route("/predict", methods=["POST", "OPTIONS"])
 def predict():
+
+
+
     if request.method == "OPTIONS":
         return "", 200
         
@@ -378,6 +382,29 @@ def delete_prediction(prediction_id):
         error_response = jsonify({"error": "Terjadi kesalahan saat menghapus prediksi"})
         error_response.headers.add('Access-Control-Allow-Origin', '*')
         return error_response, 500
+
+# Set API Key
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+
+
+
+@app.route("/toma_chat", methods=["POST"])
+def toma_chat():
+    data = request.json
+    user_message = data.get("message")
+    
+    # Optional: prompt kontekstual
+    prompt = f"""
+    Kamu adalah asisten budidaya tomat. Jawablah pertanyaan pengguna berikut ini secara informatif:
+    "{user_message}"
+    """
+
+    model = genai.GenerativeModel("gemini-2.0-flash")
+    response = model.generate_content(prompt)
+    reply = response.text
+
+    return jsonify({"response": reply})
+
 
 if __name__ == "__main__":
     logger.info("Starting server on port 8080")
