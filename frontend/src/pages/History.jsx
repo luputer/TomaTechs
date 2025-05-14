@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { supabase } from '../lib/supabase';
-import { Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
 import Sidebar from "../components/Sidebar";
 import { useAuth } from '../context/AuthContext';
+import { supabase } from '../lib/supabase';
 
 const History = () => {
     const [predictions, setPredictions] = useState([]);
@@ -202,7 +202,7 @@ const History = () => {
 
     if (loading) return (
         <div className="flex min-h-screen">
-            <Sidebar />
+            <Sidebar user={user} />
             <div className="flex-1 flex justify-center items-center">
                 <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-green-700"></div>
             </div>
@@ -211,7 +211,7 @@ const History = () => {
 
     if (error) return (
         <div className="flex min-h-screen">
-            <Sidebar />
+            <Sidebar user={user} />
             <div className="flex-1 flex justify-center items-center">
                 <div className="text-red-500 text-center p-4">{error}</div>
             </div>
@@ -220,7 +220,7 @@ const History = () => {
 
     return (
         <div className="flex min-h-screen">
-            <Sidebar />
+            <Sidebar user={user} />
             <div className="flex-1 p-8 bg-gray-50">
                 <h1 className="text-3xl font-bold text-green-700 mb-6">Riwayat Deteksi</h1>
 
@@ -280,4 +280,4 @@ const History = () => {
     );
 };
 
-export default History; 
+export default History;

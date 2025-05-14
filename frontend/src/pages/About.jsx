@@ -52,7 +52,7 @@ const About = () => {
 
                         {/* Right Content - Logo Shield */}
                         <div className="flex justify-center">
-                            <div className="relative w-96 h-96">
+                            <div className="relative w-[500px] h-[500px]">
                                 <div className="absolute inset-0 rounded-full opacity-10"></div>
                                 <img
                                     src="/src/assets/logos.png"
