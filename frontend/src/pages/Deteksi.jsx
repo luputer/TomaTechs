@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { FaCloudUploadAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router';
 import Sidebar from '../components/Sidebar';
@@ -10,6 +10,10 @@ const Deteksi = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [detectionResult, setDetectionResult] = useState(null);
   const [error, setError] = useState(null);
+  const [isCameraOpen, setIsCameraOpen] = useState(false);
+  const [stream, setStream] = useState(null);
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
   const navigate = useNavigate();
   const { user } = useAuth();
 
@@ -58,6 +62,9 @@ const Deteksi = () => {
       setPreviewUrl(URL.createObjectURL(file));
       setDetectionResult(null);
       setError(null);
+      if (isCameraOpen) {
+        stopCamera();
+      }
     }
   };
 
@@ -93,6 +100,59 @@ const Deteksi = () => {
     }
   };
 
+  // New functions for camera
+  const startCamera = async () => {
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+        setStream(stream);
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
+        setIsCameraOpen(true);
+        setSelectedImage(null);
+        setPreviewUrl(null);
+        setDetectionResult(null);
+        setError(null);
+      } catch (err) {
+        console.error("Error accessing camera: ", err);
+        setError("Tidak dapat mengakses kamera. Pastikan Anda telah memberikan izin.");
+        setIsCameraOpen(false);
+      }
+    } else {
+      setError("Kamera tidak didukung oleh browser ini.");
+    }
+  };
+
+  const stopCamera = () => {
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+    }
+    setStream(null);
+    setIsCameraOpen(false);
+  };
+
+  const handleCapture = () => {
+    if (videoRef.current && canvasRef.current) {
+      const video = videoRef.current;
+      const canvas = canvasRef.current;
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const context = canvas.getContext('2d');
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob((blob) => {
+        if (blob.size > 5 * 1024 * 1024) { // 5MB limit
+          alert('Ukuran file terlalu besar. Maksimal 5MB.');
+          return;
+        }
+        const file = new File([blob], "capture.jpg", { type: "image/jpeg" });
+        setSelectedImage(file);
+        setPreviewUrl(URL.createObjectURL(file));
+        stopCamera();
+      }, 'image/jpeg');
+    }
+  };
+
   return (
     <div className="relative min-h-screen flex bg-[#3B5D3D]">
       <Sidebar user={user} />
@@ -100,9 +160,12 @@ const Deteksi = () => {
         <div className="bg-white min-h-[calc(100vh-2rem)] rounded-3xl shadow-lg p-6">
           <div className="max-w-4xl mx-auto pb-8">
             <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
-              <h2 className="text-2xl font-bold text-[#2e7d32] mb-6 text-center">
-                Deteksi Penyakit Daun Tomat
+              <h2 className="text-5xl font-bold text-[#2e7d32] mb-2 text-center">
+                Mulai Deteksi Sekarang!
               </h2>
+              <h3 className="text-xl font-semibold text-[#2e7d32] mb-6 text-center">
+                Pastikan gambar yang diambil terlihat jelas
+              </h3>
 
               {/* Error Message */}
               {error && (
@@ -113,27 +176,68 @@ const Deteksi = () => {
 
               {/* Upload Section */}
               <div className="mb-8">
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    className="hidden"
-                    id="imageInput"
-                  />
-                  <label
-                    htmlFor="imageInput"
-                    className="cursor-pointer flex flex-col items-center"
-                  >
-                    <FaCloudUploadAlt className="text-5xl text-[#2e7d32] mb-4" />
-                    <p className="text-gray-600 mb-2">
-                      Klik untuk memilih atau seret foto daun tomat ke sini
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      Format yang didukung: JPG, PNG (Max 5MB)
-                    </p>
-                  </label>
-                </div>
+                {/* Camera Button */}
+                {!isCameraOpen && (
+                  <div className="mb-4 text-center">
+                    <button
+                      onClick={startCamera}
+                      className="px-6 py-3 bg-[#4CAF50] text-white rounded-full hover:bg-[#388E3C] transition duration-150 ease-in-out flex items-center justify-center mx-auto"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                      Ambil Foto dengan Kamera
+                    </button>
+                  </div>
+                )}
+
+                {/* Camera View */}
+                {isCameraOpen && (
+                  <div className="mb-4">
+                    <video ref={videoRef} autoPlay playsInline className="w-full rounded-lg border border-gray-300 mb-2"></video>
+                    <canvas ref={canvasRef} className="hidden"></canvas>
+                    <div className="flex justify-center gap-4">
+                       <button
+                        onClick={handleCapture}
+                        className="px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600"
+                      >
+                        Ambil Gambar
+                      </button>
+                      <button
+                        onClick={stopCamera}
+                        className="px-6 py-2 bg-red-500 text-white rounded-full hover:bg-red-600"
+                      >
+                        Tutup Kamera
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* File Upload Area - Conditionally render if camera is not open */}
+                {!isCameraOpen && (
+                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      className="hidden"
+                      id="imageInput"
+                    />
+                    <label
+                      htmlFor="imageInput"
+                      className="cursor-pointer flex flex-col items-center"
+                    >
+                      <FaCloudUploadAlt className="text-5xl text-[#2e7d32] mb-4" />
+                      <p className="text-gray-600 mb-2">
+                        Klik untuk memilih atau seret foto daun tomat ke sini
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        Format yang didukung: JPG, PNG (Max 5MB)
+                      </p>
+                      <p className="text-sm text-gray-500 mt-2">
+                        Atau, gunakan kamera di atas untuk mengambil foto baru.
+                      </p>
+                    </label>
+                  </div>
+                )}
               </div>
 
               {/* Preview and Result Section */}
@@ -202,6 +306,7 @@ const Deteksi = () => {
                     setPreviewUrl(null);
                     setDetectionResult(null);
                     setError(null);
+                    if (isCameraOpen) stopCamera();
                   }}
                   className="px-6 py-2 border border-[#2e7d32] text-[#2e7d32] rounded-full hover:bg-[#f0f9f0]"
                 >
@@ -209,11 +314,12 @@ const Deteksi = () => {
                 </button>
                 <button
                   onClick={handleUpload}
-                  disabled={!selectedImage || isLoading}
-                  className={`px-6 py-2 rounded-full flex items-center gap-2 ${!selectedImage || isLoading
-                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                    : 'bg-[#2e7d32] text-white hover:bg-[#1b5e20]'
-                    }`}
+                  disabled={(!selectedImage && !isCameraOpen) || isLoading}
+                  className={`px-6 py-2 rounded-full flex items-center gap-2 ${
+                    (!selectedImage && !isCameraOpen) || isLoading
+                      ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      : 'bg-[#2e7d32] text-white hover:bg-[#1b5e20]'
+                  }`}
                 >
                   {isLoading ? (
                     <>
