@@ -160,7 +160,7 @@ const Deteksi = () => {
         <div className="bg-white min-h-[calc(100vh-2rem)] rounded-3xl shadow-lg p-6">
           <div className="max-w-4xl mx-auto pb-8">
             <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
-              <h2 className="text-5xl font-bold text-[#2e7d32] mb-2 text-center">
+              <h2 className="text-6xl font-bold text-[#2e7d32] mb-2 text-center">
                 Mulai Deteksi Sekarang!
               </h2>
               <h3 className="text-xl font-semibold text-[#2e7d32] mb-6 text-center">
