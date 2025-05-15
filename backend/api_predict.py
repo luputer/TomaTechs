@@ -10,7 +10,9 @@ from supabase import create_client
 from datetime import datetime
 import base64
 from dotenv import load_dotenv
-import google.generativeai as genai
+from google import genai
+from google.genai import types
+
 
 # Load environment variables from .env file
 load_dotenv()
@@ -60,11 +62,11 @@ ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 # Initialize Flask app first
 app = Flask(__name__)
 
-# Then configure CORS - allow all origins for testing
+# Configure CORS to allow requests from your frontend
 CORS(app, resources={
     r"/*": {
-        "origins": "*",  # Allow all origins
-        "methods": ["GET", "POST", "DELETE", "OPTIONS"],
+        "origins": ["http://localhost:5173", "http://localhost:3000"],  # Add your frontend URLs
+        "methods": ["GET", "POST", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"]
     }
 })
@@ -99,8 +101,6 @@ def load_and_preprocess_image(file_path):
 
 @app.route("/predict", methods=["POST", "OPTIONS"])
 def predict():
-
-
 
     if request.method == "OPTIONS":
         return "", 200
@@ -383,27 +383,84 @@ def delete_prediction(prediction_id):
         error_response.headers.add('Access-Control-Allow-Origin', '*')
         return error_response, 500
 
-# Set API Key
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-
-
-
-@app.route("/toma_chat", methods=["POST"])
+@app.route("/toma_chat", methods=["POST", "OPTIONS"])
 def toma_chat():
-    data = request.json
-    user_message = data.get("message")
-    
-    # Optional: prompt kontekstual
-    prompt = f"""
-    Kamu adalah asisten budidaya tomat. Jawablah pertanyaan pengguna berikut ini secara informatif:
-    "{user_message}"
-    """
+    if request.method == "OPTIONS":
+        # Handle preflight request
+        response = jsonify({"message": "preflight"})
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+        response.headers.add('Access-Control-Allow-Methods', 'POST, OPTIONS')
+        return response
 
-    model = genai.GenerativeModel("gemini-2.0-flash")
-    response = model.generate_content(prompt)
-    reply = response.text
+    try:
+        data = request.json
+        user_message = data.get("message")
+        
+        client = genai.Client(
+            vertexai=True,
+            project="231142263655",
+            location="europe-central2",
+        )
 
-    return jsonify({"response": reply})
+        model = "projects/231142263655/locations/europe-central2/endpoints/965551529094283264"
+        contents = [
+            types.Content(
+                role="user",
+                parts=[
+                    types.Part(text=f"""
+                    Kamu adalah asisten budidaya tomat yang sangat ahli. 
+                    Jawablah pertanyaan pengguna berikut ini secara informatif:
+                    "{user_message}"
+                    """)
+                ]
+            )
+        ]
+
+        generate_content_config = types.GenerateContentConfig(
+            temperature=1,
+            top_p=0.95,
+            max_output_tokens=8192,
+            safety_settings=[
+                types.SafetySetting(
+                    category="HARM_CATEGORY_HATE_SPEECH",
+                    threshold="OFF"
+                ),
+                types.SafetySetting(
+                    category="HARM_CATEGORY_DANGEROUS_CONTENT",
+                    threshold="OFF"
+                ),
+                types.SafetySetting(
+                    category="HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                    threshold="OFF"
+                ),
+                types.SafetySetting(
+                    category="HARM_CATEGORY_HARASSMENT",
+                    threshold="OFF"
+                )
+            ],
+        )
+
+        # Generate response and collect all chunks
+        full_response = ""
+        for chunk in client.models.generate_content_stream(
+            model=model,
+            contents=contents,
+            config=generate_content_config,
+        ):
+            if chunk.text:
+                full_response += chunk.text
+
+        # Create the response with CORS headers
+        api_response = jsonify({"response": full_response})
+        api_response.headers.add('Access-Control-Allow-Origin', '*')
+        return api_response
+
+    except Exception as e:
+        logger.error(f"Error in toma_chat: {str(e)}")
+        error_response = jsonify({"error": str(e)})
+        error_response.headers.add('Access-Control-Allow-Origin', '*')
+        return error_response, 500
 
 
 if __name__ == "__main__":
