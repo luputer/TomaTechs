@@ -1,24 +1,17 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
 import Sidebar from "../components/Sidebar";
 import { useAuth } from '../context/AuthContext';
-import { supabase } from '../lib/supabase';
 
 const History = () => {
     const [predictions, setPredictions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const navigate = useNavigate();
     const { user } = useAuth();
 
     // Pagination states
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(6);
-
-    useEffect(() => {
-        checkUser();
-    }, []);
 
     useEffect(() => {
         if (user?.id) {
@@ -27,19 +20,6 @@ const History = () => {
             setLoading(false);
         }
     }, [user?.id]);
-
-    const checkUser = async () => {
-        try {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (!session) {
-                navigate('/');
-                return;
-            }
-        } catch (error) {
-            console.error('Error checking session:', error);
-            setError('Failed to verify user session');
-        }
-    };
 
     const fetchHistory = async () => {
         try {

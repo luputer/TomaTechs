@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { supabase } from '../lib/supabase';
 import { useNavigate } from 'react-router';
+import { supabase } from '../lib/supabase';
 
 const AuthContext = createContext({});
 
@@ -20,12 +20,6 @@ export const AuthProvider = ({ children }) => {
         const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
             setUser(session?.user ?? null);
             setLoading(false);
-
-            if (event === 'SIGNED_IN') {
-                navigate('/dashboard');
-            } else if (event === 'SIGNED_OUT') {
-                navigate('/');
-            }
         });
 
         return () => subscription.unsubscribe();
@@ -65,7 +59,7 @@ export const AuthProvider = ({ children }) => {
                 loading
             }}
         >
-            {!loading && children}
+            {children}
         </AuthContext.Provider>
     );
 };
@@ -74,4 +68,4 @@ export const useAuth = () => {
     return useContext(AuthContext);
 };
 
-export default AuthContext; 
+export default AuthContext;
