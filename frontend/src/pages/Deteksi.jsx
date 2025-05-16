@@ -153,67 +153,75 @@ const Deteksi = () => {
     }
   };
 
+  const toggleCamera = () => {
+    if (isCameraOpen) {
+      stopCamera();
+    } else {
+      startCamera();
+    }
+  };
+
   return (
     <div className="relative min-h-screen flex bg-[#3B5D3D]">
       <Sidebar user={user} />
-      <div className="flex-1 p-4">
-        <div className="bg-white min-h-[calc(100vh-2rem)] rounded-3xl shadow-lg p-6">
-          <div className="max-w-4xl mx-auto pb-8">
-            <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
-              <h2 className="text-6xl font-bold text-[#2e7d32] mb-2 text-center">
+      <div className="flex-1 p-2 sm:p-4">
+        <div className="bg-white min-h-[calc(100vh-2rem)] rounded-3xl shadow-lg p-3 sm:p-6">
+          <div className="max-w-4xl mx-auto pb-4 sm:pb-8">
+            <div className="bg-white rounded-lg shadow-lg p-4 sm:p-8 mb-4 sm:mb-8">
+              <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold text-[#2e7d32] mb-2 text-center">
                 Mulai Deteksi Sekarang!
               </h2>
-              <h3 className="text-xl font-semibold text-[#2e7d32] mb-6 text-center">
+              <h3 className="text-base sm:text-lg md:text-xl font-semibold text-[#2e7d32] mb-4 sm:mb-6 text-center">
                 Pastikan gambar yang diambil terlihat jelas
               </h3>
 
               {/* Error Message */}
               {error && (
-                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+                <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-red-50 border border-red-200 rounded-lg text-sm sm:text-base text-red-700">
                   {error}
                 </div>
               )}
 
-              {/* Upload Section */}
-              <div className="mb-8">
-                {/* Camera Button */}
-                {!isCameraOpen && (
-                  <div className="mb-4 text-center">
+              {/* Camera Section */}
+              <div className="mb-4 sm:mb-8">
+                <div className="flex justify-center mb-4">
+                  <button
+                    onClick={toggleCamera}
+                    className={`px-4 sm:px-6 py-2 rounded-full flex items-center gap-2 text-sm sm:text-base ${
+                      isCameraOpen
+                        ? 'bg-red-600 hover:bg-red-700 text-white'
+                        : 'bg-[#2e7d32] hover:bg-[#1b5e20] text-white'
+                    }`}
+                  >
+                    {isCameraOpen ? 'Tutup Kamera' : 'Buka Kamera'}
+                  </button>
+                </div>
+
+                {/* Camera View */}
+                {isCameraOpen && (
+                  <div className="relative mb-4">
+                    <video
+                      ref={videoRef}
+                      autoPlay
+                      playsInline
+                      className="w-full h-[200px] sm:h-[300px] md:h-[400px] object-cover rounded-lg"
+                    />
+                    <canvas ref={canvasRef} className="hidden" />
                     <button
-                      onClick={startCamera}
-                      className="px-6 py-3 bg-[#4CAF50] text-white rounded-full hover:bg-[#388E3C] transition duration-150 ease-in-out flex items-center justify-center mx-auto"
+                      onClick={handleCapture}
+                      className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white/90 hover:bg-white text-[#2e7d32] px-4 py-2 rounded-full shadow-lg flex items-center gap-2"
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                      Ambil Foto dengan Kamera
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                      </svg>
+                      Ambil Foto
                     </button>
                   </div>
                 )}
 
-                {/* Camera View */}
-                {isCameraOpen && (
-                  <div className="mb-4">
-                    <video ref={videoRef} autoPlay playsInline className="w-full rounded-lg border border-gray-300 mb-2"></video>
-                    <canvas ref={canvasRef} className="hidden"></canvas>
-                    <div className="flex justify-center gap-4">
-                       <button
-                        onClick={handleCapture}
-                        className="px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600"
-                      >
-                        Ambil Gambar
-                      </button>
-                      <button
-                        onClick={stopCamera}
-                        className="px-6 py-2 bg-red-500 text-white rounded-full hover:bg-red-600"
-                      >
-                        Tutup Kamera
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                {/* File Upload Area - Conditionally render if camera is not open */}
+                {/* File Upload Area */}
                 {!isCameraOpen && (
-                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 sm:p-8 text-center">
                     <input
                       type="file"
                       accept="image/*"
@@ -225,14 +233,14 @@ const Deteksi = () => {
                       htmlFor="imageInput"
                       className="cursor-pointer flex flex-col items-center"
                     >
-                      <FaCloudUploadAlt className="text-5xl text-[#2e7d32] mb-4" />
-                      <p className="text-gray-600 mb-2">
+                      <FaCloudUploadAlt className="text-4xl sm:text-5xl text-[#2e7d32] mb-3 sm:mb-4" />
+                      <p className="text-sm sm:text-base text-gray-600 mb-2">
                         Klik untuk memilih atau seret foto daun tomat ke sini
                       </p>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-xs sm:text-sm text-gray-500">
                         Format yang didukung: JPG, PNG (Max 5MB)
                       </p>
-                      <p className="text-sm text-gray-500 mt-2">
+                      <p className="text-xs sm:text-sm text-gray-500 mt-2">
                         Atau, gunakan kamera di atas untuk mengambil foto baru.
                       </p>
                     </label>
@@ -241,11 +249,11 @@ const Deteksi = () => {
               </div>
 
               {/* Preview and Result Section */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
                 {/* Preview Section */}
                 {previewUrl && (
-                  <div className="mb-8">
-                    <h3 className="text-lg font-semibold mb-4">Preview Gambar:</h3>
+                  <div className="mb-4 sm:mb-8">
+                    <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Preview Gambar:</h3>
                     <div className="relative">
                       <img
                         src={previewUrl}
@@ -258,48 +266,36 @@ const Deteksi = () => {
 
                 {/* Detection Result */}
                 {detectionResult && (
-                  <div className="mb-8">
-                    <h3 className="text-lg font-semibold mb-4 text-[#2e7d32]">
+                  <div className="mb-4 sm:mb-8">
+                    <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-[#2e7d32]">
                       Hasil Deteksi:
                     </h3>
-                    <div className="bg-[#f8f9fa] p-4 rounded-lg border border-[#2e7d32]">
-                      <p className="mb-2">
+                    <div className="bg-[#f8f9fa] p-3 sm:p-4 rounded-lg border border-[#2e7d32]">
+                      <p className="mb-2 text-sm sm:text-base">
                         <span className="font-semibold">Penyakit:</span>{' '}
                         {diseaseInfo[detectionResult.label]?.name || detectionResult.label}
                       </p>
-                      <p className="mb-2">
+                      <p className="mb-2 text-sm sm:text-base">
                         <span className="font-semibold">Tingkat Kepercayaan:</span>{' '}
                         {(detectionResult.confidence * 100).toFixed(2)}%
                       </p>
-                      <div className="mt-4">
-                        <h4 className="font-semibold mb-2">Deskripsi:</h4>
-                        <p className="text-sm text-gray-700 mb-4">
+                      <div className="mt-3 sm:mt-4">
+                        <h4 className="font-semibold mb-2 text-sm sm:text-base">Deskripsi:</h4>
+                        <p className="text-xs sm:text-sm text-gray-700 mb-3 sm:mb-4">
                           {diseaseInfo[detectionResult.label]?.description}
                         </p>
-                        <h4 className="font-semibold mb-2">Rekomendasi Penanganan:</h4>
-                        <p className="text-sm text-gray-700 whitespace-pre-line">
+                        <h4 className="font-semibold mb-2 text-sm sm:text-base">Rekomendasi Penanganan:</h4>
+                        <p className="text-xs sm:text-sm text-gray-700 whitespace-pre-line">
                           {diseaseInfo[detectionResult.label]?.treatment}
                         </p>
                       </div>
-                      {detectionResult.image_url && (
-                        <div className="mt-4">
-                          <a
-                            href={detectionResult.image_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[#2e7d32] hover:underline text-sm"
-                          >
-                            Lihat Gambar Tersimpan
-                          </a>
-                        </div>
-                      )}
                     </div>
                   </div>
                 )}
               </div>
 
               {/* Action Buttons */}
-              <div className="flex justify-center gap-4">
+              <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
                 <button
                   onClick={() => {
                     setSelectedImage(null);
@@ -308,14 +304,14 @@ const Deteksi = () => {
                     setError(null);
                     if (isCameraOpen) stopCamera();
                   }}
-                  className="px-6 py-2 border border-[#2e7d32] text-[#2e7d32] rounded-full hover:bg-[#f0f9f0]"
+                  className="px-4 sm:px-6 py-2 border border-[#2e7d32] text-[#2e7d32] rounded-full hover:bg-[#f0f9f0] text-sm sm:text-base"
                 >
                   Reset
                 </button>
                 <button
                   onClick={handleUpload}
                   disabled={(!selectedImage && !isCameraOpen) || isLoading}
-                  className={`px-6 py-2 rounded-full flex items-center gap-2 ${
+                  className={`px-4 sm:px-6 py-2 rounded-full flex items-center justify-center gap-2 text-sm sm:text-base ${
                     (!selectedImage && !isCameraOpen) || isLoading
                       ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                       : 'bg-[#2e7d32] text-white hover:bg-[#1b5e20]'
@@ -323,7 +319,7 @@ const Deteksi = () => {
                 >
                   {isLoading ? (
                     <>
-                      <span className="w-5 h-5 border-t-2 border-b-2 border-white rounded-full animate-spin"></span>
+                      <span className="w-4 h-4 sm:w-5 sm:h-5 border-t-2 border-b-2 border-white rounded-full animate-spin"></span>
                       <span>Memproses...</span>
                     </>
                   ) : (
@@ -334,11 +330,11 @@ const Deteksi = () => {
             </div>
 
             {/* Instructions */}
-            <div className="bg-white rounded-lg shadow-lg p-8">
-              <h3 className="text-xl font-semibold text-[#2e7d32] mb-4">
+            <div className="bg-white rounded-lg shadow-lg p-4 sm:p-8">
+              <h3 className="text-lg sm:text-xl font-semibold text-[#2e7d32] mb-3 sm:mb-4">
                 Panduan Penggunaan:
               </h3>
-              <ol className="list-decimal list-inside space-y-2 text-gray-700">
+              <ol className="list-decimal list-inside space-y-2 text-sm sm:text-base text-gray-700">
                 <li>Pilih atau seret foto daun tomat yang ingin dideteksi</li>
                 <li>Pastikan foto jelas dan fokus pada area daun yang terinfeksi</li>
                 <li>Klik tombol "Mulai Deteksi" untuk memulai proses analisis</li>

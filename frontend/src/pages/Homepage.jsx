@@ -1,8 +1,7 @@
-import React from 'react';
-import Navbar from '../components/navbar';
 import { Link } from 'react-router';
-import { useAuth } from '../context/AuthContext';
 import { TypeAnimation } from 'react-type-animation';
+import Navbar from '../components/navbar';
+import { useAuth } from '../context/AuthContext';
 import About from './About';
 import Guide from './Guide';
 
@@ -12,8 +11,8 @@ const Homepage = () => {
     return (
         <div className="min-h-screen bg-gradient-to-b from-white to-[#f3fbe9]">
             <Navbar />
-            <div className="container mx-auto px-4 lg:px-8">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center py-12">
+            <div className="container mx-auto px-2 sm:px-4 lg:px-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 items-center py-6 sm:py-12">
                     {/* Left Column - Content */}
                     <div className="relative">
                         {/* Tomato top-right image */}
@@ -24,7 +23,7 @@ const Homepage = () => {
                             style={{ zIndex: 1 }}
                         />
                         {/* Header */}
-                        <div className="bg-white/30 backdrop-blur-sm border-2 border-white shadow-lg rounded-xl p-8">
+                        <div className="bg-white/30 backdrop-blur-sm border-2 border-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
                             <TypeAnimation
                                 sequence={[
                                     ' Deteksi Penyakit Tomat Melalui Daun',
@@ -50,9 +49,9 @@ const Homepage = () => {
                                 {user ? (
                                     <Link
                                         to="/deteksi"
-                                        className="flex items-center gap-2 bg-[#478800] text-white px-6 py-3 rounded-full shadow hover:bg-[#2e4a2f] transition-colors text-base font-medium"
+                                        className="flex items-center gap-2 bg-[#478800] text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full shadow hover:bg-[#2e4a2f] transition-colors text-sm sm:text-base font-medium w-full sm:w-auto justify-center"
                                     >
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none" />
                                             <path d="M9 12l2 2 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
                                         </svg>
@@ -61,9 +60,9 @@ const Homepage = () => {
                                 ) : (
                                     <button
                                         onClick={login}
-                                        className="flex items-center gap-2 bg-[#478800] text-white px-6 py-3 rounded-full shadow hover:bg-[#2e4a2f] transition-colors text-base font-medium"
+                                        className="flex items-center gap-2 bg-[#478800] text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full shadow hover:bg-[#2e4a2f] transition-colors text-sm sm:text-base font-medium w-full sm:w-auto justify-center"
                                     >
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none" />
                                             <path d="M9 12l2 2 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
                                         </svg>
@@ -79,7 +78,7 @@ const Homepage = () => {
                         <img
                             src="/src/assets/HeroImage.png"
                             alt="Tomato Plant"
-                            className="w-full h-[400px] object-cover"
+                            className="w-full h-40 sm:h-60 md:h-80 lg:h-[400px] object-cover"
                         />
                     </div>
                 </div>

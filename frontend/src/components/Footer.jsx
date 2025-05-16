@@ -1,9 +1,9 @@
+import { Facebook, Instagram, Linkedin, Youtube } from 'lucide-react';
 import { Link } from 'react-router';
-import { Facebook, Linkedin, Youtube, Instagram } from 'lucide-react';
 
 const Footer = () => {
     return (
-        <footer className="bg-[#3B5D3D] text-white py-8">
+        <footer className="bg-[#3B5D3D] text-white py-8 relative z-40">
             <div className="container mx-auto px-4">
                 <div className="flex flex-col md:flex-row justify-between items-start gap-8">
                     {/* Logo and Description */}
@@ -106,4 +106,4 @@ const Footer = () => {
     );
 };
 
-export default Footer; 
+export default Footer;
