@@ -1,6 +1,6 @@
 import { Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { href, Link, useLocation, useNavigate } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { useAuth } from '../context/AuthContext';
 import { Button } from './ui/button';
 import { FloatingNav } from './ui/floating-navbar';
@@ -53,6 +53,20 @@ const Navbar = () => {
         setIsMobileMenuOpen(false);
     };
 
+    const handleBlogClick = (e) => {
+        e.preventDefault();
+        if (location.pathname === '/') {
+            const blogSection = document.getElementById('blog');
+            if (blogSection) {
+                blogSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        } else {
+            sessionStorage.setItem('scrollToBlog', '1');
+            navigate('/');
+        }
+        setIsMobileMenuOpen(false);
+    };
+
     const navItems = [
         {
             name: "Beranda",
@@ -80,6 +94,16 @@ const Navbar = () => {
             icon: (
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m9-4a4 4 0 11-8 0 4 4 0 018 0zm6 4a4 4 0 00-3-3.87M6 10a4 4 0 00-3 3.87" />
+                </svg>
+            )
+        },
+        {
+            name: "Blog",
+            link: "/#blog",
+            icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" strokeWidth="2" fill="none" />
+                    <path d="M8 8h8M8 12h8M8 16h4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                 </svg>
             )
         }
@@ -160,6 +184,15 @@ const Navbar = () => {
                                                 {item.icon}
                                                 {item.name}
                                             </button>
+                                        ) : item.name === "Blog" ? (
+                                            <button
+                                                key={item.name}
+                                                onClick={handleBlogClick}
+                                                className="flex items-center gap-2 text-gray-800 font-medium hover:text-green-700"
+                                            >
+                                                {item.icon}
+                                                Blog
+                                            </button>
                                         ) : (
                                             <Link
                                                 key={item.name}
@@ -215,28 +248,34 @@ const Navbar = () => {
                                     </button>
                                 </>
                             ) : (
-                                navItems.map((item) => (
-                                    item.name === "Tentang" ? (
-                                        <button
-                                            key={item.name}
-                                            onClick={handleAboutClick}
-                                            className="block w-full text-left text-gray-700 hover:text-[#478800] transition-colors px-2 py-1 flex items-center gap-2"
-                                        >
-                                            {item.icon}
-                                            {item.name}
-                                        </button>
-                                    ) : (
-                                        <Link
-                                            key={item.name}
-                                            to={item.link}
-                                            className="block text-gray-700 hover:text-[#478800] transition-colors px-2 py-1 flex items-center gap-2"
-                                            onClick={() => setIsMobileMenuOpen(false)}
-                                        >
-                                            {item.icon}
-                                            {item.name}
-                                        </Link>
-                                    )
-                                ))
+                                <>
+                                    <Link
+                                        to="/"
+                                        className="block text-gray-800 font-medium hover:text-green-700 px-2 py-1"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        Beranda
+                                    </Link>
+                                    <button
+                                        onClick={handleAboutClick}
+                                        className="block text-gray-800 font-medium hover:text-green-700 px-2 py-1 w-full text-left"
+                                    >
+                                        Tentang
+                                    </button>
+                                    <Link
+                                        to="/team"
+                                        className="block text-gray-800 font-medium hover:text-green-700 px-2 py-1"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        Team
+                                    </Link>
+                                    <button
+                                        className="block text-gray-800 font-medium hover:text-green-700 px-2 py-1 w-full text-left"
+                                        onClick={handleBlogClick}
+                                    >
+                                        Blog
+                                    </button>
+                                </>
                             )}
                             {!user && (
                                 <Button

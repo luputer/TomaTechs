@@ -227,10 +227,16 @@ const Deteksi = () => {
 
                 {/* Camera View */}
                 {isCameraOpen && (
-                  <div className="mb-4">
-                    <video ref={videoRef} autoPlay playsInline className="w-full rounded-lg border border-gray-300 mb-2"></video>
+                  <div className="mb-4 relative aspect-video">
+                    <video
+                      ref={videoRef}
+                      autoPlay
+                      playsInline
+                      className="w-full h-full object-cover rounded-lg border border-gray-300 mb-2"
+                      style={{ transform: 'scaleX(-1)' }} // Mirror the camera feed
+                    ></video>
                     <canvas ref={canvasRef} className="hidden"></canvas>
-                    <div className="flex justify-center gap-4">
+                    <div className="flex justify-center gap-4 mt-2">
                       <button
                         onClick={handleCapture}
                         className="px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600"

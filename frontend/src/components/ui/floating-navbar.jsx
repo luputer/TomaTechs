@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useMotionValueEvent,
-} from "motion/react";
 import { cn } from "@/lib/utils";
-import { Link } from "react-router-dom";
+import {
+    AnimatePresence,
+    motion,
+    useMotionValueEvent,
+    useScroll,
+} from "motion/react";
+import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 
 export const FloatingNav = ({
@@ -15,6 +15,8 @@ export const FloatingNav = ({
 }) => {
   const { scrollYProgress } = useScroll();
   const [visible, setVisible] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleAuth = async () => {
     try {
@@ -27,6 +29,19 @@ export const FloatingNav = ({
       if (error) throw error;
     } catch (error) {
       console.error('Error during authentication:', error);
+    }
+  };
+
+  const handleBlogClick = (e) => {
+    e.preventDefault();
+    if (location.pathname === '/') {
+      const blogSection = document.getElementById('blog');
+      if (blogSection) {
+        blogSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      sessionStorage.setItem('scrollToBlog', '1');
+      navigate('/');
     }
   };
 
@@ -66,15 +81,29 @@ export const FloatingNav = ({
           className
         )}>
         {navItems.map((navItem, idx) => (
-          <Link
-            key={`link=${idx}`}
-            to={navItem.link}
-            className={cn(
-              "relative items-center flex space-x-1 text-white hover:text-gray-200"
-            )}>
-            <span className="block sm:hidden">{navItem.icon}</span>
-            <span className="hidden sm:block text-sm">{navItem.name}</span>
-          </Link>
+          navItem.name === "Blog" ? (
+            <button
+              key={`link=${idx}`}
+              onClick={handleBlogClick}
+              className={cn(
+                "relative items-center flex space-x-1 text-white hover:text-gray-200 transition-transform duration-200 hover:scale-110 bg-transparent border-none outline-none cursor-pointer"
+              )}
+            >
+              <span className="block sm:hidden">{navItem.icon}</span>
+              <span className="hidden sm:block text-sm">Blog</span>
+            </button>
+          ) : (
+            <Link
+              key={`link=${idx}`}
+              to={navItem.link}
+              className={cn(
+                "relative items-center flex space-x-1 text-white hover:text-gray-200 transition-transform duration-200 hover:scale-110"
+              )}
+            >
+              <span className="block sm:hidden">{navItem.icon}</span>
+              <span className="hidden sm:block text-sm">{navItem.name}</span>
+            </Link>
+          )
         ))}
         <button
           onClick={handleAuth}

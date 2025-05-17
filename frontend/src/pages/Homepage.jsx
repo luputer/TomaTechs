@@ -1,12 +1,26 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router';
 import { TypeAnimation } from 'react-type-animation';
 import Navbar from '../components/navbar';
 import { useAuth } from '../context/AuthContext';
 import About from './About';
+import Blog from './Blog';
 import Guide from './Guide';
 
 const Homepage = () => {
     const { user, login } = useAuth();
+
+    useEffect(() => {
+        if (window.location.hash === '#blog' || sessionStorage.getItem('scrollToBlog')) {
+            setTimeout(() => {
+                const blogSection = document.getElementById('blog');
+                if (blogSection) {
+                    blogSection.scrollIntoView({ behavior: 'smooth' });
+                }
+                sessionStorage.removeItem('scrollToBlog');
+            }, 100);
+        }
+    }, []);
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-white to-[#f3fbe9]">
@@ -85,6 +99,9 @@ const Homepage = () => {
             </div>
             <About />
             <Guide/>
+            <div id="blog">
+                <Blog/>
+            </div>
         </div>
     );
 };
