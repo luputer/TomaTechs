@@ -13,6 +13,7 @@ import NotFound from './pages/NotFound';
 import Team from './pages/Team';
 import TomaChat from './pages/TomaChat';
 import { Toaster } from 'sonner';
+import Contact from './pages/contact';
 
 const App = () => {
   const location = useLocation();
@@ -29,6 +30,7 @@ const App = () => {
                 <Route path="/" element={<Homepage />} />
                 <Route path="/Team" element={<Team />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>
