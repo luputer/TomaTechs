@@ -21,6 +21,17 @@ import {
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
 import { supabase } from "../lib/supabase";
+import { useAuth } from '../context/AuthContext';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 
 /**
  * @typedef {Object} MenuItem
@@ -41,7 +52,7 @@ const MENU_ITEMS = [
     { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { path: '/deteksi', label: 'Deteksi', icon: Search },
     { path: '/history', label: 'Riwayat', icon: Search },
-    { path: '/forum', label: 'TomaChat', icon: MessageSquare },
+    { path: '/chats', label: 'TomaChat', icon: MessageSquare },
 ];
 
 /**
@@ -84,14 +95,19 @@ const AppSidebar = ({ user }) => {
     const navigate = useNavigate();
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isMobileOpen, setIsMobileOpen] = useState(false);
+    const [isLogoutDialogOpen, setIsLogoutDialogOpen] = useState(false);
+    const { logout } = useAuth();
 
-    const handleLogout = async () => {
+    const handleLogoutClick = () => {
+        setIsLogoutDialogOpen(true);
+    };
+
+    const handleLogoutConfirm = async () => {
         try {
-            const { error } = await supabase.auth.signOut();
-            if (error) throw error;
-            navigate('/login');
+            await logout();
+            navigate('/');
         } catch (error) {
-            console.error('Error logging out:', error.message);
+            console.error('Error during logout:', error);
         }
     };
 
@@ -172,7 +188,7 @@ const AppSidebar = ({ user }) => {
                                         {/* Logout Button */}
                                         <SidebarMenuItem>
                                             <SidebarMenuButton
-                                                onClick={() => { handleLogout(); handleMobileClose(); }}
+                                                onClick={handleLogoutClick}
                                                 className="flex items-center gap-2 md:gap-3 px-2 md:px-3 py-1.5 md:py-2 rounded-lg transition-colors font-medium text-xs md:text-base text-white hover:bg-red-500/50 hover:text-white"
                                             >
                                                 <LogOut className="h-4 w-4 md:h-5 md:w-5" />
@@ -206,66 +222,85 @@ const AppSidebar = ({ user }) => {
                         <PanelLeftClose className="h-5 w-5 text-white mx-auto" />
                     )}
                 </Button>
-            <Sidebar
-                className={cn(
-                    "h-full min-h-screen bg-[#3B5D3D] flex flex-col text-white transition-[width] duration-700 ease-in-out",
-                    isCollapsed ? "w-0 overflow-hidden" : "w-72"
-                )}
-                style={{ minWidth: isCollapsed ? 0 : '18rem' }}
-            >
-                <div className={cn(
-                    "transition-all duration-700 ease-in-out origin-left h-full",
-                    isCollapsed
-                        ? "opacity-0 scale-95 pointer-events-none"
-                        : "opacity-100 scale-100"
-                )}>
-                    <SidebarContent>
-                        <SidebarGroup>
-                            {/* User Profile Section */}
-                            <UserProfile user={user} isCollapsed={isCollapsed} />
-                            <SidebarGroupContent>
-                                <SidebarMenu>
-                                    {MENU_ITEMS.map((item) => {
-                                        const Icon = item.icon;
-                                        const isActive = location.pathname === item.path;
-                                        return (
-                                            <SidebarMenuItem key={item.path}>
-                                                <SidebarMenuButton asChild>
-                                                    <Link
-                                                        to={item.path}
-                                                        className={cn(
+                <Sidebar
+                    className={cn(
+                        "h-full min-h-screen bg-[#3B5D3D] flex flex-col text-white transition-[width] duration-700 ease-in-out",
+                        isCollapsed ? "w-0 overflow-hidden" : "w-72"
+                    )}
+                    style={{ minWidth: isCollapsed ? 0 : '18rem' }}
+                >
+                    <div className={cn(
+                        "transition-all duration-700 ease-in-out origin-left h-full",
+                        isCollapsed
+                            ? "opacity-0 scale-95 pointer-events-none"
+                            : "opacity-100 scale-100"
+                    )}>
+                        <SidebarContent>
+                            <SidebarGroup>
+                                {/* User Profile Section */}
+                                <UserProfile user={user} isCollapsed={isCollapsed} />
+                                <SidebarGroupContent>
+                                    <SidebarMenu>
+                                        {MENU_ITEMS.map((item) => {
+                                            const Icon = item.icon;
+                                            const isActive = location.pathname === item.path;
+                                            return (
+                                                <SidebarMenuItem key={item.path}>
+                                                    <SidebarMenuButton asChild>
+                                                        <Link
+                                                            to={item.path}
+                                                            className={cn(
                                                                 "flex items-center gap-2 md:gap-3 px-2 md:px-3 py-1.5 md:py-2 rounded-lg transition-colors font-medium text-xs md:text-base text-white",
-                                                            "hover:bg-green-500/50 hover:text-white",
-                                                            isActive && "bg-green-500/50 text-white font-semibold"
-                                                        )}
-                                                    >
+                                                                "hover:bg-green-500/50 hover:text-white",
+                                                                isActive && "bg-green-500/50 text-white font-semibold"
+                                                            )}
+                                                        >
                                                             <Icon className="h-4 w-4 md:h-5 md:w-5 text-white group-hover:text-white transition-colors" />
                                                             <span className="text-xs md:text-base text-white group-hover:text-white transition-colors">{item.label}</span>
-                                                    </Link>
-                                                </SidebarMenuButton>
-                                            </SidebarMenuItem>
-                                        );
-                                    })}
+                                                        </Link>
+                                                    </SidebarMenuButton>
+                                                </SidebarMenuItem>
+                                            );
+                                        })}
 
-                                    <SidebarSeparator className="my-2" />
+                                        <SidebarSeparator className="my-2" />
 
-                                    {/* Logout Button */}
-                                    <SidebarMenuItem>
-                                        <SidebarMenuButton
-                                            onClick={handleLogout}
+                                        {/* Logout Button */}
+                                        <SidebarMenuItem>
+                                            <SidebarMenuButton
+                                                onClick={handleLogoutClick}
                                                 className="flex items-center gap-2 md:gap-3 px-2 md:px-3 py-1.5 md:py-2 rounded-lg transition-colors font-medium text-xs md:text-base text-white hover:bg-red-500/50 hover:text-white"
-                                        >
+                                            >
                                                 <LogOut className="h-4 w-4 md:h-5 md:w-5" />
                                                 <span className="text-xs md:text-base">Logout</span>
-                                        </SidebarMenuButton>
-                                    </SidebarMenuItem>
-                                </SidebarMenu>
-                            </SidebarGroupContent>
-                        </SidebarGroup>
-                    </SidebarContent>
-                </div>
-            </Sidebar>
-        </div>
+                                            </SidebarMenuButton>
+                                        </SidebarMenuItem>
+                                    </SidebarMenu>
+                                </SidebarGroupContent>
+                            </SidebarGroup>
+                        </SidebarContent>
+                    </div>
+                </Sidebar>
+                <AlertDialog open={isLogoutDialogOpen} onOpenChange={setIsLogoutDialogOpen}>
+                    <AlertDialogContent className="bg-white">
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>Konfirmasi Logout</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                Apakah Anda yakin ingin keluar dari aplikasi?
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>Batal</AlertDialogCancel>
+                            <AlertDialogAction
+                                onClick={handleLogoutConfirm}
+                                className="bg-red-500 hover:bg-red-600 text-white"
+                            >
+                                Logout
+                            </AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+            </div>
         </>
     );
 };

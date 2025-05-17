@@ -6,14 +6,29 @@ import {
   useMotionValueEvent,
 } from "motion/react";
 import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
+import { supabase } from "../../lib/supabase";
 
 export const FloatingNav = ({
   navItems,
   className
 }) => {
   const { scrollYProgress } = useScroll();
-
   const [visible, setVisible] = useState(false);
+
+  const handleAuth = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/dashboard`
+        }
+      });
+      if (error) throw error;
+    } catch (error) {
+      console.error('Error during authentication:', error);
+    }
+  };
 
   useMotionValueEvent(scrollYProgress, "change", (current) => {
     // Check if current is not undefined and is a number
@@ -33,7 +48,7 @@ export const FloatingNav = ({
   });
 
   return (
-    (<AnimatePresence mode="wait">
+    <AnimatePresence mode="wait">
       <motion.div
         initial={{
           opacity: 1,
@@ -51,24 +66,24 @@ export const FloatingNav = ({
           className
         )}>
         {navItems.map((navItem, idx) => (
-          <a
+          <Link
             key={`link=${idx}`}
-            href={navItem.link}
+            to={navItem.link}
             className={cn(
               "relative items-center flex space-x-1 text-white hover:text-gray-200"
             )}>
             <span className="block sm:hidden">{navItem.icon}</span>
             <span className="hidden sm:block text-sm">{navItem.name}</span>
-          </a>
+          </Link>
         ))}
-        <a
-          href="/login"
+        <button
+          onClick={handleAuth}
           className="border text-sm font-medium relative border-white text-white hover:bg-green-700 px-4 py-2 rounded-full transition-colors">
           <span>masuk</span>
           <span
             className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-white to-transparent h-px" />
-        </a>
+        </button>
       </motion.div>
-    </AnimatePresence>)
+    </AnimatePresence>
   );
 };

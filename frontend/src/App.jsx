@@ -12,44 +12,59 @@ import Homepage from './pages/Homepage';
 import NotFound from './pages/NotFound';
 import Team from './pages/Team';
 import TomaChat from './pages/TomaChat';
+import { Toaster } from 'sonner';
 
 const App = () => {
   const location = useLocation();
-  const isAuthPage = ['/dashboard', '/deteksi', '/history', '/forum'].includes(location.pathname);
+  const isAuthPage = ['/dashboard', '/deteksi', '/history', '/chats'].includes(location.pathname);
 
   return (
     <AuthProvider>
       <div className="min-h-screen bg-background text-foreground">
-        {!isAuthPage && <Navbar />}
-        <main className={!isAuthPage ? "pt-16 min-h-[calc(100vh-4rem)]" : "min-h-screen"}>
-          <Routes>
-            <Route path="/" element={<Homepage />} />
-            <Route path="/Team" element={<Team />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/dashboard" element={
-              <PrivateRoute>
-                <Dashboard />
-              </PrivateRoute>
-            } />
-            <Route path="/deteksi" element={
-              <PrivateRoute>
-                <Deteksi />
-              </PrivateRoute>
-            } />
-            <Route path="/history" element={
-              <PrivateRoute>
-                <History />
-              </PrivateRoute>
-            } />
-            <Route path="/forum" element={
-              <PrivateRoute>
-                <TomaChat />
-              </PrivateRoute>
-            } />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </main>
-        {!isAuthPage && <Footer />}
+        {!isAuthPage ? (
+          <>
+            <Navbar />
+            <main className="pt-16 min-h-[calc(100vh-4rem)]">
+              <Routes>
+                <Route path="/" element={<Homepage />} />
+                <Route path="/Team" element={<Team />} />
+                <Route path="/about" element={<About />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </main>
+            <Footer />
+          </>
+        ) : (
+          <main className="min-h-screen">
+            <Routes>
+              <Route path="/dashboard" element={
+                <PrivateRoute>
+                  <Dashboard />
+                </PrivateRoute>
+              } />
+              <Route path="/deteksi" element={
+                <PrivateRoute>
+                  <Deteksi />
+                </PrivateRoute>
+              } />
+              <Route path="/history" element={
+                <PrivateRoute>
+                  <History />
+                </PrivateRoute>
+              } />
+              <Route path="/chats" element={
+                <PrivateRoute>
+                  <TomaChat />
+                </PrivateRoute>
+              } />
+            </Routes>
+          </main>
+        )}
+        <Toaster
+          position="top-right"
+          expand={false}
+          richColors
+        />
       </div>
     </AuthProvider>
   );

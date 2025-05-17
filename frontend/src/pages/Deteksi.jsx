@@ -216,11 +216,10 @@ const Deteksi = () => {
                 <div className="flex justify-center mb-4">
                   <button
                     onClick={toggleCamera}
-                    className={`px-4 sm:px-6 py-2 rounded-full flex items-center gap-2 text-sm sm:text-base ${
-                      isCameraOpen
+                    className={`px-4 sm:px-6 py-2 rounded-full flex items-center gap-2 text-sm sm:text-base ${isCameraOpen
                         ? 'bg-red-600 hover:bg-red-700 text-white'
                         : 'bg-[#2e7d32] hover:bg-[#1b5e20] text-white'
-                    }`}
+                      }`}
                   >
                     {isCameraOpen ? 'Tutup Kamera' : 'Buka Kamera'}
                   </button>
@@ -232,7 +231,7 @@ const Deteksi = () => {
                     <video ref={videoRef} autoPlay playsInline className="w-full rounded-lg border border-gray-300 mb-2"></video>
                     <canvas ref={canvasRef} className="hidden"></canvas>
                     <div className="flex justify-center gap-4">
-                       <button
+                      <button
                         onClick={handleCapture}
                         className="px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600"
                       >
@@ -340,8 +339,7 @@ const Deteksi = () => {
                 <button
                   onClick={handleUpload}
                   disabled={(!selectedImage && !isCameraOpen) || isLoading}
-                  className={`px-6 py-2 rounded-full flex items-center gap-2 ${
-                    (!selectedImage && !isCameraOpen) || isLoading
+                  className={`px-6 py-2 rounded-full flex items-center gap-2 ${(!selectedImage && !isCameraOpen) || isLoading
                       ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                       : 'bg-[#2e7d32] text-white hover:bg-[#1b5e20]'
                     }`}

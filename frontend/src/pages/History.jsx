@@ -1,8 +1,10 @@
 import { ChevronLeft, ChevronRight, Eye, Edit, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import Sidebar from "../components/Sidebar";
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../lib/supabase';
+import { toast } from 'sonner';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -14,6 +16,9 @@ import {
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 
+
+
+
 // Add animation delay style
 import "./styles.css";
 
@@ -21,17 +26,81 @@ const History = () => {
     const [predictions, setPredictions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
     const { user } = useAuth();
 
     // Pagination states
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(6);
 
-    const [showAlert, setShowAlert] = useState({ show: false, message: '', type: '' });
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
     const [selectedPrediction, setSelectedPrediction] = useState(null);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [selectedDeleteId, setSelectedDeleteId] = useState(null);
+
+    // Mapping penyakit ke deskripsi dan penanganan
+    const diseaseInfo = {
+        'Tomato_mosaic_virus': {
+            name: 'Virus Mosaik Tomat (ToMV)',
+            description: 'Penyakit yang disebabkan oleh Tomato Mosaic Virus, ditularkan melalui benih, tangan manusia, alat pertanian, dan tanaman inang lain. Virus dapat bertahan lama di tanah dan sisa tanaman.',
+            // treatment: 'Penanganan yang disarankan:\n' +
+            //     '1. Gunakan benih bebas virus (bersertifikat)\n' +
+            //     '2. Disinfeksi alat dan tangan sebelum menyentuh tanaman\n' +
+            //     '3. Singkirkan dan bakar tanaman yang terinfeksi\n' +
+            //     '4. Hindari merokok saat menangani tanaman\n' +
+            //     '5. Rotasi tanaman dengan non-inang'
+        },
+        'Target_Spot': {
+            name: 'Bercak Target (Target Spot)',
+            description: 'Penyakit yang disebabkan oleh jamur Corynespora cassiicola, menyebar melalui udara, percikan air hujan, dan alat yang terkontaminasi. Menyebabkan bercak coklat dengan lingkaran konsentris pada daun.',
+            // treatment: 'Penanganan yang disarankan:\n' +
+            //     '1. Gunakan varietas tahan penyakit jika tersedia\n' +
+            //     '2. Pangkas dan buang daun yang terinfeksi\n' +
+            //     '3. Tingkatkan sirkulasi udara\n' +
+            //     '4. Semprot fungisida yang sesuai\n' +
+            //     '5. Lakukan rotasi tanaman'
+        },
+        'Bacterial_spot': {
+            name: 'Bercak Bakteri (Bacterial Spot)',
+            description: 'Penyakit yang disebabkan oleh bakteri Xanthomonas campestris pv. vesicatoria, menyebar melalui benih, air, dan kontak alat/pekerja. Menyebabkan bercak kecil berwarna coklat kehitaman pada daun dan buah.',
+            // treatment: 'Penanganan yang disarankan:\n' +
+            //     '1. Gunakan benih bebas patogen\n' +
+            //     '2. Semprot bakterisida berbahan dasar tembaga\n' +
+            //     '3. Hindari penyiraman dari atas\n' +
+            //     '4. Rotasi tanaman minimal 2 tahun\n' +
+            //     '5. Bakar sisa tanaman setelah panen'
+        },
+        'Early_blight': {
+            name: 'Hawar Dini (Early Blight)',
+            description: 'Penyakit yang disebabkan oleh jamur Alternaria solani. Umum terjadi pada kondisi lembap dan suhu hangat. Menyebar melalui cipratan air hujan/irigrasi dari tanah dan residu tanaman yang terinfeksi. Menyebabkan bercak coklat tua dengan lingkaran konsentris seperti target di daun tua.',
+            // treatment: 'Penanganan yang disarankan:\n' +
+            //     '1. Sanitasi: Buang daun yang terinfeksi dan sisa tanaman setelah panen\n' +
+            //     '2. Rotasi tanaman: Hindari menanam tomat atau kentang di tempat yang sama selama 2–3 tahun\n' +
+            //     '3. Mulsa tanah: Cegah cipratan air tanah ke daun\n' +
+            //     '4. Fungisida: Gunakan fungisida berbahan aktif seperti chlorothalonil, mancozeb, atau copper-based fungicides\n' +
+            //     '5. Varietas tahan: Gunakan varietas tomat yang tahan terhadap Early Blight'
+        },
+        'Spider_mites Two-spotted_spider_mite': {
+            name: 'Tungau Laba-laba (Two-Spotted Spider Mite)',
+            description: 'Hama tungau kecil yang hidup di bawah daun dan mengisap cairan sel tanaman. Menyukai kondisi panas dan kering. Menyebabkan bercak kuning kecil (stippling) di daun dan jaring halus (webbing) di bawah daun.',
+            // treatment: 'Penanganan yang disarankan:\n' +
+            //     '1. Air semprot: Semprotkan air tekanan tinggi ke daun bagian bawah\n' +
+            //     '2. Predator alami: Gunakan musuh alami seperti Phytoseiulus persimilis\n' +
+            //     '3. Insektisida selektif: Gunakan mitisida seperti abamectin, spinosad, atau neem oil\n' +
+            //     '4. Pengelolaan lingkungan: Jaga kelembapan agar tidak terlalu kering\n' +
+            //     '5. Monitoring: Periksa tanaman secara rutin untuk deteksi dini'
+        },
+        'Septoria_leaf_spot': {
+            name: 'Bercak Septoria (Septoria Leaf Spot)',
+            description: 'Penyakit yang disebabkan oleh jamur Septoria lycopersici. Menyukai lingkungan lembap dan hangat, sering muncul saat tanaman mulai berbunga. Menyebabkan bercak kecil bulat, coklat keabu-abuan dengan tepi gelap di daun bagian bawah.',
+            // treatment: 'Penanganan yang disarankan:\n' +
+            //     '1. Sanitasi: Buang daun yang terinfeksi dan sisa tanaman secara menyeluruh\n' +
+            //     '2. Penyiraman tepat: Hindari membasahi daun saat menyiram\n' +
+            //     '3. Rotasi tanaman: Hindari menanam tomat di lokasi yang sama setiap tahun\n' +
+            //     '4. Fungisida: Gunakan fungisida seperti chlorothalonil, copper fungicides, atau mancozeb\n' +
+            //     '5. Ventilasi baik: Beri jarak antar tanaman untuk meningkatkan sirkulasi udara'
+        }
+    };
 
     useEffect(() => {
         if (user?.id) {
@@ -137,11 +206,7 @@ const History = () => {
 
     const handleDeleteClick = (id) => {
         if (!user?.id) {
-            setShowAlert({
-                show: true,
-                message: 'User tidak terautentikasi',
-                type: 'error'
-            });
+            toast.error('User tidak terautentikasi');
             return;
         }
         setSelectedDeleteId(id);
@@ -170,26 +235,12 @@ const History = () => {
                 throw new Error(data.error || 'Gagal menghapus prediksi');
             }
 
-            // Update state to remove deleted item
             setPredictions(predictions.filter(pred => pred.id !== selectedDeleteId));
-            setShowAlert({
-                show: true,
-                message: data.message || 'Data berhasil dihapus',
-                type: 'success'
-            });
-
-            // Hide alert after 3 seconds
-            setTimeout(() => {
-                setShowAlert({ show: false, message: '', type: '' });
-            }, 3000);
+            toast.success(data.message || 'Data berhasil dihapus');
 
         } catch (err) {
             console.error('Error deleting prediction:', err);
-            setShowAlert({
-                show: true,
-                message: err.message,
-                type: 'error'
-            });
+            toast.error(err.message);
         } finally {
             setDeleteDialogOpen(false);
             setSelectedDeleteId(null);
@@ -205,14 +256,6 @@ const History = () => {
         // Navigate to edit page
         navigate(`/edit/${id}`);
     };
-
-    // Add Alert component at the top of the content
-    const Alert = ({ message, type }) => (
-        <div className={`fixed top-4 right-4 p-4 rounded-lg shadow-lg ${type === 'success' ? 'bg-green-500' : 'bg-red-500'
-            } text-white`}>
-            {message}
-        </div>
-    );
 
     if (loading) return (
         <div className="relative min-h-screen flex bg-[#3B5D3D]">
@@ -231,26 +274,26 @@ const History = () => {
         </div>
     );
 
-    if (error) return (
-        <div className="relative min-h-screen flex bg-[#3B5D3D]">
-            <Sidebar user={user} />
-            <div className="flex-1 p-4">
-                <div className="bg-white h-[calc(100vh-2rem)] rounded-3xl shadow-lg p-6">
-                    <div className="text-red-500 text-center p-4">{error}</div>
+    if (error) {
+        toast.error(error);
+        return (
+            <div className="relative min-h-screen flex bg-[#3B5D3D]">
+                <Sidebar user={user} />
+                <div className="flex-1 p-4">
+                    <div className="bg-white h-[calc(100vh-2rem)] rounded-3xl shadow-lg p-6">
+                        <div className="text-red-500 text-center p-4">Terjadi kesalahan saat memuat data</div>
+                    </div>
                 </div>
             </div>
-        </div>
-    );
+        );
+    }
 
     return (
-        <div className="relative min-h-screen ml-2 flex bg-[#3B5D3D]">
+        <div className=" ml-2 flex bg-[#3B5D3D]">
             <Sidebar user={user} />
             <div className="flex-1 p-4">
-                {showAlert.show && (
-                    <Alert message={showAlert.message} type={showAlert.type} />
-                )}
                 <div className="bg-white h-[calc(100vh-2rem)]  rounded-3xl shadow-lg p-6">
-                    <h1 className="text-3xl font-bold text-green-700 mb-6">Riwayat Deteksi</h1>
+                    <h1 className="text-3xl font-bold text-green-700 text-center mb-6">Riwayat Deteksi</h1>
 
                     {predictions.length === 0 ? (
                         <div className="bg-white rounded-lg shadow p-8 text-center">
@@ -346,7 +389,7 @@ const History = () => {
             </AlertDialog>
 
             <AlertDialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
-                <AlertDialogContent className="max-w-3xl bg-white">
+                <AlertDialogContent className="bg-white max-w-3xl">
                     <AlertDialogHeader>
                         <AlertDialogTitle className="text-2xl text-center text-[#3B5D3D]">
                             Hasil Deteksi Penyakit Tomat
@@ -363,17 +406,17 @@ const History = () => {
                                 />
                             </div>
 
-                            <div className="bg-blac p-6 rounded-lg">
-                                <div className="mb-4">
+                            <div className="bg-[#f8f9fa] p-6 rounded-lg space-y-4">
+                                <div>
                                     <h3 className="text-lg font-semibold text-[#3B5D3D] mb-2">
-                                        Hasil Deteksi:
+                                        Penyakit:
                                     </h3>
                                     <p className="text-xl font-bold text-[#3B5D3D]">
-                                        {selectedPrediction.predicted_class}
+                                        {diseaseInfo[selectedPrediction.predicted_class]?.name || selectedPrediction.predicted_class}
                                     </p>
                                 </div>
 
-                                <div className="mb-4">
+                                <div>
                                     <h3 className="text-lg font-semibold text-[#3B5D3D] mb-2">
                                         Tingkat Akurasi:
                                     </h3>
@@ -386,13 +429,31 @@ const History = () => {
                                                 ></div>
                                             </div>
                                             <span className="text-lg font-semibold text-[#3B5D3D] ml-4">
-                                                {(selectedPrediction.confidence * 100).toFixed(0)}%
+                                                {(selectedPrediction.confidence * 100).toFixed(2)}%
                                             </span>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="text-right text-sm text-gray-600">
+                                <div>
+                                    <h3 className="text-lg font-semibold text-[#3B5D3D] mb-2">
+                                        Deskripsi:
+                                    </h3>
+                                    <p className="text-gray-700">
+                                        {diseaseInfo[selectedPrediction.predicted_class]?.description}
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <h3 className="text-lg font-semibold text-[#3B5D3D] mb-2">
+                                        Penanganan:
+                                    </h3>
+                                    <p className="text-gray-700 whitespace-pre-line">
+                                        {diseaseInfo[selectedPrediction.predicted_class]?.treatment}
+                                    </p>
+                                </div>
+
+                                <div className="text-right text-sm text-gray-600 mt-4">
                                     Waktu Deteksi: {new Date(selectedPrediction.created_at).toLocaleDateString('id-ID', {
                                         year: 'numeric',
                                         month: 'long',

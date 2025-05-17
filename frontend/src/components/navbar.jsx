@@ -1,6 +1,6 @@
 import { Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router';
+import { href, Link, useLocation, useNavigate } from 'react-router';
 import { useAuth } from '../context/AuthContext';
 import { Button } from './ui/button';
 import { FloatingNav } from './ui/floating-navbar';
@@ -65,7 +65,7 @@ const Navbar = () => {
         },
         {
             name: "Tentang",
-            link: "#about",
+            href: "#about",
             icon: (
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none" />
