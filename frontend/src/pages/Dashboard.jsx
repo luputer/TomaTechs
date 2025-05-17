@@ -14,7 +14,7 @@ const Dashboard = () => {
                             <h1 className="text-2xl md:text-6xl font-bold text-[#2e7d32] mb-2 text-center">
                                 Selamat Datang
                             </h1>
-                            <h2 className="text-lg md:text-2xl font-semibold text-gray-800 mb-6 md:mb-12 text-center">
+                            <h2 className="text-lg md:text-2xl f    ont-semibold text-gray-800 mb-6 md:mb-12 text-center">
                                 {user?.user_metadata?.full_name || 'User'}
                             </h2>
                             {/* Hero Section */}

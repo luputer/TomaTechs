@@ -1,6 +1,7 @@
-import { useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { FaCloudUploadAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router';
+import Webcam from 'react-webcam';
 import Sidebar from '../components/Sidebar';
 import { useAuth } from '../context/AuthContext';
 
@@ -11,9 +12,9 @@ const Deteksi = () => {
   const [detectionResult, setDetectionResult] = useState(null);
   const [error, setError] = useState(null);
   const [isCameraOpen, setIsCameraOpen] = useState(false);
-  const [stream, setStream] = useState(null);
-  const videoRef = useRef(null);
-  const canvasRef = useRef(null);
+  const [devices, setDevices] = useState([]);
+  const [selectedDevice, setSelectedDevice] = useState(null);
+  const webcamRef = useRef(null);
   const navigate = useNavigate();
   const { user } = useAuth();
 
@@ -80,6 +81,39 @@ const Deteksi = () => {
     }
   };
 
+  const handleDevices = useCallback(
+    mediaDevices => {
+      const videoDevices = mediaDevices.filter(({ kind }) => kind === "videoinput");
+      setDevices(videoDevices);
+      // Automatically select the back camera if available
+      const backCamera = videoDevices.find(device =>
+        device.label.toLowerCase().includes('back') ||
+        device.label.toLowerCase().includes('rear')
+      );
+      setSelectedDevice(backCamera || videoDevices[0]);
+    },
+    []
+  );
+
+  useEffect(() => {
+    navigator.mediaDevices.enumerateDevices()
+      .then(handleDevices)
+      .catch(err => {
+        console.error("Error getting devices:", err);
+        setError("Tidak dapat mengakses daftar kamera. Pastikan Anda telah memberikan izin.");
+      });
+  }, [handleDevices]);
+
+  const videoConstraints = selectedDevice ? {
+    width: 1280,
+    height: 720,
+    deviceId: selectedDevice.deviceId
+  } : {
+    width: 1280,
+    height: 720,
+    facingMode: "environment"
+  };
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -92,7 +126,7 @@ const Deteksi = () => {
       setDetectionResult(null);
       setError(null);
       if (isCameraOpen) {
-        stopCamera();
+        setIsCameraOpen(false);
       }
     }
   };
@@ -129,64 +163,21 @@ const Deteksi = () => {
     }
   };
 
-  // New functions for camera
-  const startCamera = async () => {
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-        setStream(stream);
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-        }
-        setIsCameraOpen(true);
-        setSelectedImage(null);
-        setPreviewUrl(null);
-        setDetectionResult(null);
-        setError(null);
-      } catch (err) {
-        console.error("Error accessing camera: ", err);
-        setError("Tidak dapat mengakses kamera. Pastikan Anda telah memberikan izin.");
-        setIsCameraOpen(false);
-      }
-    } else {
-      setError("Kamera tidak didukung oleh browser ini.");
-    }
-  };
-
-  const stopCamera = () => {
-    if (stream) {
-      stream.getTracks().forEach(track => track.stop());
-    }
-    setStream(null);
-    setIsCameraOpen(false);
-  };
-
   const handleCapture = () => {
-    if (videoRef.current && canvasRef.current) {
-      const video = videoRef.current;
-      const canvas = canvasRef.current;
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      const context = canvas.getContext('2d');
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
-      canvas.toBlob((blob) => {
-        if (blob.size > 5 * 1024 * 1024) { // 5MB limit
-          alert('Ukuran file terlalu besar. Maksimal 5MB.');
-          return;
-        }
-        const file = new File([blob], "capture.jpg", { type: "image/jpeg" });
-        setSelectedImage(file);
-        setPreviewUrl(URL.createObjectURL(file));
-        stopCamera();
-      }, 'image/jpeg');
-    }
-  };
-
-  const toggleCamera = () => {
-    if (isCameraOpen) {
-      stopCamera();
-    } else {
-      startCamera();
+    const imageSrc = webcamRef.current?.getScreenshot();
+    if (imageSrc) {
+      fetch(imageSrc)
+        .then(res => res.blob())
+        .then(blob => {
+          const file = new File([blob], "capture.jpg", { type: "image/jpeg" });
+          if (file.size > 5 * 1024 * 1024) {
+            alert('Ukuran file terlalu besar. Maksimal 5MB.');
+            return;
+          }
+          setSelectedImage(file);
+          setPreviewUrl(imageSrc);
+          setIsCameraOpen(false);
+        });
     }
   };
 
@@ -213,37 +204,52 @@ const Deteksi = () => {
 
               {/* Camera Section */}
               <div className="mb-4 sm:mb-8">
-                <div className="flex justify-center mb-4">
+                <div className="flex justify-center gap-4 mb-4">
                   <button
-                    onClick={toggleCamera}
+                    onClick={() => setIsCameraOpen(!isCameraOpen)}
                     className={`px-4 sm:px-6 py-2 rounded-full flex items-center gap-2 text-sm sm:text-base ${isCameraOpen
-                        ? 'bg-red-600 hover:bg-red-700 text-white'
-                        : 'bg-[#2e7d32] hover:bg-[#1b5e20] text-white'
+                      ? 'bg-red-600 hover:bg-red-700 text-white'
+                      : 'bg-[#2e7d32] hover:bg-[#1b5e20] text-white'
                       }`}
                   >
                     {isCameraOpen ? 'Tutup Kamera' : 'Buka Kamera'}
                   </button>
+
+                  {/* Camera Selection Dropdown */}
+                  {isCameraOpen && devices.length > 1 && (
+                    <select
+                      value={selectedDevice?.deviceId || ''}
+                      onChange={(e) => {
+                        const device = devices.find(d => d.deviceId === e.target.value);
+                        setSelectedDevice(device);
+                      }}
+                      className="px-4 py-2 rounded-lg border border-gray-300 text-sm"
+                    >
+                      {devices.map((device, index) => (
+                        <option key={device.deviceId} value={device.deviceId}>
+                          {device.label || `Kamera ${index + 1}`}
+                        </option>
+                      ))}
+                    </select>
+                  )}
                 </div>
 
                 {/* Camera View */}
                 {isCameraOpen && (
-                  <div className="mb-4">
-                    <video ref={videoRef} autoPlay playsInline className="w-full rounded-lg border border-gray-300 mb-2"></video>
-                    <canvas ref={canvasRef} className="hidden"></canvas>
-                    <div className="flex justify-center gap-4">
-                      <button
-                        onClick={handleCapture}
-                        className="px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600"
-                      >
-                        Ambil Gambar
-                      </button>
-                      <button
-                        onClick={stopCamera}
-                        className="px-6 py-2 bg-red-500 text-white rounded-full hover:bg-red-600"
-                      >
-                        Tutup Kamera
-                      </button>
-                    </div>
+                  <div className="relative w-full aspect-video mb-4 bg-black rounded-lg overflow-hidden">
+                    <Webcam
+                      audio={false}
+                      ref={webcamRef}
+                      screenshotFormat="image/jpeg"
+                      videoConstraints={videoConstraints}
+                      className="w-full h-full object-cover"
+                    />
+                    <button
+                      onClick={handleCapture}
+                      className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white rounded-full p-4 shadow-lg hover:bg-gray-100"
+                    >
+                      <div className="w-12 h-12 rounded-full border-4 border-gray-800" />
+                    </button>
                   </div>
                 )}
 
@@ -330,7 +336,7 @@ const Deteksi = () => {
                     setPreviewUrl(null);
                     setDetectionResult(null);
                     setError(null);
-                    if (isCameraOpen) stopCamera();
+                    if (isCameraOpen) setIsCameraOpen(false);
                   }}
                   className="px-4 sm:px-6 py-2 border border-[#2e7d32] text-[#2e7d32] rounded-full hover:bg-[#f0f9f0] text-sm sm:text-base"
                 >
@@ -340,8 +346,8 @@ const Deteksi = () => {
                   onClick={handleUpload}
                   disabled={(!selectedImage && !isCameraOpen) || isLoading}
                   className={`px-6 py-2 rounded-full flex items-center gap-2 ${(!selectedImage && !isCameraOpen) || isLoading
-                      ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                      : 'bg-[#2e7d32] text-white hover:bg-[#1b5e20]'
+                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    : 'bg-[#2e7d32] text-white hover:bg-[#1b5e20]'
                     }`}
                 >
                   {isLoading ? (
