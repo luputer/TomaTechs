@@ -41,9 +41,9 @@ const teamMembers = [
         department: "Ilmu Perpustakaan",
         quote: "Design is not just what it looks like, design is how it works",
         social: {
-            linkedin: "https://linkedin.com/in/ulfiani",
-            github: "https://github.com/ulfiani",
-            instagram: "https://instagram.com/ulfiani"
+            linkedin: "https://linkedin.com/in/ulfiani-latifah-759a98217",
+            github: "https://github.com/ulfi-latif",
+            instagram: "https://instagram.com/viani_latte.f"
         }
     },
 ];
@@ -99,12 +99,19 @@ const Team = () => {
             <Navbar />
             <div className="container mx-auto px-4 py-8 md:py-12 lg:py-16">
                 {/* Team Header */}
-                <div className="flex flex-col items-center justify-center mb-8 md:mb-12">
+                <div className="flex flex-col items-center justify-center mb-8 md:mb-12 relative">
+                    {/* Leaf decoration - left */}
+                    <img
+                        src="/src/assets/daun12.png"
+                        alt="Leaf"
+                        className="absolute top-0 left-0 w-50 h-50 object-contain -rotate-45"
+                    />
+                    {/* Team Title */}
                     <motion.div
                         initial={{ opacity: 0, y: -30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7, type: "spring", bounce: 0.3 }}
-                        className="rounded-full bg-[#4d9300] shadow-2xl px-4 py-4 md:px-16 md:py-8 flex flex-col items-center"
+                        className="rounded-full bg-[#4d9300] shadow-2xl px-4 py-4 md:px-16 md:py-8 flex flex-col items-center z-10"
                         style={{ boxShadow: '0 12px 20px 0 rgba(0,0,0,0.30)' }}
                     >
                         <span className="text-white text-lg md:text-3xl font-bold text-center leading-tight">
@@ -112,9 +119,13 @@ const Team = () => {
                             <span className="text-white text-base md:text-xl font-semibold">Group ID : CC25-CF191</span>
                         </span>
                     </motion.div>
+                    {/* Leaf decoration - right */}
+                    <img
+                        src="/src/assets/daun12.png"
+                        alt="Leaf"
+                        className="absolute top-0 right-0 w-32 h-32 object-contain rotate-45"
+                    />
                 </div>
-
-                {/* Frontend & Backend Team */}
                 <div className="mb-12 md:mb-16">
                     <div className="relative flex flex-col items-center">
                         <div className="w-full bg-white rounded-xl shadow-2xl pt-0 pb-4 px-4 md:px-8 mt-4">

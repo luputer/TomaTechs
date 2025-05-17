@@ -11,4 +11,8 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  // server: {
+  //   host: true,          // agar bisa diakses dari host lain (ngrok)
+  //   allowedHosts: ['*'], // izinkan semua host, termasuk ngrok
+  // },
 })
