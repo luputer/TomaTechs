@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router';
+import { Route, Routes, useLocation } from 'react-router';
 import './App.css';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
@@ -14,11 +14,14 @@ import Team from './pages/Team';
 import TomaChat from './pages/TomaChat';
 
 const App = () => {
+  const location = useLocation();
+  const isAuthPage = ['/dashboard', '/deteksi', '/history', '/forum'].includes(location.pathname);
+
   return (
     <AuthProvider>
       <div className="min-h-screen bg-background text-foreground">
-        <Navbar />
-        <main className="pt-16 min-h-[calc(100vh-4rem)]">
+        {!isAuthPage && <Navbar />}
+        <main className={!isAuthPage ? "pt-16 min-h-[calc(100vh-4rem)]" : "min-h-screen"}>
           <Routes>
             <Route path="/" element={<Homepage />} />
             <Route path="/Team" element={<Team />} />
@@ -46,7 +49,7 @@ const App = () => {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
-        <Footer />
+        {!isAuthPage && <Footer />}
       </div>
     </AuthProvider>
   );

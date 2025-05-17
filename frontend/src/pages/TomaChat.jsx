@@ -4,6 +4,8 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import Sidebar from '../components/Sidebar';
 import { useAuth } from '../context/AuthContext';
+import { format } from 'date-fns';
+import { id } from 'date-fns/locale';
 
 const TomaChat = () => {
     const { user } = useAuth();
@@ -11,7 +13,7 @@ const TomaChat = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [messages, setMessages] = useState([
         {
-            id: 1,
+            id: 'welcome',
             text: "Halo! Saya TomaBot, asisten virtual untuk membantu Anda dengan pertanyaan seputar budidaya tomat. Apa yang ingin Anda tanyakan?",
             sender: 'bot'
         }
@@ -26,13 +28,44 @@ const TomaChat = () => {
         scrollToBottom();
     }, [messages]);
 
+    // Load chat history when component mounts
+    useEffect(() => {
+        const loadChatHistory = async () => {
+            if (!user?.id) return;
+
+            try {
+                setIsLoading(true);
+                const response = await fetch(`http://localhost:8080/chat_history/${user.id}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch chat history');
+                }
+                const data = await response.json();
+
+                if (Array.isArray(data)) {
+                    console.log('Received chat history:', data); // Debug log
+                    // Sort messages by timestamp if needed
+                    const sortedMessages = data.sort((a, b) =>
+                        new Date(a.timestamp) - new Date(b.timestamp)
+                    );
+                    setMessages(prev => [prev[0], ...sortedMessages]); // Keep welcome message and add history
+                }
+            } catch (error) {
+                console.error('Error loading chat history:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        loadChatHistory();
+    }, [user?.id]);
+
     const handleSendMessage = async (e) => {
         e.preventDefault();
-        if (!message.trim()) return;
+        if (!message.trim() || !user?.id) return;
 
         // Add user message
         const userMessage = {
-            id: messages.length + 1,
+            id: Date.now(),
             text: message,
             sender: 'user'
         };
@@ -46,14 +79,17 @@ const TomaChat = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ message: message.trim() })
+                body: JSON.stringify({
+                    message: message.trim(),
+                    user_id: user.id
+                })
             });
 
             const data = await response.json();
 
             // Add bot response
             const botResponse = {
-                id: messages.length + 2,
+                id: Date.now() + 1,
                 text: data.response,
                 sender: 'bot'
             };
@@ -62,13 +98,23 @@ const TomaChat = () => {
             console.error('Error:', error);
             // Add error message
             const errorResponse = {
-                id: messages.length + 2,
+                id: Date.now() + 1,
                 text: "Maaf, terjadi kesalahan dalam memproses permintaan Anda. Silakan coba lagi.",
                 sender: 'bot'
             };
             setMessages(prev => [...prev, errorResponse]);
         } finally {
             setIsLoading(false);
+        }
+    };
+
+    const formatMessageTime = (timestamp) => {
+        if (!timestamp) return '';
+        try {
+            return format(new Date(timestamp), "d MMMM yyyy 'pukul' HH.mm", { locale: id });
+        } catch (error) {
+            console.error('Error formatting date:', error);
+            return '';
         }
     };
 
@@ -91,7 +137,7 @@ const TomaChat = () => {
                                 {messages.map((msg) => (
                                     <div
                                         key={msg.id}
-                                        className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                                        className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}
                                     >
                                         <div
                                             className={`max-w-[75%] rounded-xl p-3 sm:p-4 text-sm sm:text-base shadow-sm ${msg.sender === 'user'
@@ -103,6 +149,9 @@ const TomaChat = () => {
                                                 {msg.text}
                                             </ReactMarkdown>
                                         </div>
+                                        <span className="text-xs text-gray-500 mt-1 px-1">
+                                            {formatMessageTime(msg.timestamp)}
+                                        </span>
                                     </div>
                                 ))}
                                 {isLoading && (
@@ -123,11 +172,11 @@ const TomaChat = () => {
                                     onChange={(e) => setMessage(e.target.value)}
                                     placeholder="Ketik pesan Anda di sini..."
                                     className="flex-1 p-3 sm:p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-shadow"
-                                    disabled={isLoading}
+                                    disabled={isLoading || !user?.id}
                                 />
                                 <button
                                     type="submit"
-                                    disabled={!message.trim() || isLoading}
+                                    disabled={!message.trim() || isLoading || !user?.id}
                                     className="bg-green-600 text-white p-3 sm:p-4 rounded-xl hover:bg-green-700 transition-colors flex items-center justify-center shadow-md disabled:bg-gray-300 disabled:cursor-not-allowed"
                                 >
                                     <Send className="w-5 h-5 sm:w-6 sm:h-6" />

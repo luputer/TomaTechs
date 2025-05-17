@@ -1,0 +1,17 @@
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animation-delay-150 {
+    animation-delay: 150ms;
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}

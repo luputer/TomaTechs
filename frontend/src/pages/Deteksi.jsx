@@ -19,35 +19,64 @@ const Deteksi = () => {
 
   // Mapping penyakit ke deskripsi dan penanganan
   const diseaseInfo = {
+    'Tomato_mosaic_virus': {
+      name: 'Virus Mosaik Tomat (ToMV)',
+      description: 'Penyakit yang disebabkan oleh Tomato Mosaic Virus, ditularkan melalui benih, tangan manusia, alat pertanian, dan tanaman inang lain. Virus dapat bertahan lama di tanah dan sisa tanaman.',
+      treatment: 'Penanganan yang disarankan:\n' +
+        '1. Gunakan benih bebas virus (bersertifikat)\n' +
+        '2. Disinfeksi alat dan tangan sebelum menyentuh tanaman\n' +
+        '3. Singkirkan dan bakar tanaman yang terinfeksi\n' +
+        '4. Hindari merokok saat menangani tanaman\n' +
+        '5. Rotasi tanaman dengan non-inang'
+    },
+    'Target_Spot': {
+      name: 'Bercak Target (Target Spot)',
+      description: 'Penyakit yang disebabkan oleh jamur Corynespora cassiicola, menyebar melalui udara, percikan air hujan, dan alat yang terkontaminasi. Menyebabkan bercak coklat dengan lingkaran konsentris pada daun.',
+      treatment: 'Penanganan yang disarankan:\n' +
+        '1. Gunakan varietas tahan penyakit jika tersedia\n' +
+        '2. Pangkas dan buang daun yang terinfeksi\n' +
+        '3. Tingkatkan sirkulasi udara\n' +
+        '4. Semprot fungisida yang sesuai\n' +
+        '5. Lakukan rotasi tanaman'
+    },
+    'Bacterial_spot': {
+      name: 'Bercak Bakteri (Bacterial Spot)',
+      description: 'Penyakit yang disebabkan oleh bakteri Xanthomonas campestris pv. vesicatoria, menyebar melalui benih, air, dan kontak alat/pekerja. Menyebabkan bercak kecil berwarna coklat kehitaman pada daun dan buah.',
+      treatment: 'Penanganan yang disarankan:\n' +
+        '1. Gunakan benih bebas patogen\n' +
+        '2. Semprot bakterisida berbahan dasar tembaga\n' +
+        '3. Hindari penyiraman dari atas\n' +
+        '4. Rotasi tanaman minimal 2 tahun\n' +
+        '5. Bakar sisa tanaman setelah panen'
+    },
     'Early_blight': {
       name: 'Hawar Daun Dini (Early Blight)',
-      description: 'Penyakit yang disebabkan oleh jamur Alternaria solani, menyebabkan bercak coklat berbentuk konsentris pada daun.',
+      description: 'Penyakit yang disebabkan oleh jamur Alternaria solani. Umum terjadi pada kondisi lembap dan suhu hangat. Menyebar melalui cipratan air hujan/irigrasi dari tanah dan residu tanaman yang terinfeksi. Menyebabkan bercak coklat tua dengan lingkaran konsentris seperti target di daun tua.',
       treatment: 'Penanganan yang disarankan:\n' +
-        '1. Rotasi tanaman dengan tanaman non-solanaceae\n' +
-        '2. Pemangkasan daun yang terinfeksi\n' +
-        '3. Aplikasi fungisida yang sesuai\n' +
-        '4. Menjaga sirkulasi udara yang baik\n' +
-        '5. Hindari penyiraman dari atas tanaman'
+        '1. Sanitasi: Buang daun yang terinfeksi dan sisa tanaman setelah panen\n' +
+        '2. Rotasi tanaman: Hindari menanam tomat atau kentang di tempat yang sama selama 2–3 tahun\n' +
+        '3. Mulsa tanah: Cegah cipratan air tanah ke daun\n' +
+        '4. Fungisida: Gunakan fungisida berbahan aktif seperti chlorothalonil, mancozeb, atau copper-based fungicides\n' +
+        '5. Varietas tahan: Gunakan varietas tomat yang tahan terhadap Early Blight jika tersedia'
     },
-    'Late_blight': {
-      name: 'Hawar Daun Akhir (Late Blight)',
-      description: 'Penyakit yang disebabkan oleh Phytophthora infestans, menyebabkan bercak coklat kehitaman dengan tepian berwarna hijau pucat.',
+    'Spider_mites': {
+      name: 'Tungau Laba-laba (Two-Spotted Spider Mite)',
+      description: 'Hama tungau kecil yang hidup di bawah daun dan mengisap cairan sel tanaman. Menyukai kondisi panas dan kering. Menyebabkan bercak kuning kecil (stippling) di daun dan jaring halus (webbing) di bawah daun.',
       treatment: 'Penanganan yang disarankan:\n' +
-        '1. Gunakan fungisida preventif\n' +
-        '2. Hindari kelembaban tinggi\n' +
-        '3. Buang tanaman yang terinfeksi\n' +
-        '4. Pastikan drainase yang baik\n' +
-        '5. Gunakan varietas tahan penyakit'
+        '1. Air semprot: Semprotkan air tekanan tinggi ke daun bagian bawah\n' +
+        '2. Predator alami: Gunakan musuh alami seperti Phytoseiulus persimilis\n' +
+        '3. Insektisida selektif: Gunakan mitisida seperti abamectin, spinosad, atau neem oil\n' +
+        '4. Pengelolaan lingkungan: Jaga kelembapan agar tidak terlalu kering'
     },
-    'Healthy': {
-      name: 'Daun Sehat',
-      description: 'Daun tomat dalam kondisi sehat tanpa gejala penyakit.',
-      treatment: 'Pertahankan perawatan yang baik:\n' +
-        '1. Penyiraman teratur\n' +
-        '2. Pemupukan seimbang\n' +
-        '3. Pemangkasan rutin\n' +
-        '4. Pengendalian hama preventif\n' +
-        '5. Menjaga kebersihan kebun'
+    'Septoria_leaf_spot': {
+      name: 'Bercak Daun Septoria (Septoria Leaf Spot)',
+      description: 'Penyakit yang disebabkan oleh jamur Septoria lycopersici. Menyukai lingkungan lembap dan hangat, sering muncul saat tanaman mulai berbunga. Menyebabkan bercak kecil bulat, coklat keabu-abuan dengan tepi gelap di daun bagian bawah.',
+      treatment: 'Penanganan yang disarankan:\n' +
+        '1. Sanitasi: Buang daun yang terinfeksi dan sisa tanaman secara menyeluruh\n' +
+        '2. Penyiraman tepat: Hindari membasahi daun saat menyiram\n' +
+        '3. Rotasi tanaman: Hindari menanam tomat di lokasi yang sama setiap tahun\n' +
+        '4. Fungisida: Gunakan fungisida seperti chlorothalonil, copper fungicides, atau mancozeb\n' +
+        '5. Ventilasi baik: Beri jarak antar tanaman untuk meningkatkan sirkulasi udara'
     }
   };
 
@@ -195,7 +224,7 @@ const Deteksi = () => {
                     <video ref={videoRef} autoPlay playsInline className="w-full rounded-lg border border-gray-300 mb-2"></video>
                     <canvas ref={canvasRef} className="hidden"></canvas>
                     <div className="flex justify-center gap-4">
-                       <button
+                      <button
                         onClick={handleCapture}
                         className="px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600"
                       >
@@ -315,11 +344,10 @@ const Deteksi = () => {
                 <button
                   onClick={handleUpload}
                   disabled={(!selectedImage && !isCameraOpen) || isLoading}
-                  className={`px-6 py-2 rounded-full flex items-center gap-2 ${
-                    (!selectedImage && !isCameraOpen) || isLoading
+                  className={`px-6 py-2 rounded-full flex items-center gap-2 ${(!selectedImage && !isCameraOpen) || isLoading
                       ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                       : 'bg-[#2e7d32] text-white hover:bg-[#1b5e20]'
-                  }`}
+                    }`}
                 >
                   {isLoading ? (
                     <>
