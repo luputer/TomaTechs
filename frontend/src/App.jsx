@@ -1,7 +1,7 @@
 import { Route, Routes, useLocation } from 'react-router';
 import './App.css';
 import Footer from './components/Footer';
-import Navbar from './components/Navbar';
+import Navbar from './components/navbar';
 import PrivateRoute from './components/PrivateRoute';
 import { AuthProvider } from './context/AuthContext';
 import About from './pages/About';

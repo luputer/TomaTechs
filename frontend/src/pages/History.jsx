@@ -43,62 +43,62 @@ const History = () => {
         'Tomato_mosaic_virus': {
             name: 'Virus Mosaik Tomat (ToMV)',
             description: 'Penyakit yang disebabkan oleh Tomato Mosaic Virus, ditularkan melalui benih, tangan manusia, alat pertanian, dan tanaman inang lain. Virus dapat bertahan lama di tanah dan sisa tanaman.',
-            // treatment: 'Penanganan yang disarankan:\n' +
-            //     '1. Gunakan benih bebas virus (bersertifikat)\n' +
-            //     '2. Disinfeksi alat dan tangan sebelum menyentuh tanaman\n' +
-            //     '3. Singkirkan dan bakar tanaman yang terinfeksi\n' +
-            //     '4. Hindari merokok saat menangani tanaman\n' +
-            //     '5. Rotasi tanaman dengan non-inang'
+            treatment: 'Penanganan yang disarankan:\n' +
+                '1. Gunakan benih bebas virus (bersertifikat)\n' +
+                '2. Disinfeksi alat dan tangan sebelum menyentuh tanaman\n' +
+                '3. Singkirkan dan bakar tanaman yang terinfeksi\n' +
+                '4. Hindari merokok saat menangani tanaman\n' +
+                '5. Rotasi tanaman dengan non-inang'
         },
         'Target_Spot': {
             name: 'Bercak Target (Target Spot)',
             description: 'Penyakit yang disebabkan oleh jamur Corynespora cassiicola, menyebar melalui udara, percikan air hujan, dan alat yang terkontaminasi. Menyebabkan bercak coklat dengan lingkaran konsentris pada daun.',
-            // treatment: 'Penanganan yang disarankan:\n' +
-            //     '1. Gunakan varietas tahan penyakit jika tersedia\n' +
-            //     '2. Pangkas dan buang daun yang terinfeksi\n' +
-            //     '3. Tingkatkan sirkulasi udara\n' +
-            //     '4. Semprot fungisida yang sesuai\n' +
-            //     '5. Lakukan rotasi tanaman'
+            treatment: 'Penanganan yang disarankan:\n' +
+                '1. Gunakan varietas tahan penyakit jika tersedia\n' +
+                '2. Pangkas dan buang daun yang terinfeksi\n' +
+                '3. Tingkatkan sirkulasi udara\n' +
+                '4. Semprot fungisida yang sesuai\n' +
+                '5. Lakukan rotasi tanaman'
         },
         'Bacterial_spot': {
             name: 'Bercak Bakteri (Bacterial Spot)',
             description: 'Penyakit yang disebabkan oleh bakteri Xanthomonas campestris pv. vesicatoria, menyebar melalui benih, air, dan kontak alat/pekerja. Menyebabkan bercak kecil berwarna coklat kehitaman pada daun dan buah.',
-            // treatment: 'Penanganan yang disarankan:\n' +
-            //     '1. Gunakan benih bebas patogen\n' +
-            //     '2. Semprot bakterisida berbahan dasar tembaga\n' +
-            //     '3. Hindari penyiraman dari atas\n' +
-            //     '4. Rotasi tanaman minimal 2 tahun\n' +
-            //     '5. Bakar sisa tanaman setelah panen'
+            treatment: 'Penanganan yang disarankan:\n' +
+                '1. Gunakan benih bebas patogen\n' +
+                '2. Semprot bakterisida berbahan dasar tembaga\n' +
+                '3. Hindari penyiraman dari atas\n' +
+                '4. Rotasi tanaman minimal 2 tahun\n' +
+                '5. Bakar sisa tanaman setelah panen'
         },
         'Early_blight': {
             name: 'Hawar Dini (Early Blight)',
             description: 'Penyakit yang disebabkan oleh jamur Alternaria solani. Umum terjadi pada kondisi lembap dan suhu hangat. Menyebar melalui cipratan air hujan/irigrasi dari tanah dan residu tanaman yang terinfeksi. Menyebabkan bercak coklat tua dengan lingkaran konsentris seperti target di daun tua.',
-            // treatment: 'Penanganan yang disarankan:\n' +
-            //     '1. Sanitasi: Buang daun yang terinfeksi dan sisa tanaman setelah panen\n' +
-            //     '2. Rotasi tanaman: Hindari menanam tomat atau kentang di tempat yang sama selama 2–3 tahun\n' +
-            //     '3. Mulsa tanah: Cegah cipratan air tanah ke daun\n' +
-            //     '4. Fungisida: Gunakan fungisida berbahan aktif seperti chlorothalonil, mancozeb, atau copper-based fungicides\n' +
-            //     '5. Varietas tahan: Gunakan varietas tomat yang tahan terhadap Early Blight'
+            treatment: 'Penanganan yang disarankan:\n' +
+                '1. Sanitasi: Buang daun yang terinfeksi dan sisa tanaman setelah panen\n' +
+                '2. Rotasi tanaman: Hindari menanam tomat atau kentang di tempat yang sama selama 2–3 tahun\n' +
+                '3. Mulsa tanah: Cegah cipratan air tanah ke daun\n' +
+                '4. Fungisida: Gunakan fungisida berbahan aktif seperti chlorothalonil, mancozeb, atau copper-based fungicides\n' +
+                '5. Varietas tahan: Gunakan varietas tomat yang tahan terhadap Early Blight'
         },
         'Spider_mites Two-spotted_spider_mite': {
             name: 'Tungau Laba-laba (Two-Spotted Spider Mite)',
             description: 'Hama tungau kecil yang hidup di bawah daun dan mengisap cairan sel tanaman. Menyukai kondisi panas dan kering. Menyebabkan bercak kuning kecil (stippling) di daun dan jaring halus (webbing) di bawah daun.',
-            // treatment: 'Penanganan yang disarankan:\n' +
-            //     '1. Air semprot: Semprotkan air tekanan tinggi ke daun bagian bawah\n' +
-            //     '2. Predator alami: Gunakan musuh alami seperti Phytoseiulus persimilis\n' +
-            //     '3. Insektisida selektif: Gunakan mitisida seperti abamectin, spinosad, atau neem oil\n' +
-            //     '4. Pengelolaan lingkungan: Jaga kelembapan agar tidak terlalu kering\n' +
-            //     '5. Monitoring: Periksa tanaman secara rutin untuk deteksi dini'
+            treatment: 'Penanganan yang disarankan:\n' +
+                '1. Air semprot: Semprotkan air tekanan tinggi ke daun bagian bawah\n' +
+                '2. Predator alami: Gunakan musuh alami seperti Phytoseiulus persimilis\n' +
+                '3. Insektisida selektif: Gunakan mitisida seperti abamectin, spinosad, atau neem oil\n' +
+                '4. Pengelolaan lingkungan: Jaga kelembapan agar tidak terlalu kering\n' +
+                '5. Monitoring: Periksa tanaman secara rutin untuk deteksi dini'
         },
         'Septoria_leaf_spot': {
             name: 'Bercak Septoria (Septoria Leaf Spot)',
             description: 'Penyakit yang disebabkan oleh jamur Septoria lycopersici. Menyukai lingkungan lembap dan hangat, sering muncul saat tanaman mulai berbunga. Menyebabkan bercak kecil bulat, coklat keabu-abuan dengan tepi gelap di daun bagian bawah.',
-            // treatment: 'Penanganan yang disarankan:\n' +
-            //     '1. Sanitasi: Buang daun yang terinfeksi dan sisa tanaman secara menyeluruh\n' +
-            //     '2. Penyiraman tepat: Hindari membasahi daun saat menyiram\n' +
-            //     '3. Rotasi tanaman: Hindari menanam tomat di lokasi yang sama setiap tahun\n' +
-            //     '4. Fungisida: Gunakan fungisida seperti chlorothalonil, copper fungicides, atau mancozeb\n' +
-            //     '5. Ventilasi baik: Beri jarak antar tanaman untuk meningkatkan sirkulasi udara'
+            treatment: 'Penanganan yang disarankan:\n' +
+                '1. Sanitasi: Buang daun yang terinfeksi dan sisa tanaman secara menyeluruh\n' +
+                '2. Penyiraman tepat: Hindari membasahi daun saat menyiram\n' +
+                '3. Rotasi tanaman: Hindari menanam tomat di lokasi yang sama setiap tahun\n' +
+                '4. Fungisida: Gunakan fungisida seperti chlorothalonil, copper fungicides, atau mancozeb\n' +
+                '5. Ventilasi baik: Beri jarak antar tanaman untuk meningkatkan sirkulasi udara'
         }
     };
 
