@@ -1,12 +1,11 @@
-
 import { cn } from "@/lib/utils";
 
-import React, {
-  createContext,
-  useState,
-  useContext,
-  useRef,
-  useEffect,
+import {
+    createContext,
+    useContext,
+    useEffect,
+    useRef,
+    useState,
 } from "react";
 
 const MouseEnterContext = createContext(undefined);
@@ -41,7 +40,7 @@ export const CardContainer = ({
   return (
     (<MouseEnterContext.Provider value={[isMouseEntered, setIsMouseEntered]}>
       <div
-        className={cn("py-20 flex items-center justify-center", containerClassName)}
+        className={cn("py-4 md:py-8 lg:py-12 flex items-center justify-center", containerClassName)}
         style={{
           perspective: "1000px",
         }}>

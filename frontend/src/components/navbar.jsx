@@ -1,12 +1,16 @@
-import { Link } from 'react-router';
+import { Menu, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { useAuth } from '../context/AuthContext';
 import { Button } from './ui/button';
 import { FloatingNav } from './ui/floating-navbar';
-import { useState, useEffect } from 'react';
 
 const Navbar = () => {
     const { user, login, logout } = useAuth();
     const [isScrolled, setIsScrolled] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -29,69 +33,96 @@ const Navbar = () => {
         }
     };
 
+    const handleAboutClick = (e) => {
+        e.preventDefault();
+        if (location.pathname !== '/') {
+            navigate('/');
+            // Tunggu navigasi selesai baru scroll ke about
+            setTimeout(() => {
+                const aboutSection = document.getElementById('about');
+                if (aboutSection) {
+                    aboutSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 100);
+        } else {
+            const aboutSection = document.getElementById('about');
+            if (aboutSection) {
+                aboutSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        setIsMobileMenuOpen(false);
+    };
+
     const navItems = [
         {
             name: "Beranda",
             link: "/",
+            icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+            )
         },
         {
             name: "Tentang",
             link: "#about",
+            icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none" />
+                    <path d="M12 16v-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                    <circle cx="12" cy="8" r="1" fill="currentColor" />
+                </svg>
+            )
         },
         {
             name: "Team",
             link: "/team",
-        },
-        {
-            name: "Kontak",
-            link: "/contact",
+            icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m9-4a4 4 0 11-8 0 4 4 0 018 0zm6 4a4 4 0 00-3-3.87M6 10a4 4 0 00-3 3.87" />
+                </svg>
+            )
         }
     ];
 
     return (
         <>
-            {isScrolled && <FloatingNav navItems={navItems} />}
-            <nav className={`shadow-md bg-[#D9D9D9] fixed w-full top-0 z-40 transition-all duration-300 ${isScrolled ? '-translate-y-full' : 'translate-y-0'}`}>
+            {isScrolled && !user && <FloatingNav navItems={navItems} />}
+            <nav className={`shadow-md bg-[#D9D9D9] fixed w-full top-0 z-40 transition-all duration-300 ${isScrolled && !user ? '-translate-y-full' : 'translate-y-0'}`}>
                 <div className="container mx-auto px-4">
                     <div className="flex justify-between items-center h-16">
                         {/* Logo and Brand */}
                         <Link to="/" className="flex items-center">
-                            <img src="/src/assets/logo.png" alt="TomaTech" className="h-20 w-20" />
-                            <span className="text-2xl font-bold">TomaTech</span>
+                            <img src="/src/assets/logo.png" alt="TomaTech" className="h-16 w-16 md:h-20 md:w-20" />
+                            <span className="text-xl md:text-2xl font-bold">TomaTech</span>
                         </Link>
 
-                        {/* Navigation Links */}
-                        <div className="flex items-center gap-6">
-                            {!user && (
-                                <>
-                                    <Link to="/" className="flex items-center gap-2 text-gray-800 font-medium hover:text-green-700">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        {/* Mobile: Dashboard & Logout icon only if logged in */}
+                        {user ? (
+                            <>
+                                <div className="flex md:hidden items-center gap-6">
+                                    <Link to="/dashboard" aria-label="Dashboard" className="text-gray-700 hover:text-[#478800] p-2 rounded-full">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                                         </svg>
-                                        Beranda
                                     </Link>
-                                    <a href="#about" className="flex items-center gap-2 text-gray-800 font-medium hover:text-green-700">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none" />
-                                            <path d="M12 16v-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                                            <circle cx="12" cy="8" r="1" fill="currentColor" />
+                                    <button
+                                        onClick={logout}
+                                        aria-label="Keluar"
+                                        className="text-red-600 hover:text-red-800 p-2 rounded-full"
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                                         </svg>
-                                        Tentang
-                                    </a>
-                                    <Link to="/team" className="flex items-center gap-2 text-gray-800 font-medium hover:text-green-700">
+                                    </button>
+                                </div>
+                                {/* Desktop Navigation for logged in user */}
+                                <div className="hidden md:flex items-center gap-6">
+                                    <Link to="/dashboard" className="text-gray-600 hover:text-green-700 flex items-center gap-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m9-4a4 4 0 11-8 0 4 4 0 018 0zm6 4a4 4 0 00-3-3.87M6 10a4 4 0 00-3 3.87" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                                         </svg>
-                                        Team
-                                    </Link>
-                                </>
-                            )}
-                            {user ? (
-                                <>
-                                    <Link to="/dashboard" className="text-gray-600 hover:text-green-700">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                                        </svg>
+                                        <span className="font-medium">Dashboard</span>
                                     </Link>
                                     <button
                                         onClick={logout}
@@ -102,8 +133,44 @@ const Navbar = () => {
                                         </svg>
                                         Keluar
                                     </button>
+                                </div>
                                 </>
                             ) : (
+                            <>
+                                {/* Mobile Menu Button */}
+                                <button
+                                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                                    className="md:hidden p-2 rounded-lg hover:bg-gray-200 transition-colors"
+                                >
+                                    {isMobileMenuOpen ? (
+                                        <X className="h-6 w-6" />
+                                    ) : (
+                                        <Menu className="h-6 w-6" />
+                                    )}
+                                </button>
+                                {/* Desktop Navigation */}
+                                <div className="hidden md:flex items-center gap-6">
+                                    {navItems.map((item) => (
+                                        item.name === "Tentang" ? (
+                                            <button
+                                                key={item.name}
+                                                onClick={handleAboutClick}
+                                                className="flex items-center gap-2 text-gray-800 font-medium hover:text-green-700"
+                                            >
+                                                {item.icon}
+                                                {item.name}
+                                            </button>
+                                        ) : (
+                                            <Link
+                                                key={item.name}
+                                                to={item.link}
+                                                className="flex items-center gap-2 text-gray-800 font-medium hover:text-green-700"
+                                            >
+                                                {item.icon}
+                                                {item.name}
+                                            </Link>
+                                        )
+                                    ))}
                                 <Button
                                     variant={"default"}
                                     onClick={handleAuth}
@@ -114,6 +181,73 @@ const Navbar = () => {
                                         <circle cx="12" cy="9" r="4" stroke="white" strokeWidth="2" fill="none" />
                                         <path d="M4 19c0-2.5 3.5-4.5 8-4.5s8 2 8 4.5" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round" />
                                     </svg>
+                                    </Button>
+                                </div>
+                            </>
+                        )}
+                    </div>
+
+                    {/* Mobile Navigation */}
+                    <div className={`md:hidden transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+                        <div className="py-4 space-y-4">
+                            {user ? (
+                                <>
+                                    <Link
+                                        to="/dashboard"
+                                        className="block text-gray-700 hover:text-[#478800] transition-colors px-2 py-1 flex items-center gap-2"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        {/* Dashboard icon */}
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                                        </svg>
+                                        Dashboard
+                                    </Link>
+                                    <button
+                                        onClick={() => { logout(); setIsMobileMenuOpen(false); }}
+                                        className="block w-full text-left text-red-600 hover:text-red-800 transition-colors px-2 py-1 flex items-center gap-2"
+                                    >
+                                        {/* Logout icon */}
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                        </svg>
+                                        Keluar
+                                    </button>
+                                </>
+                            ) : (
+                                navItems.map((item) => (
+                                    item.name === "Tentang" ? (
+                                        <button
+                                            key={item.name}
+                                            onClick={handleAboutClick}
+                                            className="block w-full text-left text-gray-700 hover:text-[#478800] transition-colors px-2 py-1 flex items-center gap-2"
+                                        >
+                                            {item.icon}
+                                            {item.name}
+                                        </button>
+                                    ) : (
+                                        <Link
+                                            key={item.name}
+                                            to={item.link}
+                                            className="block text-gray-700 hover:text-[#478800] transition-colors px-2 py-1 flex items-center gap-2"
+                                            onClick={() => setIsMobileMenuOpen(false)}
+                                        >
+                                            {item.icon}
+                                            {item.name}
+                                        </Link>
+                                    )
+                                ))
+                            )}
+                            {!user && (
+                                <Button
+                                    onClick={() => {
+                                        handleAuth();
+                                        setIsMobileMenuOpen(false);
+                                    }}
+                                    variant="default"
+                                    className="w-full bg-[#478800] hover:bg-[#2e4a2f] text-white"
+                                >
+                                    Masuk
                                 </Button>
                             )}
                         </div>
