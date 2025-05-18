@@ -17,6 +17,7 @@ import NotFound from './pages/NotFound';
 import Team from './pages/Team';
 import TomaChat from './pages/TomaChat';
 import Contact from './pages/contact';
+import Chatbot from './components/Chatbot';
 
 const App = () => {
   const location = useLocation();
@@ -75,6 +76,7 @@ const App = () => {
           expand={false}
           richColors
         />
+        <Chatbot />
       </div>
     </AuthProvider>
   );

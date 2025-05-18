@@ -14,7 +14,7 @@ const TomaChat = () => {
     const [messages, setMessages] = useState([
         {
             id: 'welcome',
-            text: "Halo! Saya TomaBot, asisten virtual untuk membantu Anda dengan pertanyaan seputar budidaya tomat. Apa yang ingin Anda tanyakan?",
+            text: "Halo! Saya TomaChat, asisten virtual untuk membantu Anda dengan pertanyaan seputar tomat. Kami tidak bisa menjawab diluar topik tomat. Untuk pertanyaan seputar fitur, developer dan aplikasi silakan kunjungi [TomaHelp](/chats).",
             sender: 'bot'
         }
     ]);
