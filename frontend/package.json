@@ -36,6 +36,7 @@
     "react-router-dom": "^7.6.0",
     "react-type-animation": "^3.2.0",
     "react-webcam": "^7.2.0",
+    "recharts": "^2.15.3",
     "remark-gfm": "^4.0.1",
     "sonner": "^2.0.3",
     "tailwind-merge": "^3.2.0"
