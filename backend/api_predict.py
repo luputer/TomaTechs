@@ -8,7 +8,6 @@ from werkzeug.utils import secure_filename
 import logging
 from supabase import create_client
 from datetime import datetime
-import base64
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
@@ -385,8 +384,8 @@ def toma_chat():
         response.headers.add('Access-Control-Allow-Methods', 'POST, OPTIONS')
         return response
     try:
-    data = request.json
-    user_message = data.get("message")
+        data = request.json
+        user_message = data.get("message")
         user_id = data.get("user_id")
 
         if not user_id:
