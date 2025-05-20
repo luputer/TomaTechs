@@ -12,6 +12,7 @@ import base64
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
+import uuid
 
 
 # Load environment variables from .env file
@@ -287,7 +288,6 @@ def user_history(user_id):
         error_response.headers.add('Access-Control-Allow-Origin', '*')
         return error_response, 500
 
-
 @app.route("/delete/<prediction_id>", methods=["DELETE", "OPTIONS"])
 def delete_prediction(prediction_id):
     if request.method == "OPTIONS":
@@ -304,17 +304,12 @@ def delete_prediction(prediction_id):
         return jsonify({"error": "Database tidak tersedia"}), 500
 
     try:
-        # Convert prediction_id to integer
-        try:
-            prediction_id = int(prediction_id)
-        except ValueError:
-            logger.error(f"Invalid prediction ID format: {prediction_id}")
-            return jsonify({"error": "Format ID prediksi tidak valid"}), 400
-
         # Get user_id from request body
         try:
             data = request.get_json()
-            user_id = data.get('user_id') if data else None
+            user_id = data.get('user_id')
+            if not user_id:
+                return jsonify({"error": "User ID diperlukan"}), 400
             logger.info(f"Request user_id: {user_id}")
         except Exception as e:
             logger.error(f"Error parsing request JSON: {str(e)}")
@@ -324,45 +319,42 @@ def delete_prediction(prediction_id):
         get_result = supabase.table("predictions") \
             .select("*") \
             .eq("id", prediction_id) \
+            .eq("user_id", user_id) \
             .execute()
+            
+        logger.info(f"Get result: {get_result.data}")
             
         if not get_result.data:
             logger.warning(f"No prediction found with ID {prediction_id}")
             return jsonify({"error": "Data prediksi tidak ditemukan"}), 404
             
         prediction = get_result.data[0]
-        stored_user_id = prediction.get("user_id")
-        logger.info(f"Found prediction. Stored user_id: {stored_user_id}")
-
-        # If stored_user_id is not NULL, verify ownership
-        if stored_user_id is not None and stored_user_id != user_id:
-            logger.warning(f"Unauthorized access: stored_user_id={stored_user_id}, request_user_id={user_id}")
-            return jsonify({"error": "Anda tidak memiliki akses ke data ini"}), 403
 
         # Handle image deletion if exists
         image_url = prediction.get("image_url")
-        if image_url and "supabase" in image_url:
+        if image_url and supabase_bucket in image_url:
             try:
-                bucket_pos = image_url.find(supabase_bucket)
-                if bucket_pos != -1:
-                    path = image_url[bucket_pos + len(supabase_bucket) + 1:]
-                    logger.info(f"Deleting image from storage: {path}")
-                    supabase.storage.from_(supabase_bucket).remove([path])
+                # Extract the file path from the URL
+                file_path = image_url.split(f"{supabase_bucket}/")[-1]
+                logger.info(f"Attempting to delete image: {file_path}")
+                supabase.storage.from_(supabase_bucket).remove([file_path])
+                logger.info("Successfully deleted image from storage")
             except Exception as e:
                 logger.error(f"Error deleting image: {str(e)}")
-                # Continue with database deletion
+                # Continue with database deletion even if image deletion fails
 
         # Delete the database record
         try:
-            delete_query = supabase.table("predictions").delete().eq("id", prediction_id)
+            delete_result = supabase.table("predictions") \
+                .delete() \
+                .eq("id", prediction_id) \
+                .eq("user_id", user_id) \
+                .execute()
             
-            # Add user_id condition only if the stored prediction has a user_id
-            if stored_user_id is not None:
-                delete_query = delete_query.eq("user_id", user_id)
+            logger.info(f"Delete result: {delete_result}")
             
-            result = delete_query.execute()
-            
-            if result.data:
+            # Check if we got a valid response from Supabase
+            if delete_result and hasattr(delete_result, 'data') and isinstance(delete_result.data, list):
                 response = jsonify({
                     "success": True,
                     "message": "Data prediksi berhasil dihapus"
@@ -370,16 +362,16 @@ def delete_prediction(prediction_id):
                 response.headers.add('Access-Control-Allow-Origin', '*')
                 return response, 200
             else:
-                logger.error("Delete operation returned no data")
-                return jsonify({"error": "Gagal menghapus data"}), 500
+                logger.error("Invalid delete response format")
+                return jsonify({"error": "Format respons tidak valid"}), 500
 
         except Exception as e:
             logger.error(f"Database delete error: {str(e)}")
-            return jsonify({"error": "Gagal menghapus dari database"}), 500
+            return jsonify({"error": f"Gagal menghapus dari database: {str(e)}"}), 500
 
     except Exception as e:
         logger.error(f"Unexpected error: {str(e)}")
-        error_response = jsonify({"error": "Terjadi kesalahan saat menghapus prediksi"})
+        error_response = jsonify({"error": f"Terjadi kesalahan saat menghapus prediksi: {str(e)}"})
         error_response.headers.add('Access-Control-Allow-Origin', '*')
         return error_response, 500
 
@@ -392,17 +384,19 @@ def toma_chat():
         response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
         response.headers.add('Access-Control-Allow-Methods', 'POST, OPTIONS')
         return response
-
     try:
         data = request.json
         user_message = data.get("message")
-        
+        user_id = data.get("user_id")
+
+        if not user_id:
+            return jsonify({"error": "User ID is required"}), 400
+
         client = genai.Client(
             vertexai=True,
             project="231142263655",
             location="europe-central2",
         )
-
         model = "projects/231142263655/locations/europe-central2/endpoints/965551529094283264"
         contents = [
             types.Content(
@@ -411,7 +405,7 @@ def toma_chat():
                     types.Part(text=f"""
                     Kamu adalah asisten budidaya tomat yang sangat ahli. 
                     Jawablah pertanyaan pengguna berikut ini secara informatif:
-                    "{user_message}"
+    "{user_message}"
                     """)
                 ]
             )
@@ -441,6 +435,18 @@ def toma_chat():
             ],
         )
 
+        # Store user message in database
+        try:
+            user_message_data = {
+                "user_id": user_id,
+                "message": user_message,
+                "is_bot": False,
+                "role": "user"
+            }
+            supabase.table("chats").insert(user_message_data).execute()
+        except Exception as db_error:
+            logger.error(f"Error storing user message: {str(db_error)}")
+
         # Generate response and collect all chunks
         full_response = ""
         for chunk in client.models.generate_content_stream(
@@ -450,6 +456,18 @@ def toma_chat():
         ):
             if chunk.text:
                 full_response += chunk.text
+
+        # Store bot response in database
+        try:
+            bot_response_data = {
+                "user_id": user_id,
+                "message": full_response,
+                "is_bot": True,
+                "role": "assistant"
+            }
+            supabase.table("chats").insert(bot_response_data).execute()
+        except Exception as db_error:
+            logger.error(f"Error storing bot response: {str(db_error)}")
 
         # Create the response with CORS headers
         api_response = jsonify({"response": full_response})
@@ -462,6 +480,333 @@ def toma_chat():
         error_response.headers.add('Access-Control-Allow-Origin', '*')
         return error_response, 500
 
+@app.route("/chat_history/<user_id>", methods=["GET"])
+def chat_history(user_id):
+    try:
+        logger.info(f"Fetching chat history for user: {user_id}")
+        
+        # Fetch chat history for the user
+        response = supabase.table("chats") \
+            .select("*") \
+            .eq("user_id", user_id) \
+            .order("created_at", desc=False) \
+            .execute()
+            
+        logger.info(f"Raw Supabase response: {response.data}")
+
+        messages = []
+        for record in response.data:
+            messages.append({
+                "id": record["id"],
+                "text": record["message"],
+                "sender": "bot" if record["is_bot"] else "user",
+                "timestamp": record["created_at"]
+            })
+                
+        logger.info(f"Formatted messages: {messages}")
+
+        # Add CORS headers
+        response = jsonify(messages)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response, 200
+
+    except Exception as e:
+        logger.error(f"Error fetching chat history: {str(e)}")
+        error_response = jsonify({"error": str(e)})
+        error_response.headers.add('Access-Control-Allow-Origin', '*')
+        return error_response, 500
+
+@app.route("/cs_chat", methods=["POST", "OPTIONS"])
+def cs_chat():
+
+
+    if request.method == "OPTIONS":
+        response = jsonify({"message": "preflight"})
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+        response.headers.add('Access-Control-Allow-Methods', 'POST, OPTIONS')
+        return response
+
+    try:
+        data = request.json
+        if not data or 'messages' not in data:
+            return jsonify({"error": "No messages provided"}), 400
+            
+        messages = data.get("messages", [])
+        if not messages:
+            return jsonify({"error": "Empty messages array"}), 400
+
+        # Initialize Vertex AI client
+        client = genai.Client(
+            vertexai=True,
+            project="231142263655",
+            location="us-central1",
+        )
+
+        model = "projects/231142263655/locations/us-central1/endpoints/5311842928367239168"
+        
+        # Convert messages to Vertex AI format
+        contents = []
+        for msg in messages:
+            if msg.get("content"):
+                contents.append(
+                    types.Content(
+                        role=msg["role"],
+                        parts=[types.Part(text=msg["content"])]
+                    )
+                )
+
+        if not contents:
+            return jsonify({"error": "No valid message content"}), 400
+
+        # Store user's last message in database
+        try:
+            last_message = messages[-1]
+            user_message_data = {
+                "message": last_message["content"],
+                "is_bot": False,
+                "created_at": datetime.now().isoformat()
+            }
+            supabase.table("chat_history").insert(user_message_data).execute()
+        except Exception as db_error:
+            logger.error(f"Error storing user message: {str(db_error)}")
+
+        # Set up generation config
+        generate_content_config = types.GenerateContentConfig(
+            temperature=1,
+            top_p=0.95,
+            max_output_tokens=8192,
+            safety_settings=[
+                types.SafetySetting(
+                    category="HARM_CATEGORY_HATE_SPEECH",
+                    threshold="OFF"
+                ),
+                types.SafetySetting(
+                    category="HARM_CATEGORY_DANGEROUS_CONTENT",
+                    threshold="OFF"
+                ),
+                types.SafetySetting(
+                    category="HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                    threshold="OFF"
+                ),
+                types.SafetySetting(
+                    category="HARM_CATEGORY_HARASSMENT",
+                    threshold="OFF"
+                )
+            ],
+        )
+
+        # Generate response
+        try:
+            full_response = ""
+            for chunk in client.models.generate_content_stream(
+                model=model,
+                contents=contents,
+                config=generate_content_config,
+            ):
+                if chunk.text:
+                    full_response += chunk.text
+
+            # Store bot response in database
+            try:
+                bot_message_data = {
+                    "message": full_response,
+                    "is_bot": True,
+                    "created_at": datetime.now().isoformat()
+                }
+                supabase.table("chat_history").insert(bot_message_data).execute()
+            except Exception as db_error:
+                logger.error(f"Error storing bot response: {str(db_error)}")
+
+            response = jsonify({"response": full_response})
+            response.headers.add('Access-Control-Allow-Origin', '*')
+            return response
+
+        except Exception as vertex_error:
+            logger.error(f"Vertex AI error: {str(vertex_error)}")
+            return jsonify({"error": "Failed to generate response"}), 500
+
+    except Exception as e:
+        logger.error(f"Error in cs_chat: {str(e)}")
+        error_response = jsonify({"error": str(e)})
+        error_response.headers.add('Access-Control-Allow-Origin', '*')
+        return error_response, 500
+
+
+
+#route forum
+@app.route("/create_post", methods=["POST", "OPTIONS"])
+def create_post():
+    if request.method == "OPTIONS":
+        return "", 200
+    try:
+        data = request.json
+        user_id = data.get("user_id")
+        title = data.get("title")
+        content = data.get("content")
+        image_url = data.get("image_url")  # opsional
+
+        if not user_id or not title or not content:
+            return jsonify({"error": "Missing required fields"}), 400
+
+        new_post = {
+            "id": str(uuid.uuid4()),
+            "user_id": user_id,
+            "title": title,
+            "content": content,
+            "image_url": image_url,
+            "like_count": 0,
+            "unlike_count": 0,
+            "created_at": datetime.now().isoformat()
+        }
+
+        supabase.table("forum_posts").insert(new_post).execute()
+        return jsonify({"message": "Post berhasil dibuat", "post": new_post}), 201
+
+    except Exception as e:
+        logger.error(f"Error creating post: {str(e)}")
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/get_posts", methods=["GET"])
+def get_posts():
+    try:
+        response = supabase.table("forum_posts") \
+            .select("*") \
+            .order("created_at", desc=True) \
+            .execute()
+
+        return jsonify(response.data), 200
+
+    except Exception as e:
+        logger.error(f"Error fetching posts: {str(e)}")
+        return jsonify({"error": "Gagal mengambil daftar posting"}), 500
+
+@app.route("/post/<post_id>", methods=["GET"])
+def get_post(post_id):
+    try:
+        # Ambil detail posting
+        post_response = supabase.table("forum_posts") \
+            .select("*") \
+            .eq("id", post_id) \
+            .single() \
+            .execute()
+
+        # Ambil komentar
+        comment_response = supabase.table("forum_comments") \
+            .select("*") \
+            .eq("post_id", post_id) \
+            .order("created_at", desc=True) \
+            .execute()
+
+        return jsonify({
+            "post": post_response.data,
+            "comments": comment_response.data
+        }), 200
+
+    except Exception as e:
+        logger.error(f"Error fetching post details: {str(e)}")
+        return jsonify({"error": "Gagal mengambil detail posting"}), 500
+
+@app.route("/add_comment", methods=["POST", "OPTIONS"])
+def add_comment():
+    if request.method == "OPTIONS":
+        return "", 200
+
+    try:
+        data = request.json
+        post_id = data.get("post_id")
+        user_id = data.get("user_id")
+        content = data.get("content")
+        username = data.get("username")
+
+        if not all([post_id, user_id, content]):
+            return jsonify({"error": "Missing required fields"}), 400
+
+        comment_data = {
+            "id": str(uuid.uuid4()),
+            "post_id": post_id,
+            "user_id": user_id,
+            "content": content,
+            "username": username,
+            "created_at": datetime.now().isoformat()
+        }
+
+        supabase.table("forum_comments").insert(comment_data).execute()
+        return jsonify({"message": "Komentar berhasil ditambahkan", "comment": comment_data}), 201
+
+    except Exception as e:
+        logger.error(f"Error adding comment: {str(e)}")
+        return jsonify({"error": "Gagal menambahkan komentar"}), 500
+
+@app.route("/vote_post", methods=["POST", "OPTIONS"])
+def vote_post():
+    if request.method == "OPTIONS":
+        return "", 200
+
+    try:
+        data = request.json
+        post_id = data.get("post_id")
+        user_id = data.get("user_id")
+        vote_type = data.get("vote_type")  # 'like' atau 'unlike'
+
+        if not all([post_id, user_id, vote_type]):
+            return jsonify({"error": "Missing required fields"}), 400
+
+        # Cek apakah user sudah pernah vote
+        existing_vote = supabase.table("post_votes") \
+            .select("*") \
+            .eq("post_id", post_id) \
+            .eq("user_id", user_id) \
+            .execute()
+
+        if existing_vote.data:
+            # Jika sudah ada, update vote_type
+            supabase.table("post_votes") \
+                .update({"vote_type": vote_type}) \
+                .eq("id", existing_vote.data[0]["id"]) \
+                .execute()
+        else:
+            # Jika belum ada, insert baru
+            supabase.table("post_votes").insert({
+                "id": str(uuid.uuid4()),
+                "post_id": post_id,
+                "user_id": user_id,
+                "vote_type": vote_type
+            }).execute()
+
+        # Hitung total like/unlike
+        like_count = supabase.table("post_votes") \
+            .select("*", count="exact") \
+            .eq("post_id", post_id) \
+            .eq("vote_type", "like") \
+            .execute(count_only=True)
+
+        unlike_count = supabase.table("post_votes") \
+            .select("*", count="exact") \
+            .eq("post_id", post_id) \
+            .eq("vote_type", "unlike") \
+            .execute(count_only=True)
+
+        # Update jumlah like/unlike di forum_posts
+        print("Updating forum_posts with like_count:", like_count.count, "unlike_count:", unlike_count.count)
+        result = supabase.table("forum_posts") \
+            .update({
+                "like_count": like_count.count,
+                "unlike_count": unlike_count.count
+            }) \
+            .eq("id", post_id) \
+            .execute()
+        print("Update result:", result)
+
+        return jsonify({
+            "message": f"Vote {vote_type} berhasil",
+            "like_count": like_count.count,
+            "unlike_count": unlike_count.count
+        }), 200
+
+    except Exception as e:
+        logger.error(f"Error voting: {str(e)}")
+        return jsonify({"error": "Gagal melakukan voting"}), 500
 
 if __name__ == "__main__":
     logger.info("Starting server on port 8080")

@@ -1,29 +1,23 @@
-FROM python:3.11-slim
+# Use the official Python image
+FROM python:3.9-slim
 
+# Set working directory
 WORKDIR /app
 
-# Install build dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy requirements first and install dependencies
+# Copy requirements first for better cache
 COPY requirements.txt .
-RUN pip install --no-cache-dir --timeout 1000 -r requirements.txt
 
-# Create uploads directory
-RUN mkdir -p uploads
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy model file first to verify its existence
-COPY model_terbaik.h5 .
-RUN ls -lh model_terbaik.h5
-
-# Copy remaining application files
+# Copy the rest of the application
 COPY . .
 
+# Set environment variables
 ENV PORT=8080
-ENV PYTHONUNBUFFERED=1
 
+# Expose port
 EXPOSE 8080
 
-CMD ["gunicorn", "--bind", ":8080", "--workers", "1", "--threads", "8", "--timeout", "0", "api_predict:app"]
+# Run the application
+CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 api_predict:app
