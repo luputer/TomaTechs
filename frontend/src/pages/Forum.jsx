@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Plus, MessageCircle, Eye, Heart, ThumbsDown, Image as ImageIcon } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import Sidebar from '../components/Sidebar';
+import AxiosInstance from "@/lib/axios";
 
 
 const tags = [
@@ -22,9 +23,9 @@ function CommentSection({ postId, user }) {
 
     // Load comment count immediately
     useEffect(() => {
-        fetch(`http://localhost:8080/post/${postId}`)
-            .then(res => res.json())
-            .then(data => {
+        AxiosInstance.get(`/post/${postId}`)
+            .then(res => {
+                const data = res.data;
                 setCommentCount(data.comments?.length || 0);
                 if (showComments) {
                     setComments(data.comments || []);
@@ -34,24 +35,18 @@ function CommentSection({ postId, user }) {
 
     const handleAdd = async (e) => {
         e.preventDefault();
-        await fetch('http://localhost:8080/add_comment', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                post_id: postId,
-                user_id: user.id,
-                username: user.user_metadata.full_name,
-                content: newComment,
-            }),
+        await AxiosInstance.post('/add_comment', {
+            post_id: postId,
+            user_id: user.id,
+            username: user.user_metadata.full_name,
+            content: newComment,
         });
         setNewComment('');
         // Refresh comments and count
-        fetch(`http://localhost:8080/post/${postId}`)
-            .then(res => res.json())
-            .then(data => {
-                setComments(data.comments || []);
-                setCommentCount(data.comments?.length || 0);
-            });
+        const res = await AxiosInstance.get(`/post/${postId}`);
+        const data = res.data;
+        setComments(data.comments || []);
+        setCommentCount(data.comments?.length || 0);
     };
 
     return (
@@ -112,12 +107,11 @@ export default function Forum() {
         if (!user) return;
         const votes = {};
         for (const post of posts) {
-            const res = await fetch('http://localhost:8080/get_vote', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ post_id: post.id, user_id: user.id })
+            const res = await AxiosInstance.post('/get_vote', {
+                post_id: post.id,
+                user_id: user.id
             });
-            const data = await res.json();
+            const data = res.data;
             votes[post.id] = data.vote_type;
         }
         setUserVotes(votes);
@@ -125,8 +119,8 @@ export default function Forum() {
 
     const fetchPosts = async () => {
         setLoading(true);
-        const res = await fetch('http://localhost:8080/get_posts');
-        const data = await res.json();
+        const res = await AxiosInstance.get('/get_posts');
+        const data = res.data;
         setPosts(data);
         setLoading(false);
         await fetchUserVotes(data);
@@ -150,16 +144,12 @@ export default function Forum() {
         if (selectedFile) {
             imageUrl = await handleImageUpload(selectedFile);
         }
-        await fetch('http://localhost:8080/create_post', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                user_id: user.id,
-                username: user.user_metadata.full_name,
-                title: newTitle,
-                content: newContent,
-                image_url: imageUrl,
-            }),
+        await AxiosInstance.post('/create_post', {
+            user_id: user.id,
+            username: user.user_metadata.full_name,
+            title: newTitle,
+            content: newContent,
+            image_url: imageUrl,
         });
         setNewTitle('');
         setNewContent('');
@@ -169,14 +159,10 @@ export default function Forum() {
     };
 
     const handleVote = async (postId, voteType) => {
-        await fetch('http://localhost:8080/vote_post', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                post_id: postId,
-                user_id: user.id,
-                vote_type: voteType,
-            }),
+        await AxiosInstance.post('/vote_post', {
+            post_id: postId,
+            user_id: user.id,
+            vote_type: voteType,
         });
         fetchPosts();
     };

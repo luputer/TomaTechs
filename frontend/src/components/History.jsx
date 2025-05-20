@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import AxiosInstance from "@/lib/axios";
 
 const History = () => {
     const { user } = useAuth();
@@ -14,13 +15,8 @@ const History = () => {
             try {
                 setLoading(true);
                 setError(null);
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/history/${user.id}`);
-
-                if (!response.ok) {
-                    throw new Error('Failed to fetch history');
-                }
-
-                const data = await response.json();
+                const response = await AxiosInstance.get(`/history/${user.id}`);
+                const data = response.data;
                 setHistory(data);
             } catch (error) {
                 console.error('Error fetching history:', error);

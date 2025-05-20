@@ -15,6 +15,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import AxiosInstance from "@/lib/axios";
 
 
 
@@ -112,24 +113,8 @@ const History = () => {
 
     const fetchHistory = async () => {
         try {
-            console.log('Fetching history for user:', user.id);
-            const apiUrl = 'http://localhost:8080';
-            console.log('Using API URL:', apiUrl);
-
-            const response = await fetch(`${apiUrl}/history/${user.id}`);
-
-            if (!response.ok) {
-                if (response.status === 404) {
-                    console.log('No history found for user');
-                    setPredictions([]);
-                    return;
-                }
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            console.log('Received data:', data);
-
+            setLoading(true);
+            const { data } = await AxiosInstance.get(`/history/${user.id}`);
             if (Array.isArray(data)) {
                 setPredictions(data);
             } else if (data.error) {
@@ -217,21 +202,12 @@ const History = () => {
         if (!selectedDeleteId) return;
 
         try {
-            const apiUrl = 'http://localhost:8080';
-            const response = await fetch(`${apiUrl}/delete/${selectedDeleteId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    user_id: user.id
-                })
+            const res = await AxiosInstance.delete(`/delete/${selectedDeleteId}`, {
+                data: { user_id: user.id }
             });
+            const data = res.data;
 
-            const data = await response.json();
-
-            if (!response.ok) {
+            if (res.status !== 200) {
                 throw new Error(data.error || 'Gagal menghapus prediksi');
             }
 

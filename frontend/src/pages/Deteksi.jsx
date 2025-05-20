@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router';
 import Webcam from 'react-webcam';
 import Sidebar from '../components/Sidebar';
 import { useAuth } from '../context/AuthContext';
+import AxiosInstance from "@/lib/axios";
 
 const Deteksi = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -141,9 +142,8 @@ const Deteksi = () => {
     formData.append('user_id', user.id);
 
     try {
-      const response = await fetch('http://127.0.0.1:8080/predict', {
-        method: 'POST',
-        body: formData,
+      const response = await AxiosInstance.post('/predict', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
       });
 
       if (!response.ok) {
@@ -166,10 +166,9 @@ const Deteksi = () => {
   const handleCapture = () => {
     const imageSrc = webcamRef.current?.getScreenshot();
     if (imageSrc) {
-      fetch(imageSrc)
-        .then(res => res.blob())
-        .then(blob => {
-          const file = new File([blob], "capture.jpg", { type: "image/jpeg" });
+      AxiosInstance.get(imageSrc, { responseType: 'blob' })
+        .then(res => {
+          const file = new File([res.data], "capture.jpg", { type: "image/jpeg" });
           if (file.size > 5 * 1024 * 1024) {
             alert('Ukuran file terlalu besar. Maksimal 5MB.');
             return;
