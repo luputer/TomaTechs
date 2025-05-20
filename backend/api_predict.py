@@ -385,8 +385,8 @@ def toma_chat():
         response.headers.add('Access-Control-Allow-Methods', 'POST, OPTIONS')
         return response
     try:
-        data = request.json
-        user_message = data.get("message")
+    data = request.json
+    user_message = data.get("message")
         user_id = data.get("user_id")
 
         if not user_id:
