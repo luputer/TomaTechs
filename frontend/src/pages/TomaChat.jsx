@@ -6,7 +6,6 @@ import Sidebar from '../components/Sidebar';
 import { useAuth } from '../context/AuthContext';
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
-import AxiosInstance from "@/lib/axios";
 
 const TomaChat = () => {
     const { user } = useAuth();
@@ -36,8 +35,11 @@ const TomaChat = () => {
 
             try {
                 setIsLoading(true);
-                const res = await AxiosInstance.get(`/chat_history/${user.id}`);
-                const data = res.data;
+                const response = await fetch(`http://localhost:8080/chat_history/${user.id}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch chat history');
+                }
+                const data = await response.json();
 
                 if (Array.isArray(data)) {
                     console.log('Received chat history:', data); // Debug log
@@ -72,11 +74,18 @@ const TomaChat = () => {
         setIsLoading(true);
 
         try {
-            const res = await AxiosInstance.post('/toma_chat', {
-                message: message.trim(),
-                user_id: user.id
+            const response = await fetch('http://localhost:8080/toma_chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: message.trim(),
+                    user_id: user.id
+                })
             });
-            const data = res.data;
+
+            const data = await response.json();
 
             // Add bot response
             const botResponse = {

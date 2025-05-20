@@ -63,13 +63,7 @@ ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 app = Flask(__name__)
 
 # Configure CORS to allow requests from your frontend
-CORS(app, resources={
-    r"/*": {
-        "origins": ["http://localhost:5173", "http://localhost:3000"],  # Add your frontend URLs
-        "methods": ["GET", "POST", "OPTIONS"],
-        "allow_headers": ["Content-Type", "Authorization"]
-    }
-})
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -630,8 +624,6 @@ def cs_chat():
         error_response = jsonify({"error": str(e)})
         error_response.headers.add('Access-Control-Allow-Origin', '*')
         return error_response, 500
-
-
 
 #route forum
 @app.route("/create_post", methods=["POST", "OPTIONS"])

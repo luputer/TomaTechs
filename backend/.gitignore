@@ -20,9 +20,11 @@ wheels/
 .installed.cfg
 *.egg
 
+
 # Virtual Environment
 venvw/
 venv/
+venv_new/
 env/
 ENV/
 .env
@@ -78,4 +80,12 @@ coverage.xml
 *.ipynb
 
 # Unit test / coverage reports
-.pytest_cache/ 
+.pytest_cache/
+
+# Node modules
+node_modules/
+
+# Environment & credential
+*.json
+application_default_credentials.json
+vertexai-key.json 
