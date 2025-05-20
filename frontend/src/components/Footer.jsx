@@ -2,7 +2,21 @@ import { Facebook, Instagram, Linkedin, Youtube } from 'lucide-react';
 import { Link } from 'react-router';
 
 const Footer = () => {
-    return (
+    return (<>
+        <div className="mt-4 sm:mt-8 md:mt-10 mb-2 sm:mb-4 bg-gray-200 border border-gray-300 rounded-lg flex flex-col md:flex-row items-center justify-between px-2 sm:px-4 md:px-8 py-2 sm:py-4 md:py-6 shadow">
+            <div className="text-center md:text-left mb-2 sm:mb-4 md:mb-0">
+                <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-[#478800] drop-shadow-sm leading-tight">
+                    Tanaman yang Sehat<br />Dimulai dari Daunnya
+                </h2>
+            </div>
+            <button className="w-full md:w-auto flex items-center justify-center gap-2 bg-[#478800] hover:bg-[#356600] text-white font-medium px-3 sm:px-4 md:px-6 py-1 sm:py-2 rounded-full shadow transition">
+                <svg className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <circle cx="12" cy="8" r="4" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M16 17a6 6 0 10-12 0" />
+                </svg>
+                Masuk
+            </button>
+        </div>
         <footer className="bg-[#3B5D3D] text-white py-8 relative z-40">
             <div className="container mx-auto px-4">
                 <div className="flex flex-col md:flex-row justify-between items-start gap-8">
@@ -103,6 +117,7 @@ const Footer = () => {
                 </div>
             </div>
         </footer>
+    </>
     );
 };
 

@@ -18,10 +18,11 @@ import Team from './pages/Team';
 import TomaChat from './pages/TomaChat';
 import Contact from './pages/contact';
 import Chatbot from './components/Chatbot';
+import Forum from './pages/Forum';
 
 const App = () => {
   const location = useLocation();
-  const isAuthPage = ['/dashboard', '/deteksi', '/history', '/chats'].includes(location.pathname);
+  const isAuthPage = ['/dashboard', '/deteksi', '/history', '/chats', '/forum'].includes(location.pathname);
 
   return (
     <AuthProvider>
@@ -64,6 +65,11 @@ const App = () => {
                 <Route path="/chats" element={
                   <PrivateRoute>
                     <TomaChat />
+                  </PrivateRoute>
+                } />
+                <Route path="/forum" element={
+                  <PrivateRoute>
+                    <Forum />
                   </PrivateRoute>
                 } />
               </Routes>

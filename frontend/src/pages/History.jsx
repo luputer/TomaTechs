@@ -388,8 +388,9 @@ const History = () => {
                 </AlertDialogContent>
             </AlertDialog>
 
+            {/* Preview Modal */}
             <AlertDialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
-                <AlertDialogContent className="bg-white max-w-3xl">
+                <AlertDialogContent className="bg-white max-w-5xl max-h-[90vh] overflow-y-auto">
                     <AlertDialogHeader>
                         <AlertDialogTitle className="text-2xl text-center text-[#3B5D3D]">
                             Hasil Deteksi Penyakit Tomat
@@ -398,69 +399,73 @@ const History = () => {
 
                     {selectedPrediction && (
                         <div className="mt-4">
-                            <div className="text-center mb-6">
-                                <img
-                                    src={selectedPrediction.image_url}
-                                    alt="Hasil Deteksi"
-                                    className="max-w-full h-auto rounded-lg mx-auto"
-                                />
-                            </div>
-
-                            <div className="bg-[#f8f9fa] p-6 rounded-lg space-y-4">
-                                <div>
-                                    <h3 className="text-lg font-semibold text-[#3B5D3D] mb-2">
-                                        Penyakit:
-                                    </h3>
-                                    <p className="text-xl font-bold text-[#3B5D3D]">
-                                        {diseaseInfo[selectedPrediction.predicted_class]?.name || selectedPrediction.predicted_class}
-                                    </p>
+                            <div className="flex gap-6">
+                                {/* Image Section - Left Side */}
+                                <div className="w-1/2">
+                                    <img
+                                        src={selectedPrediction.image_url}
+                                        alt="Hasil Deteksi"
+                                        className="w-full h-auto rounded-lg object-cover"
+                                    />
                                 </div>
 
-                                <div>
-                                    <h3 className="text-lg font-semibold text-[#3B5D3D] mb-2">
-                                        Tingkat Akurasi:
-                                    </h3>
-                                    <div className="relative pt-1">
-                                        <div className="flex mb-2 items-center justify-between">
-                                            <div className="w-full bg-gray-200 rounded-full h-4">
-                                                <div
-                                                    className="h-full bg-[#3B5D3D] rounded-full transition-all duration-300"
-                                                    style={{ width: `${(selectedPrediction.confidence * 100).toFixed(0)}%` }}
-                                                ></div>
+                                {/* Content Section - Right Side */}
+                                <div className="w-1/2 bg-[#f8f9fa] p-6 rounded-lg space-y-4">
+                                    <div>
+                                        <h3 className="text-lg font-semibold text-[#3B5D3D] mb-2">
+                                            Penyakit:
+                                        </h3>
+                                        <p className="text-xl font-bold text-[#3B5D3D]">
+                                            {diseaseInfo[selectedPrediction.predicted_class]?.name || selectedPrediction.predicted_class}
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <h3 className="text-lg font-semibold text-[#3B5D3D] mb-2">
+                                            Tingkat Akurasi:
+                                        </h3>
+                                        <div className="relative pt-1">
+                                            <div className="flex mb-2 items-center justify-between">
+                                                <div className="w-full bg-gray-200 rounded-full h-4">
+                                                    <div
+                                                        className="h-full bg-[#3B5D3D] rounded-full transition-all duration-300"
+                                                        style={{ width: `${(selectedPrediction.confidence * 100).toFixed(0)}%` }}
+                                                    ></div>
+                                                </div>
+                                                <span className="text-lg font-semibold text-[#3B5D3D] ml-4">
+                                                    {(selectedPrediction.confidence * 100).toFixed(2)}%
+                                                </span>
                                             </div>
-                                            <span className="text-lg font-semibold text-[#3B5D3D] ml-4">
-                                                {(selectedPrediction.confidence * 100).toFixed(2)}%
-                                            </span>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div>
-                                    <h3 className="text-lg font-semibold text-[#3B5D3D] mb-2">
-                                        Deskripsi:
-                                    </h3>
-                                    <p className="text-gray-700">
-                                        {diseaseInfo[selectedPrediction.predicted_class]?.description}
-                                    </p>
-                                </div>
+                                    <div>
+                                        <h3 className="text-lg font-semibold text-[#3B5D3D] mb-2">
+                                            Deskripsi:
+                                        </h3>
+                                        <p className="text-gray-700">
+                                            {diseaseInfo[selectedPrediction.predicted_class]?.description}
+                                        </p>
+                                    </div>
 
-                                <div>
-                                    <h3 className="text-lg font-semibold text-[#3B5D3D] mb-2">
-                                        Penanganan:
-                                    </h3>
-                                    <p className="text-gray-700 whitespace-pre-line">
-                                        {diseaseInfo[selectedPrediction.predicted_class]?.treatment}
-                                    </p>
-                                </div>
+                                    <div>
+                                        <h3 className="text-lg font-semibold text-[#3B5D3D] mb-2">
+                                            Penanganan:
+                                        </h3>
+                                        <p className="text-gray-700 whitespace-pre-line">
+                                            {diseaseInfo[selectedPrediction.predicted_class]?.treatment}
+                                        </p>
+                                    </div>
 
-                                <div className="text-right text-sm text-gray-600 mt-4">
-                                    Waktu Deteksi: {new Date(selectedPrediction.created_at).toLocaleDateString('id-ID', {
-                                        year: 'numeric',
-                                        month: 'long',
-                                        day: 'numeric',
-                                        hour: '2-digit',
-                                        minute: '2-digit'
-                                    })}
+                                    <div className="text-right text-sm text-gray-600 mt-4">
+                                        Waktu Deteksi: {new Date(selectedPrediction.created_at).toLocaleDateString('id-ID', {
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric',
+                                            hour: '2-digit',
+                                            minute: '2-digit'
+                                        })}
+                                    </div>
                                 </div>
                             </div>
                         </div>

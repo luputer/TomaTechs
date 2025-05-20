@@ -53,6 +53,7 @@ const MENU_ITEMS = [
     { path: '/deteksi', label: 'Deteksi', icon: Search },
     { path: '/history', label: 'Riwayat', icon: Search },
     { path: '/chats', label: 'TomaChat', icon: MessageSquare },
+    { path: '/forum', label: 'Forum', icon: MessageSquare },
 ];
 
 /**

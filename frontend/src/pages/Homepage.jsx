@@ -102,6 +102,7 @@ const Homepage = () => {
             <div id="blog">
                 <Blog/>
             </div>
+            
         </div>
     );
 };
