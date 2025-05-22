@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router';
 
 const NotFound = () => {
@@ -7,14 +6,14 @@ const NotFound = () => {
             <div className="max-w-xl w-full relative bg-white rounded-lg shadow-lg p-8 overflow-hidden">
                 {/* Leaf decoration - top right */}
                 <img
-                    src="/src/assets/daun12.png"
+                    src="/images/icons/daun12.png"
                     alt="Leaf"
                     className="absolute top-0 right-0 w-32 h-32 object-contain transform rotate-45"
                 />
 
                 {/* Tomato decoration - bottom left */}
                 <img
-                    src="/src/assets/tomat2.png"
+                    src="/images/icons/tomat2.png"
                     alt="Tomato"
                     className="absolute bottom-0 left-0 w-15 h-18 object-contain opacity-80"
                 />
@@ -42,4 +41,4 @@ const NotFound = () => {
     );
 };
 
-export default NotFound; 
+export default NotFound;

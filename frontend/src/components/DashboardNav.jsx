@@ -1,4 +1,3 @@
-import React from 'react';
 import { Home, LogOut } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -21,7 +20,7 @@ const DashboardNav = () => {
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                     <img
-                        src="/src/assets/logo.png"
+                        src="/images/logos/logo.png"
                         alt="TomaTech Logo"
                         className="h-10 w-10 rounded-full"
                     />
@@ -49,4 +48,4 @@ const DashboardNav = () => {
     );
 };
 
-export default DashboardNav; 
+export default DashboardNav;

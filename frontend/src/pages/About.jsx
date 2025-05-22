@@ -53,7 +53,7 @@ const About = () => {
                             <div className="relative w-40 h-40 sm:w-60 sm:h-60 md:w-80 md:h-80 lg:w-[500px] lg:h-[500px]">
                                 <div className="absolute inset-0 rounded-full opacity-10"></div>
                                 <img
-                                    src="/src/assets/logos.png"
+                                    src="/images/logos/logos.png"
                                     alt="TomaTech Shield"
                                     className="relative z-10 w-full h-full object-contain p-2 sm:p-4 md:p-6"
                                 />

@@ -117,7 +117,7 @@ const Navbar = () => {
                     <div className="flex justify-between items-center h-16">
                         {/* Logo and Brand */}
                         <Link to="/" className="flex items-center">
-                            <img src="/src/assets/logo.png" alt="TomaTech" className="h-16 w-16 md:h-20 md:w-20" />
+                            <img src="/images/logos/logo.png" alt="TomaTech" className="h-16 w-16 md:h-20 md:w-20" />
                             <span className="text-xl md:text-2xl font-bold">TomaTech</span>
                         </Link>
 

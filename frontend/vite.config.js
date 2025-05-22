@@ -11,7 +11,11 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
+      includeAssets: [
+        'images/icons/favicon.ico',
+        'images/icons/apple-touch-icon.png',
+        'images/icons/masked-icon.svg'
+      ],
       manifest: {
         name: 'TomaTechs',
         short_name: 'TomaTechs',
@@ -19,20 +23,40 @@ export default defineConfig({
         theme_color: '#ffffff',
         icons: [
           {
-            src: 'pwa-192x192.png',
+            src: 'images/icons/pwa-192x192.png',
             sizes: '192x192',
             type: 'image/png'
           },
           {
-            src: 'pwa-512x512.png',
+            src: 'images/icons/pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png'
           },
           {
-            src: 'pwa-512x512.png',
+            src: 'images/icons/pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any maskable'
+          }
+        ]
+      },
+      workbox: {
+        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024, // 4MB
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,webp}'],
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'google-fonts-cache',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+              },
+              cacheableResponse: {
+                statuses: [0, 200]
+              }
+            }
           }
         ]
       }
@@ -56,11 +80,21 @@ export default defineConfig({
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom', 'react-router-dom'],
+          ui: ['@radix-ui/react-alert-dialog', '@radix-ui/react-dialog', '@radix-ui/react-separator', '@radix-ui/react-slot', '@radix-ui/react-tooltip'],
+          utils: ['axios', 'date-fns', 'clsx', 'tailwind-merge'],
           // Tambahkan chunk lain sesuai kebutuhan
         }
       }
     },
     assetsInlineLimit: 4096, // 4kb
     assetsDir: 'assets',
+    sourcemap: true, // Menambahkan sourcemap untuk debugging
+    minify: false, // Menonaktifkan minifikasi untuk development
+  },
+  preview: {
+    port: 5173, // Menggunakan port yang sama dengan dev server
+    strictPort: true,
+    host: true,
+    open: true
   }
 })

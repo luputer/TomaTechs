@@ -1,9 +1,9 @@
 // src/pages/Forum.jsx
-import { useState, useEffect } from "react";
-import { Plus, MessageCircle, Eye, Heart, ThumbsDown, Image as ImageIcon } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
-import Sidebar from '../components/Sidebar';
 import AxiosInstance from "@/lib/axios";
+import { Heart, Image as ImageIcon, MessageCircle, Plus, ThumbsDown } from "lucide-react";
+import { useEffect, useState } from "react";
+import Sidebar from '../components/Sidebar';
 
 
 const tags = [
@@ -201,8 +201,8 @@ export default function Forum() {
                 <div className="bg-white min-h-[calc(100vh-2rem)] rounded-3xl shadow-xl p-6">
                     <div className="max-w-7xl mx-auto h-full flex flex-col">
                         {/* Ornamen */}
-                        <img src="/tomato.png" alt="" className="absolute left-0 bottom-0 w-32 opacity-80 pointer-events-none" />
-                        <img src="/brain-icon.png" alt="" className="absolute right-8 top-8 w-20 opacity-80 pointer-events-none" />
+                        <img src="/images/icons/tomato.png" alt="" className="absolute left-0 bottom-0 w-32 opacity-80 pointer-events-none" />
+                        <img src="/images/icons/brain-icon.png" alt="" className="absolute right-8 top-8 w-20 opacity-80 pointer-events-none" />
                         <h1 className="text-5xl font-bold text-center text-green-700 mb-8">Forum</h1>
                         {/* Search Bar */}
                         <div className="flex items-center gap-2 mb-6">

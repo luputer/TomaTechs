@@ -8,7 +8,7 @@ const teamMembers = [
         name: "Muhammad Saidi",
         id: "FC524D5Y1916",
         role: "Backend Developer",
-        image: "/src/assets/saidi.webp",
+        image: "/images/team/saidi.webp",
         university: "Politeknik Negeri Banjarmasin",
         department: "Teknik Informatika",
         quote: "Code with passion, debug with patience",
@@ -22,7 +22,7 @@ const teamMembers = [
         name: "Yuliagus",
         id: "FC558D5Y1116",
         role: "Frontend Developer",
-        image: "/src/assets/agus2.jpeg",
+        image: "/images/team/agus2.jpeg",
         university: "Universitas Handayani Makassar",
         department: "Teknik Informatika",
         quote: "Building bridges between data and users",
@@ -36,7 +36,7 @@ const teamMembers = [
         name: "Ulfiani Latifah",
         id: "FC312D5X1540",
         role: "UI/UX Designer",
-        image: "/src/assets/ulfi.jpg",
+        image: "/images/team/ulfi.jpg",
         university: "Universitas Sebelas Maret",
         department: "Ilmu Perpustakaan",
         quote: "Design is not just what it looks like, design is how it works",
@@ -53,7 +53,7 @@ const mlEngineers = [
         name: "Ibrahim Akbar Arsanata",
         id: "MC283D5Y0062",
         role: "Machine Learning Engineer",
-        image: "/src/assets/akbar3.png",
+        image: "/images/team/akbar3.png",
         university: "Universitas Negeri Semarang",
         department: "Statistika Terapan dan Komputasi",
         quote: "Turning data into intelligence",
@@ -67,7 +67,7 @@ const mlEngineers = [
         name: "Annida Syamsa Hawa",
         id: "MC193D5X2313",
         role: "Machine Learning Engineer",
-        image: "/src/assets/nida.png",
+        image: "/images/team/nida.png",
         university: "Universitas Bina Sarana Informatika",
         department: "Sistem Informasi",
         quote: "AI is the new electricity",
@@ -81,7 +81,7 @@ const mlEngineers = [
         name: "Noufal Zaidan",
         id: "MC193D5X2313",
         role: "Machine Learning Engineer",
-        image: "/src/assets/noval.png",
+        image: "/images/team/noval.png",
         university: "Universitas Bina Sarana Informatika",
         department: "Teknik Informatika",
         quote: "Learning from data, one model at a time",
@@ -102,7 +102,7 @@ const Team = () => {
                 <div className="flex flex-col items-center justify-center mb-8 md:mb-12 relative">
                     {/* Leaf decoration - left */}
                     <img
-                        src="/src/assets/daun12.png"
+                        src="/images/icons/daun12.png"
                         alt="Leaf"
                         className="absolute top-0 left-0 w-50 h-50 object-contain -rotate-45"
                     />
@@ -121,7 +121,7 @@ const Team = () => {
                     </motion.div>
                     {/* Leaf decoration - right */}
                     <img
-                        src="/src/assets/daun12.png"
+                        src="/images/icons/daun12.png"
                         alt="Leaf"
                         className="absolute top-0 right-0 w-32 h-32 object-contain rotate-45"
                     />

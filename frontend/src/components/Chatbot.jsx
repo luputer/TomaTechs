@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { MessageSquare, Send, X } from 'lucide-react';
 import axios from 'axios';
+import { MessageSquare, Send, X } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 
 const Chatbot = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -73,7 +73,7 @@ const Chatbot = () => {
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
                                 <img
-                                    src="/src/assets/logo.png"
+                                    src="/images/logos/logo.png"
                                     alt="TomaTech"
                                     className="w-10 h-10 rounded-full bg-white p-1"
                                 />
@@ -177,4 +177,4 @@ const Chatbot = () => {
     );
 };
 
-export default Chatbot; 
+export default Chatbot;

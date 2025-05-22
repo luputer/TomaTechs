@@ -13,7 +13,7 @@ const Guide = () => {
                         {/* Step 1 */}
                         <div className="bg-white rounded-xl shadow-md overflow-hidden">
                             <img
-                                src="/src/assets/panduan1.png"
+                                src="/images/guide/panduan1.png"
                                 alt="Ambil atau Unggah Foto"
                                 className="w-full h-32 sm:h-40 md:h-48 object-cover"
                             />
@@ -29,7 +29,7 @@ const Guide = () => {
                         {/* Step 2 */}
                         <div className="bg-white rounded-xl shadow-md overflow-hidden">
                             <img
-                                src="/src/assets/panduan2.png"
+                                src="/images/guide/panduan2.png"
                                 alt="Analisis Otomatis"
                                 className="w-full h-40 sm:h-48 object-cover"
                             />
@@ -45,7 +45,7 @@ const Guide = () => {
                         {/* Step 3 */}
                         <div className="bg-white rounded-xl shadow-md overflow-hidden sm:col-span-2 md:col-span-1">
                             <img
-                                src="/src/assets/panduan3.png"
+                                src="/images/guide/panduan3.png"
                                 alt="Lihat Hasil dan Saran"
                                 className="w-full h-40 sm:h-48 object-cover"
                             />
@@ -72,7 +72,7 @@ const Guide = () => {
                         {/* Impact 1 */}
                         <div className="bg-white rounded-xl shadow-md overflow-hidden">
                             <img
-                                src="/src/assets/dampak1.png"
+                                src="/images/icons/dampak1.png"
                                 alt="Meningkatkan Produktivitas Petani"
                                 className="w-full h-32 sm:h-40 md:h-48 object-cover"
                             />
@@ -87,7 +87,7 @@ const Guide = () => {
                         {/* Impact 2 */}
                         <div className="bg-white rounded-xl shadow-md overflow-hidden">
                             <img
-                                src="/src/assets/dampak2.png"
+                                src="/images/icons/dampak2.png"
                                 alt="Mengurangi Penggunaan Pestisida Berlebihan"
                                 className="w-full h-48 sm:h-56 md:h-64 object-cover"
                             />
