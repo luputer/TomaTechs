@@ -1,10 +1,23 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
 import { BrowserRouter } from 'react-router'
-import { AuthProvider } from './context/AuthContext.jsx'
+import { registerSW } from 'virtual:pwa-register'
+import App from './App.jsx'
 import { ThemeProvider } from './components/theme-provider.jsx'
+import { AuthProvider } from './context/AuthContext.jsx'
+import './index.css'
+
+// Register service worker
+const updateSW = registerSW({
+  onNeedRefresh() {
+    if (confirm('New content available. Reload?')) {
+      updateSW()
+    }
+  },
+  onOfflineReady() {
+    console.log('App ready to work offline')
+  },
+})
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
