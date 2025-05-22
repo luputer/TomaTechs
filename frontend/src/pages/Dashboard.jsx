@@ -172,7 +172,7 @@ const Dashboard = () => {
                             transition={{ duration: 0.7 }}
                             className="text-2xl sm:text-3xl md:text-4xl lg:text-7xl font-bold text-center mb-2 sm:mb-4 pb-2 leading-[1.3] bg-gradient-to-r from-green-700 via-green-500 to-green-700 bg-clip-text text-transparent drop-shadow-lg z-10"
                           >
-                            Selamat Datang
+                                    Selamat Datang
                           </motion.h1>
                           <motion.h2
                             initial={{ opacity: 0, y: 30 }}
@@ -180,7 +180,7 @@ const Dashboard = () => {
                             transition={{ duration: 0.9 }}
                             className="text-base sm:text-lg md:text-xl lg:text-2xl font-semibold text-gray-800 mb-2 text-center z-10"
                           >
-                            {user?.user_metadata?.full_name || 'User'}
+                                    {user?.user_metadata?.full_name || 'User'}
                           </motion.h2>
                           <motion.p
                             initial={{ opacity: 0, y: 20 }}
@@ -350,10 +350,10 @@ const Dashboard = () => {
                                         ))}
                                     </tbody>
                                 </table>
-                            </div>
-                        </div>
                     </div>
                 </div>
+            </div>
+        </div>
             </motion.div>
         </AnimatePresence>
     );

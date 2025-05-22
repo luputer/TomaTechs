@@ -387,10 +387,10 @@ def toma_chat():
 
         client = genai.Client(
             vertexai=True,
-            project="231142263655",
-            location="europe-central2",
+      project="231142263655",
+      location="us-central1",
         )
-        model = "projects/231142263655/locations/europe-central2/endpoints/965551529094283264"
+        model = "projects/231142263655/locations/us-central1/endpoints/7670743970690891776"
         contents = [
             types.Content(
                 role="user",
@@ -531,12 +531,13 @@ def cs_chat():
 
         # Initialize Vertex AI client
         client = genai.Client(
-            vertexai=True,
-            project="231142263655",
-            location="us-central1",
+             vertexai=True,
+      project="231142263655",
+      location="us-central1",
+
         )
 
-        model = "projects/231142263655/locations/us-central1/endpoints/5311842928367239168"
+        model = "projects/231142263655/locations/us-central1/endpoints/7610789800651522048"
         
         # Convert messages to Vertex AI format
         contents = []
