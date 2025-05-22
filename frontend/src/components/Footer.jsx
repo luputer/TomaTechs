@@ -23,7 +23,7 @@ const Footer = () => {
                     {/* Logo and Description */}
                     <div className="max-w-sm">
                         <div className="flex items-center gap-3 mb-4">
-                            <img src="/src/assets/logo.png" alt="TomaTech" className="h-20 w-20" />
+                            <img src="/logo.png" alt="TomaTech" className="h-20 w-20" />
                             <h2 className="text-4xl font-bold">TomaTech</h2>
                         </div>
                         <p className="text-gray-200 mb-6">

@@ -59,6 +59,8 @@ export default defineConfig({
           // Tambahkan chunk lain sesuai kebutuhan
         }
       }
-    }
+    },
+    assetsInlineLimit: 4096, // 4kb
+    assetsDir: 'assets',
   }
 })

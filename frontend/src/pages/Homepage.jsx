@@ -31,7 +31,7 @@ const Homepage = () => {
                     <div className="relative">
                         {/* Tomato top-right image */}
                         <img
-                            src="/src/assets/tomat.png"
+                            src="/tomat.png"
                             alt="Tomato"
                             className="absolute right-0 -top-8 w-32 h-32 object-contain pointer-events-none select-none opacity-80"
                             style={{ zIndex: 1 }}
@@ -90,7 +90,7 @@ const Homepage = () => {
                     {/* Right Column - Image */}
                     <div className="rounded-3xl overflow-hidden shadow-lg border border-[#cde7c1] bg-white">
                         <img
-                            src="/src/assets/HeroImage.png"
+                            src="/HeroImage.png"
                             alt="Tomato Plant"
                             className="w-full h-40 sm:h-60 md:h-80 lg:h-[400px] object-cover"
                         />
@@ -102,7 +102,7 @@ const Homepage = () => {
             <div id="blog">
                 <Blog/>
             </div>
-            
+
         </div>
     );
 };
