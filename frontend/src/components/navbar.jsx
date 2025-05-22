@@ -272,73 +272,80 @@ const Navbar = () => {
                     </div>
 
                     {/* Mobile Navigation */}
-                    <div className={`md:hidden transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
-                        <div className="py-4 space-y-4">
+                    <div className={`md:hidden transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+                        <div className="py-4 space-y-3 bg-white rounded-lg shadow-lg mt-2">
                             {user ? (
                                 <>
                                     <Link
                                         to="/dashboard"
-                                        className="block text-gray-700 hover:text-[#478800] transition-colors px-2 py-1 flex items-center gap-2"
+                                        className="flex items-center gap-3 text-gray-700 hover:text-[#478800] transition-colors px-4 py-3 hover:bg-gray-50"
                                         onClick={() => setIsMobileMenuOpen(false)}
                                     >
-                                        {/* Dashboard icon */}
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                                         </svg>
-                                        Dashboard
+                                        <span className="font-medium">Dashboard</span>
                                     </Link>
                                     <button
                                         onClick={() => { logout(); setIsMobileMenuOpen(false); }}
-                                        className="block w-full text-left text-red-600 hover:text-red-800 transition-colors px-2 py-1 flex items-center gap-2"
+                                        className="flex items-center gap-3 w-full text-left text-red-600 hover:text-red-800 transition-colors px-4 py-3 hover:bg-gray-50"
                                     >
-                                        {/* Logout icon */}
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                                         </svg>
-                                        Keluar
+                                        <span className="font-medium">Keluar</span>
                                     </button>
                                 </>
                             ) : (
                                 <>
-                                    <Link
-                                        to="/"
-                                        className="block text-gray-800 font-medium hover:text-green-700 px-2 py-1"
-                                        onClick={() => setIsMobileMenuOpen(false)}
-                                    >
-                                        Beranda
-                                    </Link>
-                                    <button
-                                        onClick={handleAboutClick}
-                                        className="block text-gray-800 font-medium hover:text-green-700 px-2 py-1 w-full text-left"
-                                    >
-                                        Tentang
-                                    </button>
-                                    <Link
-                                        to="/team"
-                                        className="block text-gray-800 font-medium hover:text-green-700 px-2 py-1"
-                                        onClick={() => setIsMobileMenuOpen(false)}
-                                    >
-                                        Team
-                                    </Link>
-                                    <button
-                                        className="block text-gray-800 font-medium hover:text-green-700 px-2 py-1 w-full text-left"
-                                        onClick={handleBlogClick}
-                                    >
-                                        Blog
-                                    </button>
+                                    {navItems.map((item) => (
+                                        item.name === "Tentang" ? (
+                                            <button
+                                                key={item.name}
+                                                onClick={handleAboutClick}
+                                                className="flex items-center gap-3 w-full text-left text-gray-800 font-medium hover:text-green-700 px-4 py-3 hover:bg-gray-50"
+                                            >
+                                                {item.icon}
+                                                <span>{item.name}</span>
+                                            </button>
+                                        ) : item.name === "Blog" ? (
+                                            <button
+                                                key={item.name}
+                                                onClick={handleBlogClick}
+                                                className="flex items-center gap-3 w-full text-left text-gray-800 font-medium hover:text-green-700 px-4 py-3 hover:bg-gray-50"
+                                            >
+                                                {item.icon}
+                                                <span>{item.name}</span>
+                                            </button>
+                                        ) : (
+                                            <Link
+                                                key={item.name}
+                                                to={item.link}
+                                                className="flex items-center gap-3 text-gray-800 font-medium hover:text-green-700 px-4 py-3 hover:bg-gray-50"
+                                                onClick={() => setIsMobileMenuOpen(false)}
+                                            >
+                                                {item.icon}
+                                                <span>{item.name}</span>
+                                            </Link>
+                                        )
+                                    ))}
+                                    <div className="px-4 py-3">
+                                        <Button
+                                            onClick={() => {
+                                                handleAuth();
+                                                setIsMobileMenuOpen(false);
+                                            }}
+                                            variant="default"
+                                            className="w-full bg-[#478800] hover:bg-[#2e4a2f] text-white flex items-center justify-center gap-2"
+                                        >
+                                            <span className="font-semibold">Masuk</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <circle cx="12" cy="9" r="4" stroke="white" strokeWidth="2" fill="none" />
+                                                <path d="M4 19c0-2.5 3.5-4.5 8-4.5s8 2 8 4.5" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round" />
+                                            </svg>
+                                        </Button>
+                                    </div>
                                 </>
-                            )}
-                            {!user && (
-                                <Button
-                                    onClick={() => {
-                                        handleAuth();
-                                        setIsMobileMenuOpen(false);
-                                    }}
-                                    variant="default"
-                                    className="w-full bg-[#478800] hover:bg-[#2e4a2f] text-white"
-                                >
-                                    Masuk
-                                </Button>
                             )}
                         </div>
                     </div>
