@@ -1,11 +1,11 @@
+import { format } from 'date-fns';
+import { id } from 'date-fns/locale';
 import { MessageSquare, Send } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import Sidebar from '../components/Sidebar';
 import { useAuth } from '../context/AuthContext';
-import { format } from 'date-fns';
-import { id } from 'date-fns/locale';
 
 const TomaChat = () => {
     const { user } = useAuth();

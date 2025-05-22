@@ -76,15 +76,15 @@ export default function Contact() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-[#f3fbe9] pt-24 pb-12">
       {/* Background decoration */}
-      <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true">
-        <div
-          className="relative left-1/2 -z-10 aspect-1155/678 w-144.5 max-w-none -translate-x-1/2 rotate-30 bg-gradient-to-tr from-[#b7e2a6] to-[#478800] opacity-30 sm:left-[calc(50%-40rem)] sm:w-288.75"
-          style={{
-            clipPath:
-              "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-          }}
+  <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true">
+  <div
+    className="relative left-1/2 -z-10 aspect-1155/678 w-144.5 max-w-none -translate-x-1/2 rotate-30 bg-gradient-to-tr from-[#b7e2a6] to-[#478800] opacity-30 sm:left-[calc(50%-40rem)] sm:w-288.75"
+    style={{
+      clipPath:
+        "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
+    }}
         />
-      </div>
+</div>
 
       <div className="container mx-auto px-4">
         <motion.div
@@ -113,31 +113,31 @@ export default function Contact() {
               <div className="flex items-start space-x-4">
                 <div className="bg-green-50 p-3 rounded-full">
                   <Mail className="w-6 h-6 text-green-600" />
-                </div>
-                <div>
+  </div>
+      <div>
                   <h3 className="font-medium text-gray-900">Email</h3>
                   <p className="text-gray-600">tomatech.team@gmail.com</p>
-                </div>
+        </div>
               </div>
               <div className="flex items-start space-x-4">
                 <div className="bg-green-50 p-3 rounded-full">
                   <Phone className="w-6 h-6 text-green-600" />
-                </div>
-                <div>
+      </div>
+      <div>
                   <h3 className="font-medium text-gray-900">Telepon</h3>
                   <p className="text-gray-600">+62 812-3456-7890</p>
-                </div>
-              </div>
+        </div>
+      </div>
               <div className="flex items-start space-x-4">
                 <div className="bg-green-50 p-3 rounded-full">
                   <MapPin className="w-6 h-6 text-green-600" />
-                </div>
+        </div>
                 <div>
                   <h3 className="font-medium text-gray-900">Lokasi</h3>
                   <p className="text-gray-600">Jakarta, Indonesia</p>
-                </div>
-              </div>
-            </div>
+          </div>
+        </div>
+      </div>
 
             {/* Social Media Links */}
             <div className="mt-8">
@@ -204,8 +204,8 @@ export default function Contact() {
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
                     required
                   />
-                </div>
-              </div>
+        </div>
+      </div>
 
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
@@ -266,16 +266,16 @@ export default function Contact() {
                     className="w-4 h-4 border border-gray-300 rounded text-green-600 focus:ring-green-500"
                     required
                   />
-                </div>
+        </div>
                 <div className="ml-3 text-sm">
                   <label htmlFor="agreeToPolicy" className="text-gray-600">
                     Saya setuju dengan{' '}
                     <a href="#" className="font-medium text-green-600 hover:text-green-500">
                       kebijakan privasi
                     </a>
-                  </label>
-                </div>
-              </div>
+              </label>
+            </div>
+          </div>
 
               <motion.button
                 type="submit"
@@ -302,14 +302,14 @@ export default function Contact() {
                 ) : (
                   <>
                     <Send className="w-5 h-5 mr-2" />
-                    Kirim Pesan
+              Kirim Pesan
                   </>
                 )}
               </motion.button>
             </form>
           </motion.div>
-        </div>
-      </div>
     </div>
+</div>
+</div>
   );
 }

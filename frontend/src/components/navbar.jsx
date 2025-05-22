@@ -67,6 +67,50 @@ const Navbar = () => {
         setIsMobileMenuOpen(false);
     };
 
+    // Mapping path ke judul dan ikon
+    const getPageTitle = (pathname) => {
+        if (pathname.startsWith('/dashboard')) return { title: 'Dashboard', icon: (
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+            </svg>
+        ) };
+        if (pathname.startsWith('/deteksi')) return { title: 'Deteksi', icon: (
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="2" fill="none" />
+                <path d="M21 21l-4.35-4.35" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+        ) };
+        if (pathname.startsWith('/history')) return { title: 'Riwayat', icon: (
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+        ) };
+        if (pathname.startsWith('/chats')) return { title: 'TomaChat', icon: (
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.77 9.77 0 01-4-.8L3 21l1.8-4A8.96 8.96 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
+        ) };
+        if (pathname.startsWith('/forum')) return { title: 'Forum', icon: (
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m9-4a4 4 0 11-8 0 4 4 0 018 0zm6 4a4 4 0 00-3-3.87M6 10a4 4 0 00-3 3.87" />
+            </svg>
+        ) };
+        if (pathname.startsWith('/team')) return { title: 'Team', icon: (
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m9-4a4 4 0 11-8 0 4 4 0 018 0zm6 4a4 4 0 00-3-3.87M6 10a4 4 0 00-3 3.87" />
+            </svg>
+        ) };
+        if (pathname.startsWith('/contact')) return { title: 'Contact', icon: (
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none" />
+                <path d="M12 16v-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                <circle cx="12" cy="8" r="1" fill="currentColor" />
+            </svg>
+        ) };
+        return { title: 'TomaTech', icon: null };
+    };
+    const { title: pageTitle, icon: pageIcon } = getPageTitle(location.pathname);
+
     const navItems = [
         {
             name: "Beranda",
@@ -127,7 +171,7 @@ const Navbar = () => {
                         {/* Logo and Brand */}
                         <Link to="/" className="flex items-center">
                             <img src="/images/logos/logo.png" alt="TomaTech" className="h-16 w-16 md:h-20 md:w-20" />
-                            <span className="text-xl md:text-2xl font-bold">TomaTech</span>
+                            <span className="text-xl md:text-2xl font-bold">{pageTitle}</span>
                         </Link>
 
                         {/* Mobile: Dashboard & Logout icon only if logged in */}
@@ -151,11 +195,9 @@ const Navbar = () => {
                                 </div>
                                 {/* Desktop Navigation for logged in user */}
                                 <div className="hidden md:flex items-center gap-6">
-                                    <Link to="/dashboard" className="text-gray-600 hover:text-green-700 flex items-center gap-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                                        </svg>
-                                        <span className="font-medium">Dashboard</span>
+                                    <Link to={location.pathname} className="text-gray-600 hover:text-green-700 flex items-center gap-2">
+                                        {pageIcon}
+                                        <span className="font-medium">{pageTitle}</span>
                                     </Link>
                                     <button
                                         onClick={logout}

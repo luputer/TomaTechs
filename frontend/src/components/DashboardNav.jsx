@@ -1,10 +1,22 @@
 import { Home, LogOut } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const DashboardNav = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const { logout } = useAuth();
+
+    // Mapping path ke judul
+    const getPageTitle = (pathname) => {
+        if (pathname.startsWith('/dashboard')) return 'Dashboard';
+        if (pathname.startsWith('/deteksi')) return 'Deteksi';
+        if (pathname.startsWith('/history')) return 'Riwayat';
+        if (pathname.startsWith('/chats')) return 'TomaChat';
+        if (pathname.startsWith('/forum')) return 'Forum';
+        return 'TomaTech';
+    };
+    const pageTitle = getPageTitle(location.pathname);
 
     const handleLogout = async () => {
         try {
@@ -25,7 +37,7 @@ const DashboardNav = () => {
                         className="h-10 w-10 rounded-full"
                     />
                     <div>
-                        <h1 className="text-xl font-semibold">Dashboard</h1>
+                        <h1 className="text-xl font-semibold">{pageTitle}</h1>
                         <p className="text-sm text-gray-600">Welcome to TomaTech</p>
                     </div>
                 </div>

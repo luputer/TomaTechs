@@ -1,3 +1,13 @@
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
     Sidebar,
@@ -11,27 +21,18 @@ import {
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 import {
+    History,
     LayoutDashboard,
     LogOut,
     MessageSquare,
     PanelLeftClose,
     PanelLeftOpen,
-    Search
+    Search,
+    Users
 } from "lucide-react";
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
-import { supabase } from "../lib/supabase";
 import { useAuth } from '../context/AuthContext';
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
 
 /**
  * @typedef {Object} MenuItem
@@ -51,9 +52,9 @@ import {
 const MENU_ITEMS = [
     { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { path: '/deteksi', label: 'Deteksi', icon: Search },
-    { path: '/history', label: 'Riwayat', icon: Search },
+    { path: '/history', label: 'Riwayat', icon: History },
     { path: '/chats', label: 'TomaChat', icon: MessageSquare },
-    { path: '/forum', label: 'Forum', icon: MessageSquare },
+    { path: '/forum', label: 'Forum', icon: Users },
 ];
 
 /**

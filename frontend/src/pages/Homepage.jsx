@@ -51,9 +51,9 @@ const Homepage = () => {
                                 ]}
                                 wrapper="span"
                                 speed={50}
-                                style={{ fontSize: '2em', display: 'inline-block' }}
+                                style={{ fontSize: '2.5em', display: 'inline-block' }}
                                 repeat={Infinity}
-                                className="text-[#478800] text-4xl sm:text-4xl md:text-5xl font-bold text-left mb-4">
+                                className="text-[#478800] text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-left mb-4">
                             </TypeAnimation>
                             <p className="text-left text-base md:text-lg text-gray-700 mb-6">
                                 Unggah foto daun tomat dan temukan solusinya secara otomatis dengan teknologi AI
@@ -88,9 +88,9 @@ const Homepage = () => {
                     </div>
 
                     {/* Right Column - Image */}
-                    <div className="rounded-3xl overflow-hidden shadow-lg border border-[#cde7c1] bg-white">
+                    <div className="rounded-3xl overflow-hidden shadow-[8px_8px_15px_0px_rgba(0,0,0,0.3)] border border-[#cde7c1] bg-white transform translate-x-1 translate-y-1">
                         <img
-                            src="/images/hero/HeroImage.png"
+                            src="/images/hero/HeroImage.jpg"
                             alt="Tomato Plant"
                             className="w-full h-40 sm:h-60 md:h-80 lg:h-[400px] object-cover"
                         />
