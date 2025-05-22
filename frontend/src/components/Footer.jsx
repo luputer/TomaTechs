@@ -70,7 +70,7 @@ const Footer = () => {
                         <ul className="space-y-2">
                             <li className="font-semibold mb-2">Kontak</li>
                             <li className="text-gray-200">
-                                Email: info@tomatech.com
+                                Email: tomatech.team@gmail.com
                             </li>
                             <li className="text-gray-200">
                                 Telp: (021) 1234-5678

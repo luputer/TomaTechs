@@ -1,3 +1,4 @@
+import emailjs from '@emailjs/browser'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router'
@@ -6,6 +7,7 @@ import App from './App.jsx'
 import { ThemeProvider } from './components/theme-provider.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
 import './index.css'
+import { EMAILJS_CONFIG } from './lib/email'
 
 // Register service worker
 const updateSW = registerSW({
@@ -18,6 +20,9 @@ const updateSW = registerSW({
     console.log('App ready to work offline')
   },
 })
+
+// Initialize EmailJS
+emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
