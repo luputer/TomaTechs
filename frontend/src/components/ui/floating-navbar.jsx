@@ -45,6 +45,25 @@ export const FloatingNav = ({
     }
   };
 
+  const handleAboutClick = (e) => {
+    e.preventDefault();
+    if (location.pathname !== '/') {
+      navigate('/');
+      // Wait for navigation to complete before scrolling to about
+      setTimeout(() => {
+        const aboutSection = document.getElementById('about');
+        if (aboutSection) {
+          aboutSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      const aboutSection = document.getElementById('about');
+      if (aboutSection) {
+        aboutSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
   useMotionValueEvent(scrollYProgress, "change", (current) => {
     // Check if current is not undefined and is a number
     if (typeof current === "number") {
@@ -91,6 +110,17 @@ export const FloatingNav = ({
             >
               <span className="block sm:hidden">{navItem.icon}</span>
               <span className="hidden sm:block text-sm">Blog</span>
+            </button>
+          ) : navItem.name === "Tentang" ? (
+            <button
+              key={`link=${idx}`}
+              onClick={handleAboutClick}
+              className={cn(
+                "relative items-center flex space-x-1 text-white hover:text-gray-200 transition-transform duration-200 hover:scale-110 bg-transparent border-none outline-none cursor-pointer"
+              )}
+            >
+              <span className="block sm:hidden">{navItem.icon}</span>
+              <span className="hidden sm:block text-sm">Tentang</span>
             </button>
           ) : (
             <Link
