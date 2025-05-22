@@ -5,9 +5,9 @@ import { BrowserRouter } from 'react-router'
 import { registerSW } from 'virtual:pwa-register'
 import App from './App.jsx'
 import { ThemeProvider } from './components/theme-provider.jsx'
-import { EMAILJS_CONFIG } from './config/emailjs'
 import { AuthProvider } from './context/AuthContext.jsx'
 import './index.css'
+import { EMAILJS_CONFIG } from './lib/email'
 
 // Register service worker
 const updateSW = registerSW({

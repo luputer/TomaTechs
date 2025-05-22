@@ -2,7 +2,7 @@ import emailjs from '@emailjs/browser';
 import { motion } from 'framer-motion';
 import { CheckCircle2, Mail, MapPin, Phone, Send } from 'lucide-react';
 import { useRef, useState } from 'react';
-import { EMAILJS_CONFIG } from '../config/emailjs';
+import { EMAILJS_CONFIG } from '../lib/email';
 
 export default function Contact() {
   const formRef = useRef();
