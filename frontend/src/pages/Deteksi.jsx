@@ -21,7 +21,7 @@ const Deteksi = () => {
   const { user } = useAuth();
 
   // Mapping penyakit ke deskripsi dan penanganan
-  const diseaseInfo = {
+   const diseaseInfo = {
     'Tomato_mosaic_virus': {
       name: 'Virus Mosaik Tomat (ToMV)',
       description: 'Penyakit yang disebabkan oleh Tomato Mosaic Virus, ditularkan melalui benih, tangan manusia, alat pertanian, dan tanaman inang lain. Virus dapat bertahan lama di tanah dan sisa tanaman.',
@@ -62,7 +62,7 @@ const Deteksi = () => {
         '4. Fungisida: Gunakan fungisida berbahan aktif seperti chlorothalonil, mancozeb, atau copper-based fungicides\n' +
         '5. Varietas tahan: Gunakan varietas tomat yang tahan terhadap Early Blight jika tersedia'
     },
-    'Spider_mites': {
+    'Spider_mites Two-spotted_spider_mite': {
       name: 'Tungau Laba-laba (Two-Spotted Spider Mite)',
       description: 'Hama tungau kecil yang hidup di bawah daun dan mengisap cairan sel tanaman. Menyukai kondisi panas dan kering. Menyebabkan bercak kuning kecil (stippling) di daun dan jaring halus (webbing) di bawah daun.',
       treatment: 'Penanganan yang disarankan:\n' +
@@ -80,7 +80,45 @@ const Deteksi = () => {
         '3. Rotasi tanaman: Hindari menanam tomat di lokasi yang sama setiap tahun\n' +
         '4. Fungisida: Gunakan fungisida seperti chlorothalonil, copper fungicides, atau mancozeb\n' +
         '5. Ventilasi baik: Beri jarak antar tanaman untuk meningkatkan sirkulasi udara'
-    }
+    },
+    'Tomato_Yellow_Leaf_Curl_Virus': {
+      name: 'Virus Keriting Daun Kuning Tomat (TYLCV)',
+      description: 'Penyakit yang disebabkan oleh Tomato Yellow Leaf Curl Virus yang ditularkan oleh kutu kebul (Bemisia tabaci). Dapat menyebar melalui tanaman inang lain atau alat pertanian yang terkontaminasi. Menyebabkan daun menguning, melengkung ke atas (curl), dan mengecil. Pertumbuhan tanaman terhambat, bunga dan buah jarang terbentuk.',
+      treatment: 'Penanganan yang disarankan:\n' +
+        '1. Gunakan benih atau bibit yang resisten terhadap TYLCV\n' +
+        '2. Kendalikan populasi kutu kebul dengan insektisida (imidakloprid atau abamektin) atau perangkap kuning\n' +
+        '3. Cabut dan bakar tanaman yang terinfeksi untuk mencegah penyebaran\n' +
+        '4. Hindari menanam tomat dekat tanaman inang seperti cabai atau terung\n' +
+        '5. Pasang mulsa plastik perak untuk mengusir kutu kebul'
+    },
+    'Late_blight': {
+      name: 'Hawar Daun Akhir (Late Blight)',
+      description: 'Penyakit yang disebabkan oleh jamur Phytophthora infestans, menyebar melalui spora yang terbawa angin, air hujan, atau kelembaban tinggi. Menyebabkan bercak coklat kehitaman pada daun, batang, atau buah, sering dengan tepi berwarna putih (seperti kapang). Daun layu dan tanaman cepat mati dalam kondisi lembab.',
+      treatment: 'Penanganan yang disarankan:\n' +
+        '1. Gunakan fungisida sistemik (metalaksil atau dimetomorf) atau fungisida kontak (tembaga)\n' +
+        '2. Hindari penyiraman dari atas dan jaga jarak tanam untuk sirkulasi udara\n' +
+        '3. Buang bagian tanaman yang terinfeksi dan bakar sisa tanaman setelah panen\n' +
+        '4. Rotasi tanaman dengan non-solanaceae (misalnya kacang-kacangan) selama 2-3 tahun'
+    },
+    'Leaf_Mold': {
+      name: 'Jamur Daun (Leaf Mold)',
+      description: 'Penyakit yang disebabkan oleh jamur Passalora fulva, berkembang pesat di lingkungan lembab dan sirkulasi udara buruk. Menyebabkan bercak kuning di permukaan daun atas dan lapisan berbulu coklat/abu-abu di bawah daun. Daun mengering dan gugur prematur, mengurangi hasil panen.',
+      treatment: 'Penanganan yang disarankan:\n' +
+        '1. Semprot fungisida seperti klorotalonil atau mankozeb\n' +
+        '2. Kurangi kelembapan dengan ventilasi baik (misalnya greenhouse) atau jarak tanam lebar\n' +
+        '3. Hindari penyiraman di malam hari\n' +
+        '4. Rotasi tanaman dan bersihkan sisa tanaman setelah panen'
+    },
+    'healthy': {
+  name: 'Daun Tomat Sehat',
+  description: 'Daun tomat yang sehat dan bebas dari infeksi penyakit, menunjukkan pertumbuhan yang baik dengan warna hijau cerah. Tidak ada bercak, bintik, atau kerusakan pada daun, dan tanaman menunjukkan perkembangan optimal serta hasil panen yang maksimal.',
+  treatment: 'Langkah-langkah menjaga daun tomat tetap sehat:\n' +
+    '1. Pastikan pemberian nutrisi seimbang dan tepat\n' +
+    '2. Rajin menyiram secara cukup dan merata, hindari kelebihan air\n' +
+    '3. Gunakan pestisida nabati atau alami jika muncul tanda awal serangan hama atau penyakit\n' +
+    '4. Jaga sirkulasi udara yang baik di sekitar tanaman\n' +
+    '5. Bersihkan dan buang daun yang mati atau terserang penyakit untuk mencegah penyebaran'
+}
   };
 
   const handleDevices = useCallback(
@@ -143,8 +181,9 @@ const Deteksi = () => {
     formData.append('user_id', user.id);
 
     try {
-      const response = await AxiosInstance.post('/predict', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/predict`, {
+        method: 'POST',
+        body: formData,
       });
 
       if (!response.ok) {
@@ -214,6 +253,14 @@ const Deteksi = () => {
                 className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-[#2e7d32] mb-4 sm:mb-6 text-center z-10"
               >
                 Pastikan gambar yang diambil terlihat jelas
+              </motion.h3>
+              <motion.h3
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9 }}
+                className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-red-200 mb-4 sm:mb-6 text-center z-10"
+              >
+                Aplikasi tidak bisa mendeteksi selain daun tomat
               </motion.h3>
 
               {/* Tombol utama animasi */}

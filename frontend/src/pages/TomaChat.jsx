@@ -35,7 +35,7 @@ const TomaChat = () => {
 
             try {
                 setIsLoading(true);
-                const response = await fetch(`http://localhost:8080/chat_history/${user.id}`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/chat_history/${user.id}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch chat history');
                 }
@@ -74,7 +74,7 @@ const TomaChat = () => {
         setIsLoading(true);
 
         try {
-            const response = await fetch('http://localhost:8080/toma_chat', {
+             const response = await fetch(`${import.meta.env.VITE_API_URL}/toma_chat`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
