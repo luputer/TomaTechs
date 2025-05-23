@@ -89,7 +89,7 @@ const Guide = () => {
                             <img
                                 src="/images/icons/dampak2.png"
                                 alt="Mengurangi Penggunaan Pestisida Berlebihan"
-                                className="w-full h-48 sm:h-56 md:h-64 object-cover"
+                                className="w-full h-432 sm:h-40 md:h-48 object-cover"
                             />
                             <div className="p-4 md:p-6">
                                 <h3 className="text-lg md:text-xl font-semibold text-[#478800] mb-2 md:mb-3">Mengurangi Penggunaan Pestisida Berlebihan</h3>
