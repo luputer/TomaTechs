@@ -1,9 +1,0 @@
-2025/05/06 21:00:40 maxprocs: Leaving GOMAXPROCS=12: CPU quota undefined
-I0506 21:00:41.601109 31640 main.go:583] Setting GOMAXPROCS to 4
-I0506 21:00:41.610134 31640 main.go:798] Starting language server process with pid 31640
-I0506 21:00:41.633771 31640 server.go:272] Language server will attempt to listen on host 127.0.0.1
-I0506 21:00:41.653037 31640 server.go:279] Language server listening on random port at 47029
-2025/05/06 21:00:41 [proxy.Provider.readWinHttpProxy] No proxy discovered via AutoDetect: winapi error #12180
-I0506 21:00:43.949021 31640 web_server.go:262] Chat Web Server listening at ws://127.0.0.1:47037
-I0506 21:00:45.006259 31640 server.go:1095] Child process attempting to acquire lock file C:\Users\Saidi\OneDrive\Documents\Semeter4\DBS\Capstone\backend\MinGW\bin\db3b6870-52d3-4407-b3de-12f22a3c9493\codeium\manager/locks/child_lock_1746536440937187200_151728001609542538
-I0506 21:00:45.007120 31640 server.go:1103] Child process acquired lock file C:\Users\Saidi\OneDrive\Documents\Semeter4\DBS\Capstone\backend\MinGW\bin\db3b6870-52d3-4407-b3de-12f22a3c9493\codeium\manager/locks/child_lock_1746536440937187200_151728001609542538

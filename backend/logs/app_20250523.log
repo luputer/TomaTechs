@@ -1,0 +1,96 @@
+2025-05-23 16:55:22,142 - utils.logger - INFO - Starting application...
+2025-05-23 16:55:25,101 - utils.logger - INFO - Supabase client initialized successfully
+2025-05-23 16:55:25,550 - utils.logger - INFO - Supabase client initialized successfully
+2025-05-23 16:56:12,666 - utils.logger - INFO - Loading model from C:\Users\Saidi\OneDrive\Documents\Semeter4\DBS\Capstone\model_terbaik.h5
+2025-05-23 17:01:17,114 - utils.logger - INFO - Starting application...
+2025-05-23 17:01:18,329 - utils.logger - INFO - Supabase client initialized successfully
+2025-05-23 17:01:18,599 - utils.logger - INFO - Supabase client initialized successfully
+2025-05-23 17:01:27,532 - utils.logger - INFO - Loading model from C:\Users\Saidi\OneDrive\Documents\Semeter4\DBS\Capstone\backend\routes\models\model_terbaik.h5
+2025-05-23 17:01:43,404 - utils.logger - INFO - Starting application...
+2025-05-23 17:01:44,810 - utils.logger - INFO - Supabase client initialized successfully
+2025-05-23 17:01:45,113 - utils.logger - INFO - Supabase client initialized successfully
+2025-05-23 17:01:51,585 - utils.logger - INFO - Loading model from C:\Users\Saidi\OneDrive\Documents\Semeter4\DBS\Capstone\backend\routes\models\model_terbaik.h5
+2025-05-23 17:02:46,547 - utils.logger - INFO - Starting application...
+2025-05-23 17:02:47,804 - utils.logger - INFO - Supabase client initialized successfully
+2025-05-23 17:02:48,106 - utils.logger - INFO - Supabase client initialized successfully
+2025-05-23 17:02:54,300 - utils.logger - INFO - Loading model from C:\Users\Saidi\OneDrive\Documents\Semeter4\DBS\Capstone\backend\routes\models\model_terbaik.h5
+2025-05-23 17:03:47,315 - utils.logger - INFO - Starting application...
+2025-05-23 17:03:48,453 - utils.logger - INFO - Supabase client initialized successfully
+2025-05-23 17:03:48,733 - utils.logger - INFO - Supabase client initialized successfully
+2025-05-23 17:03:54,038 - utils.logger - INFO - Loading model from C:\Users\Saidi\OneDrive\Documents\Semeter4\DBS\Capstone\backend\models\model_terbaik.h5
+2025-05-23 17:03:54,342 - absl - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-05-23 17:03:54,347 - utils.logger - INFO - Model loaded successfully
+2025-05-23 17:03:54,837 - utils.logger - INFO - Application configured, starting server...
+2025-05-23 17:03:54,877 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://192.168.96.34:8080
+2025-05-23 17:03:54,877 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-05-23 17:03:54,879 - werkzeug - INFO -  * Restarting with stat
+2025-05-23 17:03:55,213 - utils.logger - INFO - Starting application...
+2025-05-23 17:03:55,936 - utils.logger - INFO - Supabase client initialized successfully
+2025-05-23 17:03:56,275 - utils.logger - INFO - Supabase client initialized successfully
+2025-05-23 17:04:00,477 - utils.logger - INFO - Loading model from C:\Users\Saidi\OneDrive\Documents\Semeter4\DBS\Capstone\backend\models\model_terbaik.h5
+2025-05-23 17:04:00,792 - absl - WARNING - Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+2025-05-23 17:04:00,797 - utils.logger - INFO - Model loaded successfully
+2025-05-23 17:04:01,140 - utils.logger - INFO - Application configured, starting server...
+2025-05-23 17:04:01,148 - werkzeug - WARNING -  * Debugger is active!
+2025-05-23 17:04:01,152 - werkzeug - INFO -  * Debugger PIN: 730-431-327
+2025-05-23 17:04:19,835 - utils.logger - INFO - Headers: Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="136", "Google Chrome";v="136", "Not.A/Brand";v="99"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "Windows"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+
+2025-05-23 17:04:19,838 - utils.logger - INFO - Body: b''
+2025-05-23 17:04:19,839 - utils.logger - INFO - URL: GET http://localhost:8080/
+2025-05-23 17:04:19,840 - utils.logger - ERROR - 404 error: http://localhost:8080/ - 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2025-05-23 17:04:19,841 - werkzeug - INFO - 127.0.0.1 - - [23/May/2025 17:04:19] "[33mGET / HTTP/1.1[0m" 404 -
+2025-05-23 17:04:20,001 - utils.logger - INFO - Headers: Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua-Platform: "Windows"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+Sec-Ch-Ua: "Chromium";v="136", "Google Chrome";v="136", "Not.A/Brand";v="99"
+Sec-Ch-Ua-Mobile: ?0
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://localhost:8080/
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+
+2025-05-23 17:04:20,003 - utils.logger - INFO - Body: b''
+2025-05-23 17:04:20,004 - utils.logger - INFO - URL: GET http://localhost:8080/favicon.ico
+2025-05-23 17:04:20,004 - utils.logger - ERROR - 404 error: http://localhost:8080/favicon.ico - 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2025-05-23 17:04:20,006 - werkzeug - INFO - 127.0.0.1 - - [23/May/2025 17:04:20] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-05-23 17:04:25,468 - utils.logger - INFO - Headers: Host: localhost:8080
+Connection: keep-alive
+Sec-Ch-Ua: "Chromium";v="136", "Google Chrome";v="136", "Not.A/Brand";v="99"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "Windows"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+
+
+2025-05-23 17:04:25,469 - utils.logger - INFO - Body: b''
+2025-05-23 17:04:25,471 - utils.logger - INFO - URL: GET http://localhost:8080/predict
+2025-05-23 17:04:25,475 - werkzeug - INFO - 127.0.0.1 - - [23/May/2025 17:04:25] "[31m[1mGET /predict HTTP/1.1[0m" 405 -
