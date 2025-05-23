@@ -1,10 +1,3 @@
-import { ChevronLeft, ChevronRight, Eye, Edit, Trash2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
-import Sidebar from "../components/Sidebar";
-import { useAuth } from '../context/AuthContext';
-import { supabase } from '../lib/supabase';
-import { toast } from 'sonner';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -14,8 +7,15 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
+} from "@/components/ui/alert-dialog";
 import AxiosInstance from "@/lib/axios";
+import { motion } from 'framer-motion';
+import { ChevronLeft, ChevronRight, Eye, Trash2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
+import { toast } from 'sonner';
+import Sidebar from "../components/Sidebar";
+import { useAuth } from '../context/AuthContext';
 
 
 
@@ -72,14 +72,14 @@ const History = () => {
                 '5. Bakar sisa tanaman setelah panen'
         },
         'Early_blight': {
-            name: 'Hawar Dini (Early Blight)',
+            name: 'Hawar Daun Dini (Early Blight)',
             description: 'Penyakit yang disebabkan oleh jamur Alternaria solani. Umum terjadi pada kondisi lembap dan suhu hangat. Menyebar melalui cipratan air hujan/irigrasi dari tanah dan residu tanaman yang terinfeksi. Menyebabkan bercak coklat tua dengan lingkaran konsentris seperti target di daun tua.',
             treatment: 'Penanganan yang disarankan:\n' +
                 '1. Sanitasi: Buang daun yang terinfeksi dan sisa tanaman setelah panen\n' +
                 '2. Rotasi tanaman: Hindari menanam tomat atau kentang di tempat yang sama selama 2–3 tahun\n' +
                 '3. Mulsa tanah: Cegah cipratan air tanah ke daun\n' +
                 '4. Fungisida: Gunakan fungisida berbahan aktif seperti chlorothalonil, mancozeb, atau copper-based fungicides\n' +
-                '5. Varietas tahan: Gunakan varietas tomat yang tahan terhadap Early Blight'
+                '5. Varietas tahan: Gunakan varietas tomat yang tahan terhadap Early Blight jika tersedia'
         },
         'Spider_mites Two-spotted_spider_mite': {
             name: 'Tungau Laba-laba (Two-Spotted Spider Mite)',
@@ -92,7 +92,7 @@ const History = () => {
                 '5. Monitoring: Periksa tanaman secara rutin untuk deteksi dini'
         },
         'Septoria_leaf_spot': {
-            name: 'Bercak Septoria (Septoria Leaf Spot)',
+            name: 'Bercak Daun Septoria (Septoria Leaf Spot)',
             description: 'Penyakit yang disebabkan oleh jamur Septoria lycopersici. Menyukai lingkungan lembap dan hangat, sering muncul saat tanaman mulai berbunga. Menyebabkan bercak kecil bulat, coklat keabu-abuan dengan tepi gelap di daun bagian bawah.',
             treatment: 'Penanganan yang disarankan:\n' +
                 '1. Sanitasi: Buang daun yang terinfeksi dan sisa tanaman secara menyeluruh\n' +
@@ -100,6 +100,44 @@ const History = () => {
                 '3. Rotasi tanaman: Hindari menanam tomat di lokasi yang sama setiap tahun\n' +
                 '4. Fungisida: Gunakan fungisida seperti chlorothalonil, copper fungicides, atau mancozeb\n' +
                 '5. Ventilasi baik: Beri jarak antar tanaman untuk meningkatkan sirkulasi udara'
+        },
+        'Tomato_Yellow_Leaf_Curl_Virus': {
+            name: 'Virus Keriting Daun Kuning Tomat (TYLCV)',
+            description: 'Penyakit yang disebabkan oleh Tomato Yellow Leaf Curl Virus yang ditularkan oleh kutu kebul (Bemisia tabaci). Dapat menyebar melalui tanaman inang lain atau alat pertanian yang terkontaminasi. Menyebabkan daun menguning, melengkung ke atas (curl), dan mengecil. Pertumbuhan tanaman terhambat, bunga dan buah jarang terbentuk.',
+            treatment: 'Penanganan yang disarankan:\n' +
+                '1. Gunakan benih atau bibit yang resisten terhadap TYLCV\n' +
+                '2. Kendalikan populasi kutu kebul dengan insektisida (imidakloprid atau abamektin) atau perangkap kuning\n' +
+                '3. Cabut dan bakar tanaman yang terinfeksi untuk mencegah penyebaran\n' +
+                '4. Hindari menanam tomat dekat tanaman inang seperti cabai atau terung\n' +
+                '5. Pasang mulsa plastik perak untuk mengusir kutu kebul'
+        },
+        'Late_blight': {
+            name: 'Hawar Daun Akhir (Late Blight)',
+            description: 'Penyakit yang disebabkan oleh jamur Phytophthora infestans, menyebar melalui spora yang terbawa angin, air hujan, atau kelembaban tinggi. Menyebabkan bercak coklat kehitaman pada daun, batang, atau buah, sering dengan tepi berwarna putih (seperti kapang). Daun layu dan tanaman cepat mati dalam kondisi lembab.',
+            treatment: 'Penanganan yang disarankan:\n' +
+                '1. Gunakan fungisida sistemik (metalaksil atau dimetomorf) atau fungisida kontak (tembaga)\n' +
+                '2. Hindari penyiraman dari atas dan jaga jarak tanam untuk sirkulasi udara\n' +
+                '3. Buang bagian tanaman yang terinfeksi dan bakar sisa tanaman setelah panen\n' +
+                '4. Rotasi tanaman dengan non-solanaceae (misalnya kacang-kacangan) selama 2-3 tahun'
+        },
+        'Leaf_Mold': {
+            name: 'Jamur Daun (Leaf Mold)',
+            description: 'Penyakit yang disebabkan oleh jamur Passalora fulva, berkembang pesat di lingkungan lembab dan sirkulasi udara buruk. Menyebabkan bercak kuning di permukaan daun atas dan lapisan berbulu coklat/abu-abu di bawah daun. Daun mengering dan gugur prematur, mengurangi hasil panen.',
+            treatment: 'Penanganan yang disarankan:\n' +
+                '1. Semprot fungisida seperti klorotalonil atau mankozeb\n' +
+                '2. Kurangi kelembapan dengan ventilasi baik (misalnya greenhouse) atau jarak tanam lebar\n' +
+                '3. Hindari penyiraman di malam hari\n' +
+                '4. Rotasi tanaman dan bersihkan sisa tanaman setelah panen'
+        },
+        'Healthy': {
+            name: 'Daun Tomat Sehat',
+            description: 'Daun tomat yang sehat dan bebas dari infeksi penyakit, menunjukkan pertumbuhan yang baik dengan warna hijau cerah. Tidak ada bercak, bintik, atau kerusakan pada daun, dan tanaman menunjukkan perkembangan optimal serta hasil panen yang maksimal.',
+            treatment: 'Langkah-langkah menjaga daun tomat tetap sehat:\n' +
+                '1. Pastikan pemberian nutrisi seimbang dan tepat\n' +
+                '2. Rajin menyiram secara cukup dan merata, hindari kelebihan air\n' +
+                '3. Gunakan pestisida nabati atau alami jika muncul tanda awal serangan hama atau penyakit\n' +
+                '4. Jaga sirkulasi udara yang baik di sekitar tanaman\n' +
+                '5. Bersihkan dan buang daun yang mati atau terserang penyakit untuk mencegah penyebaran'
         }
     };
 
@@ -265,11 +303,28 @@ const History = () => {
     }
 
     return (
-        <div className=" ml-2 flex bg-[#3B5D3D]">
+        <div className="flex bg-[#3B5D3D] min-h-screen">
             <Sidebar user={user} />
-            <div className="flex-1 p-4">
-                <div className="bg-white h-[calc(100vh-2rem)]  rounded-3xl shadow-lg p-6">
-                    <h1 className="text-3xl font-bold text-green-700 text-center mb-6">Riwayat Deteksi</h1>
+            <div className="flex-1">
+                <div className="bg-white h-[calc(100vh-2rem)] m-4 rounded-3xl shadow-lg">
+                    <div className="relative pt-4 pb-4">
+                        <div className="absolute inset-0 bg-gradient-to-r from-green-50 to-transparent opacity-50 rounded-t-3xl"></div>
+                        <div className="relative">
+                            <motion.h1
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.7 }}
+                                className="text-4xl lg:text-5xl font-bold text-center"
+                            >
+                                <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-green-800">
+                                    Riwayat Deteksi
+                                </span>
+                            </motion.h1>
+                            <p className="text-center text-gray-600 mt-2">
+                                Lihat dan kelola hasil deteksi penyakit tomat Anda
+                            </p>
+                        </div>
+                    </div>
 
                     {predictions.length === 0 ? (
                         <div className="bg-white rounded-lg shadow p-8 text-center">
@@ -278,26 +333,26 @@ const History = () => {
                     ) : (
                         <div className="flex flex-col h-[calc(85%-2rem)]">
                             <div className="flex-grow overflow-y-auto">
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
                                     {currentItems.map((prediction) => (
-                                        <div key={prediction.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                                            <div className="relative">
+                                        <div key={prediction.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300">
+                                            <div className="relative aspect-[5/4]">
                                                 <img
                                                     src={prediction.image_url}
                                                     alt="Prediction Result"
-                                                    className="w-full h-48 object-cover"
+                                                    className="w-full h-full object-cover"
                                                 />
-                                                <div className="absolute top-2 right-2 flex gap-2">
+                                                <div className="absolute top-3 right-3 flex gap-2">
                                                     <button
                                                         onClick={() => handlePreview(prediction)}
-                                                        className="p-2 bg-white rounded-full shadow-md hover:bg-gray-100 transition-colors"
+                                                        className="p-2 bg-white/90 backdrop-blur-sm rounded-full shadow-md hover:bg-white transition-colors"
                                                         title="Preview"
                                                     >
                                                         <Eye className="w-4 h-4 text-blue-600" />
                                                     </button>
                                                     <button
                                                         onClick={() => handleDeleteClick(prediction.id)}
-                                                        className="p-2 bg-white rounded-full shadow-md hover:bg-gray-100 transition-colors"
+                                                        className="p-2 bg-white/90 backdrop-blur-sm rounded-full shadow-md hover:bg-white transition-colors"
                                                         title="Delete"
                                                     >
                                                         <Trash2 className="w-4 h-4 text-red-600" />
@@ -306,20 +361,23 @@ const History = () => {
                                             </div>
                                             <div className="p-4">
                                                 <div className="mb-3">
-                                                    <h3 className="text-lg font-semibold text-green-700">
-                                                        {prediction.predicted_class}
+                                                    <h3 className="text-lg font-semibold text-green-700 mb-2">
+                                                        {diseaseInfo[prediction.predicted_class]?.name || prediction.predicted_class}
                                                     </h3>
-                                                    <div className="flex items-center gap-2 mt-1">
+                                                    <div className="flex items-center gap-2 mb-3">
                                                         <div className="h-2 flex-1 bg-gray-200 rounded-full overflow-hidden">
                                                             <div
-                                                                className="h-full bg-green-600 rounded-full"
+                                                                className="h-full bg-green-600 rounded-full transition-all duration-300"
                                                                 style={{ width: `${prediction.confidence * 100}%` }}
                                                             ></div>
                                                         </div>
-                                                        <span className="text-sm text-gray-600">
-                                                            {(prediction.confidence * 100).toFixed(0)}%
+                                                        <span className="text-sm font-medium text-gray-600 min-w-[45px] text-right">
+                                                            {(prediction.confidence * 100).toFixed(2)}%
                                                         </span>
                                                     </div>
+                                                    <p className="text-sm text-gray-600 line-clamp-2">
+                                                        {diseaseInfo[prediction.predicted_class]?.description}
+                                                    </p>
                                                 </div>
                                                 <p className="text-xs text-gray-500">
                                                     {new Date(prediction.created_at).toLocaleDateString('id-ID', {
@@ -366,49 +424,49 @@ const History = () => {
 
             {/* Preview Modal */}
             <AlertDialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
-                <AlertDialogContent className="bg-white max-w-5xl max-h-[90vh] overflow-y-auto">
+                <AlertDialogContent className="bg-white max-w-screen-lg md:max-w-screen-xl w-full max-h-[90vh] overflow-y-auto p-4 md:p-8">
                     <AlertDialogHeader>
-                        <AlertDialogTitle className="text-2xl text-center text-[#3B5D3D]">
+                        <AlertDialogTitle className="text-2xl md:text-3xl text-center text-[#3B5D3D] font-bold mb-4 md:mb-6">
                             Hasil Deteksi Penyakit Tomat
                         </AlertDialogTitle>
                     </AlertDialogHeader>
 
                     {selectedPrediction && (
-                        <div className="mt-4">
-                            <div className="flex gap-6">
+                        <div className="mt-2 md:mt-4 border border-gray-200 rounded-lg p-4 md:p-6 shadow-md">
+                            <div className="flex flex-col md:flex-row gap-4 md:gap-6">
                                 {/* Image Section - Left Side */}
-                                <div className="w-1/2">
+                                <div className="w-full md:w-1/2 flex justify-center items-start p-2">
                                     <img
                                         src={selectedPrediction.image_url}
                                         alt="Hasil Deteksi"
-                                        className="w-full h-auto rounded-lg object-cover"
+                                        className="w-full h-auto rounded-lg object-contain max-h-[40vh] md:max-h-[50vh] shadow"
                                     />
                                 </div>
 
                                 {/* Content Section - Right Side */}
-                                <div className="w-1/2 bg-[#f8f9fa] p-6 rounded-lg space-y-4">
+                                <div className="w-full md:w-1/2 bg-white p-4 md:p-6 rounded-lg space-y-4 md:space-y-6 shadow-inner">
                                     <div>
-                                        <h3 className="text-lg font-semibold text-[#3B5D3D] mb-2">
+                                        <h3 className="text-lg md:text-xl font-semibold text-[#3B5D3D] mb-2 border-b border-gray-200 pb-2">
                                             Penyakit:
                                         </h3>
-                                        <p className="text-xl font-bold text-[#3B5D3D]">
+                                        <p className="text-xl md:text-2xl font-bold text-green-700">
                                             {diseaseInfo[selectedPrediction.predicted_class]?.name || selectedPrediction.predicted_class}
                                         </p>
                                     </div>
 
                                     <div>
-                                        <h3 className="text-lg font-semibold text-[#3B5D3D] mb-2">
+                                        <h3 className="text-lg md:text-xl font-semibold text-[#3B5D3D] mb-2 border-b border-gray-200 pb-2">
                                             Tingkat Akurasi:
                                         </h3>
                                         <div className="relative pt-1">
                                             <div className="flex mb-2 items-center justify-between">
                                                 <div className="w-full bg-gray-200 rounded-full h-4">
                                                     <div
-                                                        className="h-full bg-[#3B5D3D] rounded-full transition-all duration-300"
+                                                        className="h-full bg-green-600 rounded-full transition-all duration-300"
                                                         style={{ width: `${(selectedPrediction.confidence * 100).toFixed(0)}%` }}
                                                     ></div>
                                                 </div>
-                                                <span className="text-lg font-semibold text-[#3B5D3D] ml-4">
+                                                <span className="text-lg md:text-xl font-semibold text-[#3B5D3D] ml-4">
                                                     {(selectedPrediction.confidence * 100).toFixed(2)}%
                                                 </span>
                                             </div>
@@ -416,24 +474,24 @@ const History = () => {
                                     </div>
 
                                     <div>
-                                        <h3 className="text-lg font-semibold text-[#3B5D3D] mb-2">
+                                        <h3 className="text-lg md:text-xl font-semibold text-[#3B5D3D] mb-2 border-b border-gray-200 pb-2">
                                             Deskripsi:
                                         </h3>
-                                        <p className="text-gray-700">
-                                            {diseaseInfo[selectedPrediction.predicted_class]?.description}
+                                        <p className="text-gray-700 text-sm md:text-base">
+                                            {diseaseInfo[selectedPrediction.predicted_class]?.description || 'Deskripsi tidak tersedia'}
                                         </p>
                                     </div>
 
                                     <div>
-                                        <h3 className="text-lg font-semibold text-[#3B5D3D] mb-2">
+                                        <h3 className="text-lg md:text-xl font-semibold text-[#3B5D3D] mb-2 border-b border-gray-200 pb-2">
                                             Penanganan:
                                         </h3>
-                                        <p className="text-gray-700 whitespace-pre-line">
-                                            {diseaseInfo[selectedPrediction.predicted_class]?.treatment}
+                                        <p className="text-gray-700 whitespace-pre-line text-sm md:text-base">
+                                            {diseaseInfo[selectedPrediction.predicted_class]?.treatment || 'Informasi penanganan tidak tersedia'}
                                         </p>
                                     </div>
 
-                                    <div className="text-right text-sm text-gray-600 mt-4">
+                                    <div className="text-right text-xs md:text-sm text-gray-600 mt-4 pt-4 border-t border-gray-200">
                                         Waktu Deteksi: {new Date(selectedPrediction.created_at).toLocaleDateString('id-ID', {
                                             year: 'numeric',
                                             month: 'long',

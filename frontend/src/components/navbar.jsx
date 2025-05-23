@@ -309,41 +309,41 @@ const Navbar = () => {
                                                 <span>{item.name}</span>
                                             </button>
                                         ) : item.name === "Blog" ? (
-                                            <button
+                                    <button
                                                 key={item.name}
                                                 onClick={handleBlogClick}
                                                 className="flex items-center gap-3 w-full text-left text-gray-800 font-medium hover:text-green-700 px-4 py-3 hover:bg-gray-50"
-                                            >
+                                    >
                                                 {item.icon}
                                                 <span>{item.name}</span>
-                                            </button>
+                                    </button>
                                         ) : (
-                                            <Link
+                                    <Link
                                                 key={item.name}
                                                 to={item.link}
                                                 className="flex items-center gap-3 text-gray-800 font-medium hover:text-green-700 px-4 py-3 hover:bg-gray-50"
-                                                onClick={() => setIsMobileMenuOpen(false)}
-                                            >
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
                                                 {item.icon}
                                                 <span>{item.name}</span>
-                                            </Link>
+                                    </Link>
                                         )
                                     ))}
                                     <div className="px-4 py-3">
-                                        <Button
-                                            onClick={() => {
-                                                handleAuth();
-                                                setIsMobileMenuOpen(false);
-                                            }}
-                                            variant="default"
+                                <Button
+                                    onClick={() => {
+                                        handleAuth();
+                                        setIsMobileMenuOpen(false);
+                                    }}
+                                    variant="default"
                                             className="w-full bg-[#478800] hover:bg-[#2e4a2f] text-white flex items-center justify-center gap-2"
-                                        >
+                                >
                                             <span className="font-semibold">Masuk</span>
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <circle cx="12" cy="9" r="4" stroke="white" strokeWidth="2" fill="none" />
                                                 <path d="M4 19c0-2.5 3.5-4.5 8-4.5s8 2 8 4.5" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round" />
                                             </svg>
-                                        </Button>
+                                </Button>
                                     </div>
                                 </>
                             )}

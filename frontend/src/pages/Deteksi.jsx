@@ -1,4 +1,3 @@
-import AxiosInstance from "@/lib/axios";
 import { motion } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { FaCloudUploadAlt } from 'react-icons/fa';
@@ -260,7 +259,7 @@ const Deteksi = () => {
                 transition={{ duration: 0.9 }}
                 className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-[#2e7d32] mb-4 sm:mb-6 text-center z-10"
               >
-                jangan Uplord selain daun Tomat
+                jangan Upload selain daun Tomat
               </motion.h3>
 
               {/* Tombol utama animasi */}

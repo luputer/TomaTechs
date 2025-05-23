@@ -1,6 +1,7 @@
 // src/pages/Forum.jsx
 import { useAuth } from "@/context/AuthContext";
 import AxiosInstance from "@/lib/axios";
+import { motion } from "framer-motion";
 import { Heart, Image as ImageIcon, MessageCircle, Plus, ThumbsDown } from "lucide-react";
 import { useEffect, useState } from "react";
 import Sidebar from '../components/Sidebar';
@@ -203,7 +204,24 @@ export default function Forum() {
                         {/* Ornamen */}
                         <img src="/images/icons/tomato.png" alt="" className="absolute left-0 bottom-0 w-32 opacity-80 pointer-events-none" />
                         <img src="/images/icons/brain-icon.png" alt="" className="absolute right-8 top-8 w-20 opacity-80 pointer-events-none" />
-                        <h1 className="text-5xl font-bold text-center text-green-700 mb-8">Forum</h1>
+                        <div className="relative pt-4 pb-4">
+                            <div className="absolute inset-0 bg-gradient-to-r from-green-50 to-transparent opacity-50 rounded-t-3xl"></div>
+                            <div className="relative">
+                                <motion.h1
+                                    initial={{ opacity: 0, y: 30 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.7 }}
+                                    className="text-4xl lg:text-5xl font-bold text-center"
+                                >
+                                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-green-800">
+                                        Forum Diskusi
+                                    </span>
+                                </motion.h1>
+                                <p className="text-center text-gray-600 mt-2">
+                                    Diskusikan dan berbagi pengalaman tentang pertanian tomat
+                                </p>
+                            </div>
+                        </div>
                         {/* Search Bar */}
                         <div className="flex items-center gap-2 mb-6">
                             <input
