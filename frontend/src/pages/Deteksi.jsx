@@ -62,7 +62,7 @@ const Deteksi = () => {
         '4. Fungisida: Gunakan fungisida berbahan aktif seperti chlorothalonil, mancozeb, atau copper-based fungicides\n' +
         '5. Varietas tahan: Gunakan varietas tomat yang tahan terhadap Early Blight jika tersedia'
     },
-    'Spider_mites': {
+    'Spider_mites Two-spotted_spider_mite': {
       name: 'Tungau Laba-laba (Two-Spotted Spider Mite)',
       description: 'Hama tungau kecil yang hidup di bawah daun dan mengisap cairan sel tanaman. Menyukai kondisi panas dan kering. Menyebabkan bercak kuning kecil (stippling) di daun dan jaring halus (webbing) di bawah daun.',
       treatment: 'Penanganan yang disarankan:\n' +
@@ -81,7 +81,7 @@ const Deteksi = () => {
         '4. Fungisida: Gunakan fungisida seperti chlorothalonil, copper fungicides, atau mancozeb\n' +
         '5. Ventilasi baik: Beri jarak antar tanaman untuk meningkatkan sirkulasi udara'
     },
-    'TYLCV': {
+    'Tomato_Yellow_Leaf_Curl_Virus': {
       name: 'Virus Keriting Daun Kuning Tomat (TYLCV)',
       description: 'Penyakit yang disebabkan oleh Tomato Yellow Leaf Curl Virus yang ditularkan oleh kutu kebul (Bemisia tabaci). Dapat menyebar melalui tanaman inang lain atau alat pertanian yang terkontaminasi. Menyebabkan daun menguning, melengkung ke atas (curl), dan mengecil. Pertumbuhan tanaman terhambat, bunga dan buah jarang terbentuk.',
       treatment: 'Penanganan yang disarankan:\n' +
@@ -100,7 +100,7 @@ const Deteksi = () => {
         '3. Buang bagian tanaman yang terinfeksi dan bakar sisa tanaman setelah panen\n' +
         '4. Rotasi tanaman dengan non-solanaceae (misalnya kacang-kacangan) selama 2-3 tahun'
     },
-    'Leaf_mold': {
+    'Leaf_Mold': {
       name: 'Jamur Daun (Leaf Mold)',
       description: 'Penyakit yang disebabkan oleh jamur Passalora fulva, berkembang pesat di lingkungan lembab dan sirkulasi udara buruk. Menyebabkan bercak kuning di permukaan daun atas dan lapisan berbulu coklat/abu-abu di bawah daun. Daun mengering dan gugur prematur, mengurangi hasil panen.',
       treatment: 'Penanganan yang disarankan:\n' +
@@ -108,7 +108,17 @@ const Deteksi = () => {
         '2. Kurangi kelembapan dengan ventilasi baik (misalnya greenhouse) atau jarak tanam lebar\n' +
         '3. Hindari penyiraman di malam hari\n' +
         '4. Rotasi tanaman dan bersihkan sisa tanaman setelah panen'
-    }
+    },
+    'healthy': {
+  name: 'Daun Tomat Sehat',
+  description: 'Daun tomat yang sehat dan bebas dari infeksi penyakit, menunjukkan pertumbuhan yang baik dengan warna hijau cerah. Tidak ada bercak, bintik, atau kerusakan pada daun, dan tanaman menunjukkan perkembangan optimal serta hasil panen yang maksimal.',
+  treatment: 'Langkah-langkah menjaga daun tomat tetap sehat:\n' +
+    '1. Pastikan pemberian nutrisi seimbang dan tepat\n' +
+    '2. Rajin menyiram secara cukup dan merata, hindari kelebihan air\n' +
+    '3. Gunakan pestisida nabati atau alami jika muncul tanda awal serangan hama atau penyakit\n' +
+    '4. Jaga sirkulasi udara yang baik di sekitar tanaman\n' +
+    '5. Bersihkan dan buang daun yang mati atau terserang penyakit untuk mencegah penyebaran'
+}
   };
 
   const handleDevices = useCallback(
