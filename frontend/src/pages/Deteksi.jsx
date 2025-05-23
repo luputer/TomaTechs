@@ -21,7 +21,7 @@ const Deteksi = () => {
   const { user } = useAuth();
 
   // Mapping penyakit ke deskripsi dan penanganan
-   const diseaseInfo = {
+  const diseaseInfo = {
     'Tomato_mosaic_virus': {
       name: 'Virus Mosaik Tomat (ToMV)',
       description: 'Penyakit yang disebabkan oleh Tomato Mosaic Virus, ditularkan melalui benih, tangan manusia, alat pertanian, dan tanaman inang lain. Virus dapat bertahan lama di tanah dan sisa tanaman.',
@@ -110,15 +110,15 @@ const Deteksi = () => {
         '4. Rotasi tanaman dan bersihkan sisa tanaman setelah panen'
     },
     'healthy': {
-  name: 'Daun Tomat Sehat',
-  description: 'Daun tomat yang sehat dan bebas dari infeksi penyakit, menunjukkan pertumbuhan yang baik dengan warna hijau cerah. Tidak ada bercak, bintik, atau kerusakan pada daun, dan tanaman menunjukkan perkembangan optimal serta hasil panen yang maksimal.',
-  treatment: 'Langkah-langkah menjaga daun tomat tetap sehat:\n' +
-    '1. Pastikan pemberian nutrisi seimbang dan tepat\n' +
-    '2. Rajin menyiram secara cukup dan merata, hindari kelebihan air\n' +
-    '3. Gunakan pestisida nabati atau alami jika muncul tanda awal serangan hama atau penyakit\n' +
-    '4. Jaga sirkulasi udara yang baik di sekitar tanaman\n' +
-    '5. Bersihkan dan buang daun yang mati atau terserang penyakit untuk mencegah penyebaran'
-}
+      name: 'Daun Tomat Sehat',
+      description: 'Daun tomat yang sehat dan bebas dari infeksi penyakit, menunjukkan pertumbuhan yang baik dengan warna hijau cerah. Tidak ada bercak, bintik, atau kerusakan pada daun, dan tanaman menunjukkan perkembangan optimal serta hasil panen yang maksimal.',
+      treatment: 'Langkah-langkah menjaga daun tomat tetap sehat:\n' +
+        '1. Pastikan pemberian nutrisi seimbang dan tepat\n' +
+        '2. Rajin menyiram secara cukup dan merata, hindari kelebihan air\n' +
+        '3. Gunakan pestisida nabati atau alami jika muncul tanda awal serangan hama atau penyakit\n' +
+        '4. Jaga sirkulasi udara yang baik di sekitar tanaman\n' +
+        '5. Bersihkan dan buang daun yang mati atau terserang penyakit untuk mencegah penyebaran'
+    }
   };
 
   const handleDevices = useCallback(
@@ -181,7 +181,7 @@ const Deteksi = () => {
     formData.append('user_id', user.id);
 
     try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/predict`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/predict`, {
         method: 'POST',
         body: formData,
       });
@@ -463,11 +463,10 @@ const Deteksi = () => {
                   whileTap={{ scale: 0.95 }}
                   onClick={handleUpload}
                   disabled={(!selectedImage && !isCameraOpen) || isLoading}
-                  className={`w-full sm:w-auto px-6 sm:px-8 py-2 sm:py-3 rounded-full flex items-center justify-center gap-2 text-sm sm:text-base lg:text-lg font-semibold shadow-md transition-all duration-200 ${
-                    (!selectedImage && !isCameraOpen) || isLoading
+                  className={`w-full sm:w-auto px-6 sm:px-8 py-2 sm:py-3 rounded-full flex items-center justify-center gap-2 text-sm sm:text-base lg:text-lg font-semibold shadow-md transition-all duration-200 ${(!selectedImage && !isCameraOpen) || isLoading
                       ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                       : 'bg-[#2e7d32] text-white hover:bg-[#1b5e20]'
-                  }`}
+                    }`}
                 >
                   {isLoading ? (
                     <>
