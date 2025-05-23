@@ -8,14 +8,14 @@ const teamMembers = [
         name: "Muhammad Saidi",
         id: "FC524D5Y1916",
         role: "Backend Developer",
-        image: "/images/team/saidi.webp",
+        image: "/images/team/saidi.jpeg",
         university: "Politeknik Negeri Banjarmasin",
         department: "Teknik Informatika",
-        quote: "Code with passion, debug with patience",
+        quote: "The web does not just connect machines, it connects people",
         social: {
-            linkedin: "https://linkedin.com/in/muhammad-saidi",
-            github: "https://github.com/saidi0611",
-            instagram: "https://instagram.com/saidi0611"
+            linkedin: "https://www.linkedin.com/in/muhammad-saidi-560a49294/",
+            github: "https://github.com/luputer/",
+            instagram: "https://www.instagram.com/mhmad_saidi/"
         }
     },
     {
@@ -25,11 +25,11 @@ const teamMembers = [
         image: "/images/team/agus2.jpeg",
         university: "Universitas Handayani Makassar",
         department: "Teknik Informatika",
-        quote: "Building bridges between data and users",
+        quote: "First, solve the problem. Then, write the code.",
         social: {
-            linkedin: "https://linkedin.com/in/yuliagus",
+            linkedin: "https://www.linkedin.com/in/yuliagus",
             github: "https://github.com/yuliagus",
-            instagram: "https://instagram.com/yuliagusmyunus"
+            instagram: "https://www.instagram.com/yuliagusmyunus"
         }
     },
     {
@@ -39,11 +39,11 @@ const teamMembers = [
         image: "/images/team/ulfi.jpg",
         university: "Universitas Sebelas Maret",
         department: "Ilmu Perpustakaan",
-        quote: "Design is not just what it looks like, design is how it works",
+        quote: "From simple ideas to meaningful solutions",
         social: {
-            linkedin: "https://linkedin.com/in/ulfiani-latifah-759a98217",
+            linkedin: "https://www.linkedin.com/in/ulfiani-latifah-759a98217",
             github: "https://github.com/ulfi-latif",
-            instagram: "https://instagram.com/viani_latte.f"
+            instagram: "https://www.instagram.com/viani_latte.f"
         }
     },
 ];
@@ -56,11 +56,11 @@ const mlEngineers = [
         image: "/images/team/akbar3.png",
         university: "Universitas Negeri Semarang",
         department: "Statistika Terapan dan Komputasi",
-        quote: "Turning data into intelligence",
+        quote: "Data is the fuel, AI is the engine",
         social: {
-            linkedin: "https://linkedin.com/in/ibrahim-akbar",
-            github: "https://github.com/ibrahim",
-            instagram: "https://instagram.com/ibrahim"
+            linkedin: "http://www.linkedin.com/in/ibrahim-akbar-arsanata",
+            github: "https://github.com/AkbarArsanata",
+            instagram: "https://www.instagram.com/akbarsnt_"
         }
     },
     {
@@ -70,11 +70,11 @@ const mlEngineers = [
         image: "/images/team/nida.png",
         university: "Universitas Bina Sarana Informatika",
         department: "Sistem Informasi",
-        quote: "AI is the new electricity",
+        quote: "Data. Algoritma. Prediksi. Ulangi.",
         social: {
-            linkedin: "https://linkedin.com/in/annida",
-            github: "https://github.com/annida",
-            instagram: "https://instagram.com/annida"
+            linkedin: "https://www.linkedin.com/in/annidasyamsa",
+            github: "https://github.com/annidasyamsa",
+            instagram: "https://www.instagram.com/annidasyamsa"
         }
     },
     {
@@ -84,11 +84,11 @@ const mlEngineers = [
         image: "/images/team/noval.png",
         university: "Universitas Bina Sarana Informatika",
         department: "Teknik Informatika",
-        quote: "Learning from data, one model at a time",
+        quote: "Without data, you're just another person with an opinion",
         social: {
-            linkedin: "https://linkedin.com/in/noufal",
-            github: "https://github.com/noufal",
-            instagram: "https://instagram.com/noufal"
+            linkedin: "https://www.linkedin.com/in/noufal-zaidan-77901916b/",
+            github: "https://github.com/Enzeed",
+            instagram: "https://www.instagram.com/nflzzzzz_/"
         }
     },
 ];
