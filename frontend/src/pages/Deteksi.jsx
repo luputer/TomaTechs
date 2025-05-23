@@ -143,8 +143,9 @@ const Deteksi = () => {
     formData.append('user_id', user.id);
 
     try {
-      const response = await AxiosInstance.post('/predict', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/predict`, {
+        method: 'POST',
+        body: formData,
       });
 
       if (!response.ok) {
