@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Linkedin, Youtube } from 'lucide-react';
+import { Facebook, Instagram, Linkedin, Twitter, Youtube } from 'lucide-react';
 import { Link } from 'react-router';
 
 const Footer = () => {
@@ -31,17 +31,20 @@ const Footer = () => {
                         </p>
                         {/* Social Media Links */}
                         <div className="flex gap-4">
-                            <a href="#" className="hover:text-gray-300 transition-colors">
+                            <a href="https://www.facebook.com/profile.php?id=61559061959748" className="hover:text-gray-300 transition-colors">
                                 <Facebook className="h-6 w-6" />
                             </a>
                             <a href="#" className="hover:text-gray-300 transition-colors">
                                 <Linkedin className="h-6 w-6" />
                             </a>
-                            <a href="#" className="hover:text-gray-300 transition-colors">
+                            <a href="https://www.youtube.com/@TomaTech-Id" className="hover:text-gray-300 transition-colors">
                                 <Youtube className="h-6 w-6" />
                             </a>
-                            <a href="#" className="hover:text-gray-300 transition-colors">
+                            <a href="https://www.instagram.com/tomatech.id/" className="hover:text-gray-300 transition-colors">
                                 <Instagram className="h-6 w-6" />
+                            </a>
+                            <a href="https://x.com/tomatech_id" className="hover:text-gray-300 transition-colors">
+                                <Twitter className="h-6 w-6" />
                             </a>
                         </div>
                     </div>
