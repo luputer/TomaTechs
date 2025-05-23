@@ -254,6 +254,14 @@ const Deteksi = () => {
               >
                 Pastikan gambar yang diambil terlihat jelas
               </motion.h3>
+              <motion.h3
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9 }}
+                className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-red-200 mb-4 sm:mb-6 text-center z-10"
+              >
+                Aplikasi tidak bisa mendeteksi selain daun tomat
+              </motion.h3>
 
               {/* Tombol utama animasi */}
               <motion.div
