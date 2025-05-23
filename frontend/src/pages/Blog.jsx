@@ -476,9 +476,6 @@ const Blog = () => {
                 &gt;
               </button>
             </div>
-            <button className="bg-[#478800] text-white px-8 py-2 rounded-lg font-bold text-lg">
-              More Articles
-            </button>
           </div>
         </div>
       </div>
