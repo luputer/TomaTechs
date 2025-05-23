@@ -196,7 +196,7 @@ const Deteksi = () => {
       console.error('Error:', error);
       setError(
         'Terjadi kesalahan saat melakukan deteksi. ' +
-        'Pastikan server backend berjalan di http://127.0.0.1:8080'
+        'Pastikan server backend berjalan'
       );
     } finally {
       setIsLoading(false);
@@ -258,9 +258,9 @@ const Deteksi = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.9 }}
-                className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-red-200 mb-4 sm:mb-6 text-center z-10"
+                className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-[#2e7d32] mb-4 sm:mb-6 text-center z-10"
               >
-                Aplikasi tidak bisa mendeteksi selain daun tomat
+                jangan Uplord selain daun Tomat
               </motion.h3>
 
               {/* Tombol utama animasi */}
