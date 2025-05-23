@@ -21,7 +21,7 @@ const Deteksi = () => {
   const { user } = useAuth();
 
   // Mapping penyakit ke deskripsi dan penanganan
-  const diseaseInfo = {
+   const diseaseInfo = {
     'Tomato_mosaic_virus': {
       name: 'Virus Mosaik Tomat (ToMV)',
       description: 'Penyakit yang disebabkan oleh Tomato Mosaic Virus, ditularkan melalui benih, tangan manusia, alat pertanian, dan tanaman inang lain. Virus dapat bertahan lama di tanah dan sisa tanaman.',
@@ -80,6 +80,34 @@ const Deteksi = () => {
         '3. Rotasi tanaman: Hindari menanam tomat di lokasi yang sama setiap tahun\n' +
         '4. Fungisida: Gunakan fungisida seperti chlorothalonil, copper fungicides, atau mancozeb\n' +
         '5. Ventilasi baik: Beri jarak antar tanaman untuk meningkatkan sirkulasi udara'
+    },
+    'TYLCV': {
+      name: 'Virus Keriting Daun Kuning Tomat (TYLCV)',
+      description: 'Penyakit yang disebabkan oleh Tomato Yellow Leaf Curl Virus yang ditularkan oleh kutu kebul (Bemisia tabaci). Dapat menyebar melalui tanaman inang lain atau alat pertanian yang terkontaminasi. Menyebabkan daun menguning, melengkung ke atas (curl), dan mengecil. Pertumbuhan tanaman terhambat, bunga dan buah jarang terbentuk.',
+      treatment: 'Penanganan yang disarankan:\n' +
+        '1. Gunakan benih atau bibit yang resisten terhadap TYLCV\n' +
+        '2. Kendalikan populasi kutu kebul dengan insektisida (imidakloprid atau abamektin) atau perangkap kuning\n' +
+        '3. Cabut dan bakar tanaman yang terinfeksi untuk mencegah penyebaran\n' +
+        '4. Hindari menanam tomat dekat tanaman inang seperti cabai atau terung\n' +
+        '5. Pasang mulsa plastik perak untuk mengusir kutu kebul'
+    },
+    'Late_blight': {
+      name: 'Hawar Daun Akhir (Late Blight)',
+      description: 'Penyakit yang disebabkan oleh jamur Phytophthora infestans, menyebar melalui spora yang terbawa angin, air hujan, atau kelembaban tinggi. Menyebabkan bercak coklat kehitaman pada daun, batang, atau buah, sering dengan tepi berwarna putih (seperti kapang). Daun layu dan tanaman cepat mati dalam kondisi lembab.',
+      treatment: 'Penanganan yang disarankan:\n' +
+        '1. Gunakan fungisida sistemik (metalaksil atau dimetomorf) atau fungisida kontak (tembaga)\n' +
+        '2. Hindari penyiraman dari atas dan jaga jarak tanam untuk sirkulasi udara\n' +
+        '3. Buang bagian tanaman yang terinfeksi dan bakar sisa tanaman setelah panen\n' +
+        '4. Rotasi tanaman dengan non-solanaceae (misalnya kacang-kacangan) selama 2-3 tahun'
+    },
+    'Leaf_mold': {
+      name: 'Jamur Daun (Leaf Mold)',
+      description: 'Penyakit yang disebabkan oleh jamur Passalora fulva, berkembang pesat di lingkungan lembab dan sirkulasi udara buruk. Menyebabkan bercak kuning di permukaan daun atas dan lapisan berbulu coklat/abu-abu di bawah daun. Daun mengering dan gugur prematur, mengurangi hasil panen.',
+      treatment: 'Penanganan yang disarankan:\n' +
+        '1. Semprot fungisida seperti klorotalonil atau mankozeb\n' +
+        '2. Kurangi kelembapan dengan ventilasi baik (misalnya greenhouse) atau jarak tanam lebar\n' +
+        '3. Hindari penyiraman di malam hari\n' +
+        '4. Rotasi tanaman dan bersihkan sisa tanaman setelah panen'
     }
   };
 
