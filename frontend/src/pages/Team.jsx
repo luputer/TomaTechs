@@ -81,7 +81,7 @@ const mlEngineers = [
         name: "Noufal Zaidan",
         id: "MC193D5X2313",
         role: "Machine Learning Engineer",
-        image: "/images/team/noval.png",
+        image: "/images/team/noufal.jpeg",
         university: "Universitas Bina Sarana Informatika",
         department: "Teknik Informatika",
         quote: "Without data, you're just another person with an opinion",
