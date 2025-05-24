@@ -16,8 +16,7 @@ import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
 import Sidebar from "../components/Sidebar";
 import { useAuth } from '../context/AuthContext';
-import { diseaseInfo } from "../data/diseaseInfo";
-
+import { diseaseInfo } from '../data/diseaseInfo';
 
 
 
