@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router';
 import { useAuth } from '../context/AuthContext';
 import { Button } from './ui/button';
 import { FloatingNav } from './ui/floating-navbar';
+import Swal from 'sweetalert2';
 
 const Navbar = () => {
     const { user, login, logout } = useAuth();
@@ -69,44 +70,58 @@ const Navbar = () => {
 
     // Mapping path ke judul dan ikon
     const getPageTitle = (pathname) => {
-        if (pathname.startsWith('/dashboard')) return { title: 'Dashboard', icon: (
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-            </svg>
-        ) };
-        if (pathname.startsWith('/deteksi')) return { title: 'Deteksi', icon: (
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="2" fill="none" />
-                <path d="M21 21l-4.35-4.35" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-            </svg>
-        ) };
-        if (pathname.startsWith('/history')) return { title: 'Riwayat', icon: (
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-        ) };
-        if (pathname.startsWith('/chats')) return { title: 'TomaChat', icon: (
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.77 9.77 0 01-4-.8L3 21l1.8-4A8.96 8.96 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-            </svg>
-        ) };
-        if (pathname.startsWith('/forum')) return { title: 'Forum', icon: (
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m9-4a4 4 0 11-8 0 4 4 0 018 0zm6 4a4 4 0 00-3-3.87M6 10a4 4 0 00-3 3.87" />
-            </svg>
-        ) };
-        if (pathname.startsWith('/team')) return { title: 'Team', icon: (
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m9-4a4 4 0 11-8 0 4 4 0 018 0zm6 4a4 4 0 00-3-3.87M6 10a4 4 0 00-3 3.87" />
-            </svg>
-        ) };
-        if (pathname.startsWith('/contact')) return { title: 'Contact', icon: (
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none" />
-                <path d="M12 16v-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                <circle cx="12" cy="8" r="1" fill="currentColor" />
-            </svg>
-        ) };
+        if (pathname.startsWith('/dashboard')) return {
+            title: 'Dashboard', icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                </svg>
+            )
+        };
+        if (pathname.startsWith('/deteksi')) return {
+            title: 'Deteksi', icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="2" fill="none" />
+                    <path d="M21 21l-4.35-4.35" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+            )
+        };
+        if (pathname.startsWith('/history')) return {
+            title: 'Riwayat', icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            )
+        };
+        if (pathname.startsWith('/chats')) return {
+            title: 'TomaChat', icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.77 9.77 0 01-4-.8L3 21l1.8-4A8.96 8.96 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+            )
+        };
+        if (pathname.startsWith('/forum')) return {
+            title: 'Forum', icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m9-4a4 4 0 11-8 0 4 4 0 018 0zm6 4a4 4 0 00-3-3.87M6 10a4 4 0 00-3 3.87" />
+                </svg>
+            )
+        };
+        if (pathname.startsWith('/team')) return {
+            title: 'Team', icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m9-4a4 4 0 11-8 0 4 4 0 018 0zm6 4a4 4 0 00-3-3.87M6 10a4 4 0 00-3 3.87" />
+                </svg>
+            )
+        };
+        if (pathname.startsWith('/contact')) return {
+            title: 'Contact', icon: (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none" />
+                    <path d="M12 16v-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                    <circle cx="12" cy="8" r="1" fill="currentColor" />
+                </svg>
+            )
+        };
         return { title: 'TomaTech', icon: null };
     };
     const { title: pageTitle, icon: pageIcon } = getPageTitle(location.pathname);
@@ -184,7 +199,9 @@ const Navbar = () => {
                                         </svg>
                                     </Link>
                                     <button
-                                        onClick={logout}
+                                        onClick={async () => {
+                                            await logout();
+                                        }}
                                         aria-label="Keluar"
                                         className="text-red-600 hover:text-red-800 p-2 rounded-full"
                                     >
@@ -200,7 +217,10 @@ const Navbar = () => {
                                         <span className="font-medium">{pageTitle}</span>
                                     </Link>
                                     <button
-                                        onClick={logout}
+                                        onClick={async () => {
+                                            // Just call logout, it handles its own confirmation
+                                            await logout();
+                                        }}
                                         className="px-4 py-2 bg-red-50 text-red-600 rounded-md hover:bg-red-100 transition-colors flex items-center gap-2"
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -209,8 +229,8 @@ const Navbar = () => {
                                         Keluar
                                     </button>
                                 </div>
-                                </>
-                            ) : (
+                            </>
+                        ) : (
                             <>
                                 {/* Mobile Menu Button */}
                                 <button
@@ -255,16 +275,16 @@ const Navbar = () => {
                                             </Link>
                                         )
                                     ))}
-                                <Button
-                                    variant={"default"}
-                                    onClick={handleAuth}
-                                    className="px-4 py-2 bg-green-600 text-white rounded-full hover:bg-green-700 transition-colors flex items-center gap-2 border-2 border-white shadow-xl"
-                                >
-                                    <span className="font-semibold">Masuk</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-9 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                                        <circle cx="12" cy="9" r="4" stroke="white" strokeWidth="2" fill="none" />
-                                        <path d="M4 19c0-2.5 3.5-4.5 8-4.5s8 2 8 4.5" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round" />
-                                    </svg>
+                                    <Button
+                                        variant={"default"}
+                                        onClick={handleAuth}
+                                        className="px-4 py-2 bg-green-600 text-white rounded-full hover:bg-green-700 transition-colors flex items-center gap-2 border-2 border-white shadow-xl"
+                                    >
+                                        <span className="font-semibold">Masuk</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-9 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                                            <circle cx="12" cy="9" r="4" stroke="white" strokeWidth="2" fill="none" />
+                                            <path d="M4 19c0-2.5 3.5-4.5 8-4.5s8 2 8 4.5" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round" />
+                                        </svg>
                                     </Button>
                                 </div>
                             </>
@@ -286,15 +306,25 @@ const Navbar = () => {
                                         </svg>
                                         <span className="font-medium">Dashboard</span>
                                     </Link>
-                                    <button
-                                        onClick={() => { logout(); setIsMobileMenuOpen(false); }}
-                                        className="flex items-center gap-3 w-full text-left text-red-600 hover:text-red-800 transition-colors px-4 py-3 hover:bg-gray-50"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                                        </svg>
-                                        <span className="font-medium">Keluar</span>
-                                    </button>
+                                    <div className="px-4 py-3">
+                                        <Button
+                                            onClick={async () => {
+                                                // Call logout and check if it was successful
+                                                const logoutSuccessful = await logout();
+                                                // Only close menu if logout was successful or completed
+                                                if (logoutSuccessful !== false) {
+                                                    setIsMobileMenuOpen(false);
+                                                }
+                                            }}
+                                            variant="default"
+                                            className="w-full bg-red-50 text-red-600 hover:bg-red-100 border border-red-200 flex items-center justify-center gap-2"
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                            </svg>
+                                            <span className="font-semibold">Keluar</span>
+                                        </Button>
+                                    </div>
                                 </>
                             ) : (
                                 <>
@@ -309,41 +339,41 @@ const Navbar = () => {
                                                 <span>{item.name}</span>
                                             </button>
                                         ) : item.name === "Blog" ? (
-                                    <button
+                                            <button
                                                 key={item.name}
                                                 onClick={handleBlogClick}
                                                 className="flex items-center gap-3 w-full text-left text-gray-800 font-medium hover:text-green-700 px-4 py-3 hover:bg-gray-50"
-                                    >
+                                            >
                                                 {item.icon}
                                                 <span>{item.name}</span>
-                                    </button>
+                                            </button>
                                         ) : (
-                                    <Link
+                                            <Link
                                                 key={item.name}
                                                 to={item.link}
                                                 className="flex items-center gap-3 text-gray-800 font-medium hover:text-green-700 px-4 py-3 hover:bg-gray-50"
-                                        onClick={() => setIsMobileMenuOpen(false)}
-                                    >
+                                                onClick={() => setIsMobileMenuOpen(false)}
+                                            >
                                                 {item.icon}
                                                 <span>{item.name}</span>
-                                    </Link>
+                                            </Link>
                                         )
                                     ))}
                                     <div className="px-4 py-3">
-                                <Button
-                                    onClick={() => {
-                                        handleAuth();
-                                        setIsMobileMenuOpen(false);
-                                    }}
-                                    variant="default"
+                                        <Button
+                                            onClick={() => {
+                                                handleAuth();
+                                                setIsMobileMenuOpen(false);
+                                            }}
+                                            variant="default"
                                             className="w-full bg-[#478800] hover:bg-[#2e4a2f] text-white flex items-center justify-center gap-2"
-                                >
+                                        >
                                             <span className="font-semibold">Masuk</span>
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <circle cx="12" cy="9" r="4" stroke="white" strokeWidth="2" fill="none" />
                                                 <path d="M4 19c0-2.5 3.5-4.5 8-4.5s8 2 8 4.5" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round" />
                                             </svg>
-                                </Button>
+                                        </Button>
                                     </div>
                                 </>
                             )}

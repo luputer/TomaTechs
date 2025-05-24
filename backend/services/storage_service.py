@@ -4,6 +4,16 @@ from PIL import Image
 from utils.logger import logger
 from services.supabase_service import supabase, SUPABASE_BUCKET
 
+def resize_image(image_file, max_size=(800, 800)):
+    """Resize image while maintaining aspect ratio."""
+    try:
+        img = Image.open(image_file)
+        img.thumbnail(max_size, Image.Resampling.LANCZOS)
+        return img
+    except Exception as e:
+        logger.error(f"Error resizing image: {str(e)}")
+        return None
+
 def upload_image(image_file):
     """Upload an image to Supabase storage."""
     try:
@@ -11,8 +21,16 @@ def upload_image(image_file):
             logger.error("Supabase client not initialized")
             return None
             
-        # Read the image file
-        file_data = image_file.read()
+        # Resize image before uploading
+        resized_img = resize_image(image_file)
+        if resized_img is None:
+            return None
+            
+        # Save resized image to bytes
+        from io import BytesIO
+        img_byte_arr = BytesIO()
+        resized_img.save(img_byte_arr, format='JPEG', quality=85)
+        img_byte_arr.seek(0)
         
         # Generate a unique filename with timestamp
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -21,7 +39,7 @@ def upload_image(image_file):
         # Upload to Supabase Storage
         upload_response = supabase.storage.from_(SUPABASE_BUCKET).upload(
             path=filename,
-            file=file_data,
+            file=img_byte_arr.getvalue(),
             file_options={"content-type": "image/jpeg"}
         )
         
