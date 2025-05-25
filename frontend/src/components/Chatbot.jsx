@@ -106,7 +106,7 @@ const Chatbot = () => {
                     )}
 
                     {/* Chat Messages */}
-                    <div className="p-4 bg-gradient-to-b from-gray-900 to-black h-[400px] overflow-y-auto">
+                    <div className="p-4 bg-gradient-to-b from-gray-900 to-black h-[350px] overflow-y-auto">
                         <div className="space-y-4">
                             {messages.map((message, index) => (
                                 <div
