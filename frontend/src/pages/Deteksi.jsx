@@ -143,40 +143,23 @@ const Deteksi = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7 }}
-                className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-center mb-2 bg-gradient-to-r from-green-700 via-green-500 to-green-700 bg-clip-text text-transparent drop-shadow-lg z-10"
+                className="text-2xl  sm:text-3xl md:text-4xl lg:text-6xl font-bold text-center mb-11 bg-gradient-to-r from-green-700 via-green-500 to-green-700 bg-clip-text text-transparent drop-shadow-lg z-10"
               >
                 Mulai Deteksi Sekarang!
               </motion.h2>
-              <motion.h3
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9 }}
-                className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-[#2e7d32] mb-4 sm:mb-6 text-center z-10"
-              >
-                Pastikan gambar yang diambil terlihat jelas
-              </motion.h3>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.9 }}
                 className="text-center z-10"
               >
-                <motion.h3
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.9 }}
-                  className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-red-400 mb-4 sm:mb-6 text-center z-10"
-                >
-                  Jangan Upload Selain Gambar Daun Tomat
-                </motion.h3>
-
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.9, delay: 0.2 }}
-                  className="text-xs sm:text-sm md:text-base text-red-500 font-medium italic mb-2"
+                  className="text-base sm:text-lg md:text-xl lg:text-2xl text-red-500 font-semibold italic mb-10"
                 >
-                  ⚠️ Caution: Pastikan gambar yang diupload adalah daun tomat yang jelas dan tidak blur
+                  ⚠️ Caution: Pastikan gambar yang diupload adalah daun tomat 
                 </motion.p>
               </motion.div>
 
