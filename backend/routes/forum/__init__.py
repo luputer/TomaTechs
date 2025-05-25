@@ -208,4 +208,36 @@ def vote_post():
         logger.error(f"Error voting: {str(e)}")
         error_response = jsonify({"error": "Gagal melakukan voting"})
         error_response.headers.add('Access-Control-Allow-Origin', '*')
+        return error_response, 500
+
+@forum_bp.route("/get_vote", methods=["POST", "OPTIONS"])
+def get_vote():
+    if request.method == "OPTIONS":
+        response = jsonify({"message": "preflight"})
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+        response.headers.add('Access-Control-Allow-Methods', 'POST, OPTIONS')
+        return response, 200
+
+    try:
+        data = request.json
+        post_id = data.get("post_id")
+        user_id = data.get("user_id")
+
+        if not post_id or not user_id:
+            return jsonify({"error": "Missing required fields (post_id, user_id)"}), 400
+
+        # Logika untuk mendapatkan status vote user dari database
+        # ... (kode Anda sebelumnya)
+
+        vote_type = 'none' # Placeholder atau hasil dari query database
+
+        response = jsonify({"vote_type": vote_type})
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response, 200
+
+    except Exception as e:
+        logger.error(f"Error getting vote: {str(e)}")
+        error_response = jsonify({"error": f"Failed to get vote: {str(e)}"})
+        error_response.headers.add('Access-Control-Allow-Origin', '*')
         return error_response, 500 
