@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Heart, Image as ImageIcon, MessageCircle, Plus, ThumbsDown } from "lucide-react";
 import { useEffect, useState } from "react";
 import Sidebar from '../components/Sidebar';
+import { supabase } from "../lib/supabase";
 
 
 const tags = [
