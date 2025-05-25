@@ -131,7 +131,7 @@ export default function Forum() {
         const fileExt = file.name.split('.').pop();
         const fileName = `${Date.now()}_${file.name}`;
         const { data, error } = await supabase.storage
-            .from('forum-images') // Ganti dengan nama bucket Anda
+            .from('forum') // Ganti dengan nama bucket Anda
             .upload(`public/${fileName}`, file);
         if (error) throw error;
         const { data: urlData } = supabase.storage.from('forum-images').getPublicUrl(data.path);
