@@ -159,9 +159,9 @@ const Deteksi = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.9 }}
-                className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-[#2e7d32] mb-4 sm:mb-6 text-center z-10"
+                className="text-sm sm:text-base underline md:text-lg lg:text-xl font-semibold text-red-500 mb-4 sm:mb-6 text-center z-10"
               >
-                jangan Uplord selain daun Tomat
+                jangan upload selain daun Tomat
               </motion.h3>
 
               {/* Tombol utama animasi */}
