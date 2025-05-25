@@ -21,7 +21,7 @@ const Deteksi = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
- 
+
   const handleDevices = useCallback(
     mediaDevices => {
       const videoDevices = mediaDevices.filter(({ kind }) => kind === "videoinput");
@@ -82,7 +82,7 @@ const Deteksi = () => {
     formData.append('user_id', user.id);
 
     try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/predict`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/predict`, {
         method: 'POST',
         body: formData,
       });
@@ -155,14 +155,30 @@ const Deteksi = () => {
               >
                 Pastikan gambar yang diambil terlihat jelas
               </motion.h3>
-              <motion.h3
+              <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.9 }}
-                className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-red- mb-4 sm:mb-6 text-center z-10"
+                className="text-center z-10"
               >
-                Jangan Upload Selain Gambar Daun Tomat
-              </motion.h3>
+                <motion.h3
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.9 }}
+                  className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-red-400 mb-4 sm:mb-6 text-center z-10"
+                >
+                  Jangan Upload Selain Gambar Daun Tomat
+                </motion.h3>
+
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.9, delay: 0.2 }}
+                  className="text-xs sm:text-sm md:text-base text-red-500 font-medium italic mb-2"
+                >
+                  ⚠️ Caution: Pastikan gambar yang diupload adalah daun tomat yang jelas dan tidak blur
+                </motion.p>
+              </motion.div>
 
               {/* Tombol utama animasi */}
               <motion.div
@@ -365,8 +381,8 @@ const Deteksi = () => {
                   onClick={handleUpload}
                   disabled={(!selectedImage && !isCameraOpen) || isLoading}
                   className={`w-full sm:w-auto px-6 sm:px-8 py-2 sm:py-3 rounded-full flex items-center justify-center gap-2 text-sm sm:text-base lg:text-lg font-semibold shadow-md transition-all duration-200 ${(!selectedImage && !isCameraOpen) || isLoading
-                      ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                      : 'bg-[#2e7d32] text-white hover:bg-[#1b5e20]'
+                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    : 'bg-[#2e7d32] text-white hover:bg-[#1b5e20]'
                     }`}
                 >
                   {isLoading ? (
