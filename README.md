@@ -111,7 +111,7 @@ GOOGLE_APPLICATION_CREDENTIALS=vertexai-key.json
 
 6. Jalankan server:
 ```bash
-python run.py
+python app.py
 ```
 
 ## 📁 Struktur Proyek
