@@ -1,8 +1,9 @@
 import os
 import sys
-from flask import Flask, request
+from flask import Flask, request, send_from_directory
 from flask_cors import CORS
 from utils.logger import logger
+from flask_swagger_ui import get_swaggerui_blueprint
 
 # Add project root to Python path
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -33,6 +34,22 @@ def create_app():
         logger.error(f"500 error: {request.url} - {str(error)}")
         return {'error': 'Internal server error'}, 500
     
+    # Swagger configuration
+    SWAGGER_URL = '/swagger'  # URL for exposing Swagger UI
+    API_URL = '/static/swagger.yaml'  # Our API url (can of course be a local resource)
+
+    # Call factory function to create our blueprint
+    swaggerui_blueprint = get_swaggerui_blueprint(
+        SWAGGER_URL,  # Swagger UI static files will be mapped to '{SWAGGER_URL}/dist/'
+        API_URL,
+        config={  # Swagger UI config overrides
+            'app_name': "Tomato Disease Detection API"
+        }
+    )
+
+    # Register blueprint at URL
+    app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
+
     return app
 
 if __name__ == '__main__':
@@ -48,6 +65,13 @@ if __name__ == '__main__':
     app.register_blueprint(predict_bp)
     app.register_blueprint(chat_bp)
     app.register_blueprint(forum_bp)
+    
+    # Create static directory if it doesn't exist
+    os.makedirs('static', exist_ok=True)
+
+    # Copy swagger.yaml to static directory
+    import shutil
+    shutil.copy('swagger.yaml', 'static/swagger.yaml')
     
     logger.info("Application configured, starting server...")
     app.run(host="0.0.0.0", port=8080, debug=True) 

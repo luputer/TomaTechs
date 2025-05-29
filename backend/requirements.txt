@@ -13,3 +13,4 @@ google-api-core
 google-genai
 googleapis-common-protos
 uuid
+flask-swagger-ui==4.11.1

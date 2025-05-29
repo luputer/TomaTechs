@@ -1,0 +1,521 @@
+openapi: 3.0.0
+info:
+  title: Tomato Disease Detection API
+  description: API untuk aplikasi deteksi penyakit daun tomat
+  version: 1.0.0
+  contact:
+    email: your-email@example.com
+
+servers:
+  - url: https://tomato-app-231142263655.asia-southeast1.run.app
+    description: Production server
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Pesan error
+
+    PredictionResponse:
+      type: object
+      properties:
+        predicted_class:
+          type: integer
+          description: ID kelas prediksi
+        label:
+          type: string
+          description: Label penyakit
+        confidence:
+          type: number
+          format: float
+          description: Tingkat kepercayaan prediksi
+        image_url:
+          type: string
+          description: URL gambar yang diupload
+
+    PredictionHistory:
+      type: object
+      properties:
+        id:
+          type: string
+        user_id:
+          type: string
+        image_url:
+          type: string
+        predicted_class:
+          type: string
+        confidence:
+          type: number
+          format: float
+        created_at:
+          type: string
+          format: date-time
+
+    DeleteResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+
+paths:
+  /predict:
+    post:
+      summary: Deteksi penyakit pada gambar daun tomat
+      description: Upload gambar daun tomat untuk dideteksi penyakitnya
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                user_id:
+                  type: string
+      responses:
+        '200':
+          description: Prediksi berhasil
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PredictionResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /history/{user_id}:
+    get:
+      summary: Mendapatkan riwayat prediksi user
+      description: Mendapatkan daftar riwayat prediksi untuk user tertentu
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Riwayat prediksi berhasil diambil
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PredictionHistory'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /delete/{prediction_id}:
+    delete:
+      summary: Menghapus prediksi
+      description: Menghapus data prediksi dan gambar terkait
+      parameters:
+        - name: prediction_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+      responses:
+        '200':
+          description: Prediksi berhasil dihapus
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Prediksi tidak ditemukan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /forum/get_posts:
+    get:
+      summary: Mendapatkan semua post
+      description: Mendapatkan daftar semua postingan forum
+      responses:
+        '200':
+          description: Daftar post berhasil diambil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Post'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /forum/create_post:
+    post:
+      summary: Membuat post baru
+      description: Membuat postingan forum baru
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                title:
+                  type: string
+                content:
+                  type: string
+                image:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Post berhasil dibuat
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  post:
+                    $ref: '#/components/schemas/Post'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /forum/post/{post_id}:
+    get:
+      summary: Mendapatkan detail post
+      description: Mendapatkan detail postingan dan komentarnya
+      parameters:
+        - name: post_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Detail post berhasil diambil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  post:
+                    $ref: '#/components/schemas/Post'
+                  comments:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Comment'
+        '404':
+          description: Post tidak ditemukan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /forum/add_comment:
+    post:
+      summary: Menambahkan komentar
+      description: Menambahkan komentar pada postingan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                post_id:
+                  type: string
+                user_id:
+                  type: string
+                content:
+                  type: string
+      responses:
+        '201':
+          description: Komentar berhasil ditambahkan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  comment:
+                    $ref: '#/components/schemas/Comment'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /forum/vote_post:
+    post:
+      summary: Vote post
+      description: Memberikan vote (like/unlike) pada postingan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                post_id:
+                  type: string
+                user_id:
+                  type: string
+                vote_type:
+                  type: string
+                  enum: [like, unlike]
+      responses:
+        '200':
+          description: Vote berhasil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  like_count:
+                    type: integer
+                  unlike_count:
+                    type: integer
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /forum/get_vote:
+    post:
+      summary: Mendapatkan status vote user
+      description: Mendapatkan status vote user pada postingan tertentu
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                post_id:
+                  type: string
+                user_id:
+                  type: string
+      responses:
+        '200':
+          description: Status vote berhasil diambil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  vote_type:
+                    type: string
+                    enum: [like, unlike, none]
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /toma_chat:
+    post:
+      summary: Chat budidaya tomat
+      description: Mengirim pesan ke chatbot budidaya tomat
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                user_id:
+                  type: string
+      responses:
+        '200':
+          description: Respons berhasil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /cs_chat:
+    post:
+      summary: Chat customer service
+      description: Mengirim pesan ke chatbot customer service
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                messages:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      role:
+                        type: string
+                      content:
+                        type: string
+      responses:
+        '200':
+          description: Respons berhasil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /chat_history/{user_id}:
+    get:
+      summary: Riwayat chat
+      description: Mendapatkan riwayat chat untuk user tertentu
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Riwayat chat berhasil diambil
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChatMessage'
+        '404':
+          description: User tidak ditemukan
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error' 
