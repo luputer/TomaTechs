@@ -321,7 +321,7 @@ const Deteksi = () => {
                         {diseaseInfo[detectionResult.label]?.name || detectionResult.label}
                       </p>
                       <p className="mb-2 text-xs sm:text-sm lg:text-base">
-                        <span className="font-semibold">Tingkat Kepercayaan:</span>{' '}
+                        <span className="font-semibold">Tingkat Akurasi:</span>{' '}
                         {(detectionResult.confidence * 100).toFixed(2)}%
                       </p>
                       <div className="mt-3 sm:mt-4">
