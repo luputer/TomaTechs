@@ -88,4 +88,5 @@ node_modules/
 # Environment & credential
 *.json
 application_default_credentials.json
-vertexai-key.json 
+vertexai-key.json
+.env

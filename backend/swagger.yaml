@@ -7,7 +7,7 @@ info:
     email: your-email@example.com
 
 servers:
-  - url: https://tomato-app-231142263655.asia-southeast1.run.app
+  - url: http://127.0.0.1:8080/
     description: Production server
 
 components:
