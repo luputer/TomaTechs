@@ -88,3 +88,7 @@ node_modules/
 
 # MinGW
 mingw/ 
+
+frontend/node_modules/
+frontend/.env
+frontend/build/
