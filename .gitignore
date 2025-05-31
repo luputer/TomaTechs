@@ -50,6 +50,7 @@ log/
 .env.test.local
 .env.production.local
 
+
 # Model files and datasets
 *.h5
 *.hdf5
