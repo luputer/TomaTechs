@@ -141,7 +141,7 @@ http://localhost:8080/swagger
 ```
 ### Base URL
 ```
-https://tomato-app-231142263655.asia-southeast1.run.app
+http://localhost:8080
 ```
 
 ## 🔒 Keamanan
