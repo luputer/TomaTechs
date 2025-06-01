@@ -57,7 +57,6 @@ log/
 *.pth
 models/
 datasets/
-data/
 
 # Temporary files
 *.tmp
